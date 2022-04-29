@@ -1,0 +1,38 @@
+export var CurrenciesFilter  = [
+    {
+        "id": 1,
+        "comp_id": 1,
+        "disp_id": "EUR",
+        "description": "EUR",
+        "symbol": "€",
+        "created_on": "2022-04-08 11:15:29",
+        "updated_on": null,
+        "created_by": 1,
+        "updated_by": null,
+        "is_active": 1,
+    },
+    {
+        "id": 2,
+        "comp_id": 1,
+        "disp_id": "GBP",
+        "description": "British Pound",
+        "symbol": "£",
+        "created_on": "2022-04-08 11:15:53",
+        "updated_on": null,
+        "created_by": 1,
+        "updated_by": null,
+        "is_active": 1,
+    },
+    {
+        "id": 3,
+        "comp_id": 1,
+        "disp_id": "USD",
+        "description": "United States Dollar",
+        "symbol": "$",
+        "created_on": "2022-04-08 11:16:17",
+        "updated_on": null,
+        "created_by": 1,
+        "updated_by": null,
+        "is_active": 1,
+    }
+]

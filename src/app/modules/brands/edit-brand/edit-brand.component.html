@@ -1,0 +1,84 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/brands/all" routerLinkActive="active-link" class="breadcrumb-link">Brands</a> > Edit Brand</h5>
+    </div>
+    <div class="card-body">
+        <div *ngFor="let alert of alerts">
+          <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+        </div>
+        <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <form *ngIf="!showLoadingSpinner" class="col-lg-8 editBrandForm mx-auto" [formGroup]="editBrandForm" (ngSubmit)="editBrandFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="brandName" class="col-sm-2 col-form-label required-field">Brand Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="brandName"  [ngClass]="{ 'is-invalid': submitted && f.brandName.errors }" placeholder="Enter Brand Name">
+                <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback">
+                    <div *ngIf="f.brandName.errors.required">Brand Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="domainName" class="col-sm-2 col-form-label required-field">Domain Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="domainName" [ngClass]="{ 'is-invalid': submitted && f.domainName.errors }" placeholder="Enter Domain Name">
+                <div *ngIf="submitted && f.domainName.errors" class="invalid-feedback">
+                    <div *ngIf="f.domainName.errors.required">Domain Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="maxLim" class="col-sm-2 col-form-label required-field">Max. Limit</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="number" class="form-control" formControlName="maxLim" [ngClass]="{ 'is-invalid': submitted && f.maxLim.errors }" placeholder="Enter Max. Limit">
+                <div *ngIf="submitted && f.maxLim.errors" class="invalid-feedback">
+                    <div *ngIf="f.maxLim.errors.required">Max. Limit is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="offLim" class="col-sm-2 col-form-label required-field">Offered Limit</label>
+                <div class="col-sm-10 col-lg-5">
+                  <input type="number" class="form-control" formControlName="offLim" [ngClass]="{ 'is-invalid': submitted && f.offLim.errors }" placeholder="Enter Offered Limit">
+                  <div *ngIf="submitted && f.offLim.errors" class="invalid-feedback">
+                      <div *ngIf="f.offLim.errors.required">Offered Limit is required</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="meteringPeriod" class="col-sm-2 col-form-label required-field">Metering Period</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="meteringPeriod" [ngClass]="{ 'is-invalid': submitted && f.meteringPeriod.errors }">
+                  <option value="DAY1">One Day</option>
+                  <option value="WEEK1">One Week</option>
+                  <option value="WEEK2">Two Weeks</option>
+                  <option value="MONTH1">One Month</option>
+                  <option value="MONTH2">Two months</option>
+                </select>
+                <div *ngIf="submitted && f.meteringPeriod.errors" class="invalid-feedback">
+                    <div *ngIf="f.meteringPeriod.errors.required">Metering Period is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="brandStatus" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" formControlName="brandStatus">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row editBrandBtnSec offset-lg-2">
+              <div class="col-lg-2 editBrandBtnSubSec">
+                <button type="submit" [disabled]="loading" class="btn btn-primary editBrandBtn">Update</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+              <div class="col-lg-2 cancelBtnSec">
+                  <button type="button" class="btn btn-light cancelBtn" routerLink="/brands/all">Cancel</button>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

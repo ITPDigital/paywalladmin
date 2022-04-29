@@ -1,0 +1,24 @@
+<header class="main-header">
+    <!------Top Nav bar------>
+    <nav class="navbar navbar-static-top">
+        <!----Top Nav Title-->
+        <span class="nav-title font-weight-bold">{{title}}</span>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-expand-lg">
+                <li class="user-menu" dropdown>
+                  <div dropdown class="d-inline-block">
+                      <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle"
+                              aria-controls="dropdown-basic">
+                              <img src="../assets/user_icon_placeholder.png" class="user-image">
+                      </button>
+                      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                          role="menu" aria-labelledby="button-basic">
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/changepwd" routerLinkActive="active-link">Change Password</a></li>
+                        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                      </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  </header>

@@ -1,0 +1,102 @@
+<a class="toggleLogo" (click) ="toggleSideNav()" [class.active]="!isSelected" [class.inactive]="isSelected">
+    <img src="../assets/menu.svg" class="xsMenu">
+</a>
+<!-----------Side Nav bar------------>
+<aside class="main-sidebar" [class.active]="isSelected" [class.inactive]="!isSelected">
+    <section class="sidebar">
+        <a class="logo mainLogo">
+            <a href="/">
+                <img src="../assets/logo.png" class="logo-mini">
+            </a>
+        </a>
+        <a class="toggleLogo overlay-close" (click) ="toggleSideNav()" [class.active]="isSelected" [class.inactive]="!isSelected">
+            <img src="../assets/close.svg" class="xsMenu">
+        </a>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+                <li class="nav-item">
+                    <a routerLink="/dashboard" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/brands/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            Brands
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/widgets" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Widgets
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/customers/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Customers
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/products/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Products
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/plans/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Payment Plans
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/discounts/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-certificate"></i>
+                        <p>
+                            Discounts
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/promocodes/all" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-bookmark"></i>
+                        <p>
+                            Promo codes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/reports" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Reports
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/config" routerLinkActive="active-link" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Configurations
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+  </aside>
+  
+  <div class="sidebar-mask" [class.active]="isSelected" [class.inactive]="!isSelected" (click) ="toggleSideNav()"></div>

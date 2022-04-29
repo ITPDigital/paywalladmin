@@ -1,0 +1,42 @@
+<div class="login-page">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <img src="../assets/logo.png" class="logo">
+            </div>
+            <div class="card-body accFormContainer">
+                <p class="login-box-msg text-center">Sign in to start your session</p>
+                <div *ngFor="let alert of alerts">
+                    <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                </div>
+                <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="accEmailAddFld" [ngClass]="{ 'is-invalid': submitted && f.accEmailAddFld.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submitted && f.accEmailAddFld.errors" class="invalid-feedback">
+                            <div *ngIf="f.accEmailAddFld.errors.required">Email is required</div>
+                            <div *ngIf="f.accEmailAddFld.errors.email && !f.accEmailAddFld.errors.required">Email id is invalid</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="accPwdFld" [ngClass]="{ 'is-invalid': submitted && f.accPwdFld.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submitted && f.accPwdFld.errors" class="invalid-feedback">
+                            <div *ngIf="f.accPwdFld.errors.required">Password is required</div>
+                        </div>
+                    </div>
+                    <button type="submit" [disabled]="loading" class="btn btn-block btn-primary loginFormSubBtn">Sign In</button>
+                    <img *ngIf="loading" class="pl-3 processingBtn" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

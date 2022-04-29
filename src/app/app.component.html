@@ -1,0 +1,9 @@
+<div class="mainContainer">
+  <div class="wrapper">
+      <app-top-nav *ngIf="isUserLoggedIn"></app-top-nav>
+      <app-side-nav *ngIf="isUserLoggedIn"></app-side-nav>
+  </div>
+  <div class="contentSec">
+    <router-outlet></router-outlet>
+  </div>
+</div>

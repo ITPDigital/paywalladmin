@@ -1,0 +1,260 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/customers/all" routerLinkActive="active-link" class="breadcrumb-link">Customers</a> > Add New</h5>
+    </div>
+    <div class="card-body">
+        <div *ngFor="let alert of alerts">
+          <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+        </div>
+        <form class="col-lg-8 addNewCustomerForm mx-auto" [formGroup]="addNewCustomerForm" (ngSubmit)="addNewCustomerFormSubmit()" novalidate>
+          <div class="form-group row">
+            <label for="brandName" class="col-sm-2 col-form-label required-field">Brand Name</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="brandName">
+                  <option value="">Select Brand</option>
+                  <option *ngFor='let brand of allActiveBrands;let i = index' value="{{brand.id}}">{{brand.brand_name}}</option>
+              </select>
+              <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback">
+                  <div *ngIf="f.brandName.errors.required">Brand Name is required</div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="form-group row">
+            <label for="firstName" class="col-sm-2 col-form-label required-field">First Name</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name">
+              <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">First Name is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lastName" class="col-sm-2 col-form-label required-field">Last Name</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" placeholder="Enter Last Name">
+              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label required-field">Email</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter Email">
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email && !f.email.errors.required">Email id is invalid</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label required-field">Password</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Enter Password">
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="confirmPassword" class="col-sm-2 col-form-label required-field">Confirm Password</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="password" class="form-control" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Enter Confirm Password">
+              <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Confirm Passwords must match</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="industry" class="col-sm-2 col-form-label required-field">Industry</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="industry">
+                <option value="Agriculture" selected>Agriculture</option>
+              </select>
+              <div *ngIf="submitted && f.industry.errors" class="invalid-feedback">
+                  <div *ngIf="f.industry.errors.required">Industry is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jobTitle" class="col-sm-2 col-form-label required-field">Job Title</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="jobTitle">
+                <option value="Accountant" selected>Accountant</option>
+              </select>
+              <div *ngIf="submitted && f.jobTitle.errors" class="invalid-feedback">
+                  <div *ngIf="f.jobTitle.errors.required">Job Title is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="country" class="col-sm-2 col-form-label required-field">Country</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="country">
+                <option value="United Arab Emirates" selected>United Arab Emirates</option>
+              </select>
+              <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                  <div *ngIf="f.country.errors.required">Country is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="compSize" class="col-sm-2 col-form-label required-field">Company Size</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="compSize">
+                <option value="50 - 250 people" selected>50 - 250 people</option>
+              </select>
+              <div *ngIf="submitted && f.compSize.errors" class="invalid-feedback">
+                  <div *ngIf="f.compSize.errors.required">Company Size is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="compName" class="col-sm-2 col-form-label required-field">Company Name</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="compName" [ngClass]="{ 'is-invalid': submitted && f.compName.errors }" placeholder="Enter Company Name">
+              <div *ngIf="submitted && f.compName.errors" class="invalid-feedback">
+                  <div *ngIf="f.compName.errors.required">First Name is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="dob" class="col-sm-2 col-form-label">DOB</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="date" class="form-control" formControlName="dob" placeholder="Enter DOB">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="n.a">Don't specify</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phone" class="col-sm-2 col-form-label">Contact Number</label>
+            <div class="col-sm-10 col-lg-5">
+              <input numberOnly type="phone" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" placeholder="Enter Contact Number">
+              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                  <div *ngIf="f.phone.errors.pattern">Contact Number is invalid</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="trn" class="col-sm-2 col-form-label">Tax Registration Number</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="trn" class="form-control" formControlName="trn" placeholder="Enter TRN">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="markOptin" class="col-sm-2 col-form-label">Marketing optin</label>
+            <div class="col-sm-10 col-lg-5">
+              <label class="switch">
+                  <input type="checkbox" class="primary" checked="checked" formControlName="markOptin">
+                  <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="thirdPartyOptin" class="col-sm-2 col-form-label">Third party optin</label>
+            <div class="col-sm-10 col-lg-5">
+              <label class="switch">
+                  <input type="checkbox" class="primary" checked="checked" formControlName="thirdPartyOptin">
+                  <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group row">
+              <label for="status" class="col-sm-2 col-form-label">Status</label>
+              <div class="col-sm-10 col-lg-5">
+                  <label class="switch">
+                      <input type="checkbox" class="primary" checked="checked" formControlName="status">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+          </div>
+          <h6 class="form-sub-ttl">Delivery address details</h6>
+          <hr/>
+          <div class="form-group row">
+            <label for="giftAddress1" class="col-sm-2 col-form-label">Gift Address 1</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="giftAddress1" placeholder="Enter Gift Address 1">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="giftAddress2" class="col-sm-2 col-form-label">Gift Address 2</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="giftAddress2" placeholder="Enter Gift Address 2">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="giftAddressCity" class="col-sm-2 col-form-label">Gift Address City</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="giftAddressCity" placeholder="Enter Gift Address City">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="giftAddressState" class="col-sm-2 col-form-label">Gift Address State</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="giftAddressState" placeholder="Enter Gift Address State">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="shipContactNum" class="col-sm-2 col-form-label">Shipping Contact Number</label>
+            <div class="col-sm-10 col-lg-5">
+              <input numberOnly type="shipContactNum" class="form-control" formControlName="shipContactNum" [ngClass]="{ 'is-invalid': submitted && f.shipContactNum.errors }" placeholder="Enter Shipping Contact Number">
+              <div *ngIf="submitted && f.shipContactNum.errors" class="invalid-feedback">
+                  <div *ngIf="f.shipContactNum.errors.pattern">Shipping Contact Number is invalid</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="shippingCountry" class="col-sm-2 col-form-label">Shipping Country</label>
+            <div class="col-sm-10 col-lg-5">
+              <select class="form-control" formControlName="shippingCountry">
+                <option value="United Arab Emirates">United Arab Emirates</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="giftOpted" class="col-sm-2 col-form-label">Gift opted?</label>
+            <div class="col-sm-10 col-lg-5">
+                <label class="switch">
+                    <input type="checkbox" class="primary" checked="checked" formControlName="giftOpted">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <h6 class="form-sub-ttl">Subscription type details</h6>
+        <hr/>
+        <div class="form-group row">
+          <label for="subType" class="col-sm-2 col-form-label required-field">Subscription Type</label>
+          <div class="col-sm-10 col-lg-5">
+            <select class="form-control" formControlName="subType">
+              <option value="1" selected>Regular User</option>
+              <option value="2">Free User</option>
+              <option value="3">Corporate User</option>
+              <option value="4">Student User</option>
+            </select>
+            <div *ngIf="submitted && f.subType.errors" class="invalid-feedback">
+                <div *ngIf="f.subType.errors.required">Subscription Type is required</div>
+            </div>
+          </div>
+        </div>
+          <div class="form-group row addBrandBtnSec offset-lg-2">
+            <div class="col-lg-2 addBrandBtnSubSec">
+              <button type="submit" [disabled]="loading" class="btn btn-primary addBrandBtn">Add</button>
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </div>
+            <div class="col-lg-2 cancelBtnSec">
+                <button type="button" class="btn btn-light cancelBtn" routerLink="/customers/all">Cancel</button>
+              </div>
+          </div>
+          </form>
+    </div>
+</div>

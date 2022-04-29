@@ -1,0 +1,17 @@
+.mainContainer {
+    position: relative;
+}
+
+.contentSec {
+    min-height: calc(100vh - 70px);
+   /* margin-left: 250px;
+    padding: 0.5rem 1rem;*/
+}
+/**************************Mobile & Tab view styles************************************/
+@media (max-width:991px) {
+    .contentSec {
+        margin-top : 60px;
+        background-color: #f6f6f6;
+        padding: 0px 10px;
+    }
+}

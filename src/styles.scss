@@ -1,0 +1,298 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/themes/dark.scss';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+*{
+    font-family: 'Lato', sans-serif;
+    color: #233539;
+}
+html {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+
+.invalid-feedback div {
+    color: #dc3545;
+    font-size: 11px;
+}
+
+.form-control:focus {
+	box-shadow: none;
+}
+.hover {
+	cursor: pointer;
+}
+button:focus {
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+/********************Common container styles********************/
+.inner-container {
+    margin-left: 250px;
+    padding: 1.5rem 1rem;
+}
+.custom-card .card-header {
+	border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.custom-card .card-body {
+	border: 1px solid rgba(0, 0, 0, 0.125);
+    border-top: none;
+}
+.breadcrumb-link {
+	text-decoration: underline;
+}
+/******************Common form styles**********************/
+.required-field:after {
+    content: "*";
+    color: #e42d13;
+}
+/****************Data table styles***************************/
+.ngx-datatable {
+	.datatable-header-cell-wrapper {
+		.datatable-header-cell-label {
+			font-weight: bold;
+    		font-size: 14px;
+		}
+	}
+	@media(max-width: 991px) {
+		&.material {
+			&>div {
+				&.visible {
+					display: flex;
+					flex-wrap: wrap;
+				}
+			}
+			.datatable-header {
+				width: 40%!important;
+				height: auto!important;
+	
+				.datatable-row-center {
+					flex-flow: column;
+
+					.datatable-header-cell {
+						width: 50%!important;
+					}
+				}
+			}
+			.datatable-body {
+				width: 60%!important;
+				height: 100vh!important;
+				overflow: auto;
+
+				.datatable-body-row {
+					.datatable-row-center {
+						flex-direction: column;
+					}
+					.datatable-body-cell {
+						width: 100%!important;
+					}
+				}
+			}
+		}
+	}
+}
+.table.selTbl thead th {
+	font-size: 14px;
+}
+
+
+/***************************Alert Style***************************/
+.alert {
+    position: absolute;
+    left: 27%;
+    font-size: 14px;
+    width: 45%;
+    z-index: 999;
+    margin: 0 auto;
+    letter-spacing: 0.4px;
+    color: #ffffff;
+    padding: 0.50rem 1.25rem;
+    border-radius: 3px;
+}
+.alert.alert-danger {
+  background-color: #de5245;
+}
+.alert.alert-success {
+  background-color: #2fbe60;
+}
+.alert.alert-dismissible .close {
+  padding: 0.50rem 1.25rem;
+  font-weight: 500;
+  text-shadow: none;
+}
+.alert.alert-dismissible .close span {
+  color: #ffffff;
+}
+.accFormContainer .alert {
+    position: relative;
+    width: 100%;
+    left: 0%;
+    margin-bottom: 20px;
+}
+/*************************Toggle button style***************************/
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 25px;
+	height: 11px;
+	margin-bottom: 0;
+	margin-right: 10px;
+	input {
+		display: none;
+	}
+}
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #cccccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+	&:before {
+		position: absolute;
+		content: "";
+		height: 14px;
+		width: 14px;
+		bottom: -1px;
+		background-color: #ffffff;
+		-webkit-transition: .4s;
+		transition: .4s;
+		border: solid 1px #d0d7dd;
+		box-shadow: 0 4px 4px 0 #0000000a;
+	}
+}
+input.primary {
+	&:checked {
+		&+.slider {
+			background-color: #2196F3;
+		}
+	}
+}
+input {
+	&:focus {
+		&+.slider {
+			box-shadow: 0 0 1px #2196F3;
+		}
+	}
+	&:checked {
+		&+.slider {
+			&:before {
+				-webkit-transform: translateX(12px);
+				-ms-transform: translateX(12px);
+				transform: translateX(12px);
+			}
+		}
+	}
+}
+.slider.round {
+	border-radius: 34px;
+	&:before {
+		border-radius: 50%;
+	}
+}
+.editDataImg, .viewDataImg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+}
+.viewDataImg {
+	margin-right: 10px;
+}
+.statusFltr button.dropdown-toggle {
+	padding-left: 0;
+    font-size: 20px;
+}
+.statusFltr button.dropdown-toggle, .statusFltr button.dropdown-toggle:focus, .statusFltr button.dropdown-toggle:active, .statusFltr button.dropdown-toggle:hover {
+	color: #000000 !important;
+	background-color: transparent !important;
+	border: none !important;
+	outline: none;
+	box-shadow: none !important;
+}
+.statusFltr ul.dropdown-menu {
+	padding: 0.5rem;
+	box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+.statusFltr ul.dropdown-menu:hover {
+	cursor: pointer;
+}
+
+/*******************Search button style************************/
+.setTblSrchDiv {
+	margin-top: 7px;
+	position: relative;
+	padding-right: 0;
+	input.setTblSrcFld {
+		border-radius: 2px;
+		border: solid 1px #e9eff4;
+		background: url(assets/search-black.svg) no-repeat 8px 12px;
+		padding-left: 26px;
+		background-color: #ffffff;
+		width: 70%;
+		float: right;
+		&::placeholder {
+			font-size: 11px;
+			color:#97a4b1;
+		}
+		@media (max-width: 599px) {
+			width: 100%;
+		}
+	}
+	@media (max-width: 599px) {
+		padding-right: 15px;
+	}
+}
+
+.setAddNewBtnDiv {
+	margin-top: 7px;
+	text-align: right;
+	.setAddNewBtn {
+		font-size: 15px;
+		@media (max-width: 599px) {
+			width: 100%;
+		}
+	}
+}
+/*******************Form styles************************/
+form .form-sub-ttl {
+	margin-top: 25px;
+	font-weight: 600;
+}
+/******************Loading Spinner Styles**************/
+.loadingSpinner {
+	background-image: url(assets/loading.gif);
+    height: 200px;
+    width: 200px;
+    margin: 0 auto;
+    z-index: 99999;
+    background-repeat: no-repeat;
+}
+
+@media (max-width:991px) {
+	.inner-container {
+		margin-left: 0;
+	}
+}

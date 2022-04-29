@@ -1,0 +1,145 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/discounts/all" routerLinkActive="active-link" class="breadcrumb-link">Discounts</a> > Create New</h5>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+      </div>
+        <form class="col-lg-8 addNewDiscountForm mx-auto" [formGroup]="addNewDiscountForm" (ngSubmit)="addNewDiscountFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="discountName" class="col-sm-2 col-form-label required-field">Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="discountName"  [ngClass]="{ 'is-invalid': submitted && f.discountName.errors }" placeholder="Enter Product Name">
+                <div *ngIf="submitted && f.discountName.errors" class="invalid-feedback">
+                    <div *ngIf="f.discountName.errors.required">Product Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="displayName" class="col-sm-2 col-form-label required-field">Display Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="displayName" [ngClass]="{ 'is-invalid': submitted && f.displayName.errors }" placeholder="Enter Display Name">
+                <div *ngIf="submitted && f.displayName.errors" class="invalid-feedback">
+                    <div *ngIf="f.displayName.errors.required">Display Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="discountType" class="col-sm-2 col-form-label required-field">Discount Type</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="discountType" [ngClass]="{ 'is-invalid': submitted && f.discountType.errors }">
+                  <option value="AMOUNT">Amount</option>
+                  <option value="PERCENTAGE">Percentage</option>
+                </select>
+                <div *ngIf="submitted && f.discountType.errors" class="invalid-feedback">
+                  <div *ngIf="f.discountType.errors.required">Discount Type is required</div>
+              </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="currency" class="col-sm-2 col-form-label">Currency</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="currency">
+                  <option value="">- Select a currency -</option>
+                  <option *ngFor='let currency of currenciesFltrArr;let i = index' value="{{currency.disp_id}}">{{currency.description}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="discountValue" class="col-sm-2 col-form-label required-field">Discount Value</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="discountValue" [ngClass]="{ 'is-invalid': submitted && f.discountValue.errors }" placeholder="Enter Discount Value">
+                <div *ngIf="submitted && f.discountValue.errors" class="invalid-feedback">
+                    <div *ngIf="f.discountValue.errors.required">Discount Value is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="discountDesc" class="col-sm-2 col-form-label">Description</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="discountDesc" placeholder="Enter Discount Description">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="discountPeriod" class="col-sm-2 col-form-label required-field">Discount Period</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="discountPeriod" [ngClass]="{ 'is-invalid': submitted && f.discountPeriod.errors }">
+                  <option *ngFor='let period of periodsFltrArr;let i = index' value="{{period.disp_id}}">{{period.display_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.discountPeriod.errors" class="invalid-feedback">
+                    <div *ngIf="f.discountPeriod.errors.required">Discount Period is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="discountStatus" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" checked="checked" formControlName="discountStatus">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="promoCodes" class="col-sm-2 col-form-label">Promo codes</label>
+              <div class="input-group col-sm-10 col-lg-5">
+                <!--<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">-->
+                <select class="form-control" formControlName="promoCodes">
+                  <option value="0"></option>
+                  <option *ngFor='let promo of allPromoCodeData;let i = index' value="{{promo.id}}">{{promo.promo_code}}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button" (click)="addPromoCode()">Add</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="table-responsive">
+                <table class="table dataTable selTbl">
+                    <thead>
+                        <tr>
+                            <th scope="col">Promo code</th>
+                            <th scope="col">Display Name</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let promo of selPromoCodeArr; let i = index;">
+                          <td>
+                            {{promo.promo_code}}
+                          </td>
+                          <td>
+                            {{promo.promo_name}}
+                          </td>
+                          <td>
+                            {{promo.start_date | date: 'MMM d y'}}
+                          </td>
+                          <td>
+                            {{promo.end_date | date: 'MMM d y'}}
+                          </td>
+                          <td class="text-center">
+                            <a (click)="deletePromoRow(i,promo.id)" class="hover">
+                              <img src="assets/close.svg"/>
+                            </a>
+                          </td>
+                      </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="form-group row addDiscountBtnSec offset-lg-2">
+              <div class="col-lg-2 addDiscountBtnSubSec">
+                <button type="submit" [disabled]="loading" class="btn btn-primary addDiscountBtn">Add</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+              <div class="col-lg-2 cancelBtnSec">
+                  <button type="button" class="btn btn-light cancelBtn" routerLink="/discounts/all">Cancel</button>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

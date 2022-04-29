@@ -1,0 +1,287 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/plans/all" routerLinkActive="active-link" class="breadcrumb-link">Payment Plans</a> > Create New</h5>
+    </div>
+    <div class="card-body">
+        <div *ngFor="let alert of alerts">
+          <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+        </div>
+        <form class="col-lg-8 addNewPlanForm mx-auto" [formGroup]="addNewPlanForm" (ngSubmit)="addNewPlanFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="planName" class="col-sm-2 col-form-label required-field">Plan Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="planName"  [ngClass]="{ 'is-invalid': submitted && f.planName.errors }" placeholder="Enter Plan Name">
+                <div *ngIf="submitted && f.planName.errors" class="invalid-feedback">
+                    <div *ngIf="f.planName.errors.required">Plan Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="displayName" class="col-sm-2 col-form-label required-field">Display Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="displayName" [ngClass]="{ 'is-invalid': submitted && f.displayName.errors }" placeholder="Enter Display Name">
+                <div *ngIf="submitted && f.displayName.errors" class="invalid-feedback">
+                    <div *ngIf="f.displayName.errors.required">Display Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="proDesc" class="col-sm-2 col-form-label required-field">Description</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="proDesc" [ngClass]="{ 'is-invalid': submitted && f.proDesc.errors }" placeholder="Enter Description">
+                <div *ngIf="submitted && f.proDesc.errors" class="invalid-feedback">
+                    <div *ngIf="f.proDesc.errors.required">Description is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="planStatus" class="col-sm-2 col-form-label">Status</label>
+              <div class="col-sm-10 col-lg-5">
+                  <label class="switch">
+                      <input type="checkbox" class="primary" checked="checked" formControlName="planStatus">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="features" class="col-sm-2 col-form-label">Features</label>
+            <div class="col-sm-10 col-lg-5">
+                <button class="btn btn-secondary" (click)="addFeature()">+ Add</button>
+            </div>
+        </div>
+        <div *ngFor="let feature of getFeaturesFormControls(); let i = index">  
+            <input [formControl]="feature" type="text" class="featureFld">
+            <a (click)="removeFeature(i)" class="hover">
+              <img src="assets/close.svg"/>
+            </a>    
+        </div>
+            <h6 class="form-sub-ttl">Plan details</h6>
+            <hr/>
+            <div class="form-group row">
+              <label for="paymentType" class="col-sm-2 col-form-label required-field">Payment Type</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="paymentType" [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }">
+                  <option value="CARD">CARD</option>
+                </select>
+                <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                    <div *ngIf="f.paymentType.errors.required">Payment Type is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="contractLength" class="col-sm-2 col-form-label required-field">Contract Length</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="contractLength" [ngClass]="{ 'is-invalid': submitted && f.contractLength.errors }">
+                  <option *ngFor='let period of periodsFltrArr;let i = index' value="{{period.disp_id}}">{{period.display_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.contractLength.errors" class="invalid-feedback">
+                    <div *ngIf="f.contractLength.errors.required">Contract Length is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="planAutoRenew" class="col-sm-2 col-form-label">Auto-renew</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" checked="checked" formControlName="planAutoRenew">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="renewalPlan" class="col-sm-2 col-form-label required-field">Renewal Plan</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="renewalPlan" [ngClass]="{ 'is-invalid': submitted && f.renewalPlan.errors }">
+                  <option value="0">---same plan----</option>
+                  <option *ngFor='let plan of allProPlansData;let i = index' value="{{plan.id}}">{{plan.plan_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.renewalPlan.errors" class="invalid-feedback">
+                    <div *ngIf="f.renewalPlan.errors.required">Renewal Plan is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="frequency" class="col-sm-2 col-form-label required-field">Frequency</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="frequency" [ngClass]="{ 'is-invalid': submitted && f.frequency.errors }">
+                  <option *ngFor='let period of periodsFltrArr;let i = index' value="{{period.disp_id}}">{{period.display_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.frequency.errors" class="invalid-feedback">
+                    <div *ngIf="f.frequency.errors.required">Frquency is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="offset" class="col-sm-2 col-form-label">Offset</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="offset" [ngClass]="{ 'is-invalid': submitted && f.offset.errors }">
+                  <option *ngFor='let period of periodsFltrArr;let i = index' value="{{period.disp_id}}">{{period.display_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.offset.errors" class="invalid-feedback">
+                    <div *ngIf="f.offset.errors.required">Offset is required</div>
+                </div>
+              </div>
+            </div>
+            <h6 class="form-sub-ttl">Price details</h6>
+            <hr/>
+            <div class="form-group row">
+              <label for="currency" class="col-sm-2 col-form-label required-field">Currency</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="currency" [ngClass]="{ 'is-invalid': submitted && f.currency.errors }">
+                  <option *ngFor='let currency of currenciesFltrArr;let i = index' value="{{currency.disp_id}}">{{currency.description}}</option>
+                </select>
+                <div *ngIf="submitted && f.currency.errors" class="invalid-feedback">
+                    <div *ngIf="f.currency.errors.required">Currency is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="basicPrice" class="col-sm-2 col-form-label required-field">Basic Price</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="basicPrice"  [ngClass]="{ 'is-invalid': submitted && f.basicPrice.errors }" placeholder="Enter Basic Price" appTwoDigitDecimaNumber />
+                <div *ngIf="submitted && f.basicPrice.errors" class="invalid-feedback">
+                    <div *ngIf="f.basicPrice.errors.required">Basic Price is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="discount" class="col-sm-2 col-form-label">Discount</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="discount">
+                  <option value="0">No Discount</option>
+                  <option *ngFor='let discount of tmpAllDiscountsData;let i = index' value="{{discount.id}}">{{discount.discout_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="taxCode" class="col-sm-2 col-form-label required-field">Tax Code</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="taxCode" [ngClass]="{ 'is-invalid': submitted && f.taxCode.errors }" placeholder="Enter Tax Code">
+                <div *ngIf="submitted && f.taxCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.taxCode.errors.required">Tax Code is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="taxType" class="col-sm-2 col-form-label required-field">Tax Type</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="taxType" (change)="onChange($event)" [ngClass]="{ 'is-invalid': submitted && f.taxType.errors }">
+                  <option value=""></option>
+                  <option value="AMOUNT">Amount</option>
+                  <option value="PERCENTAGE">Percentage</option>
+                </select>
+                <div *ngIf="submitted && f.taxType.errors" class="invalid-feedback">
+                  <div *ngIf="f.taxType.errors.required">Tax Type is required</div>
+              </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="taxValue" class="col-sm-2 col-form-label required-field">Tax Value</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="taxValue"  [ngClass]="{ 'is-invalid': submitted && f.taxValue.errors }" placeholder="Enter Tax Value" appTwoDigitDecimaNumber />
+                <div *ngIf="submitted && f.taxValue.errors" class="invalid-feedback">
+                    <div *ngIf="f.taxValue.errors.required">Tax Value is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="trialPrice" class="col-sm-2 col-form-label required-field">Trial Price</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" numberOnly class="form-control" formControlName="trialPrice" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="finalPrice" class="col-sm-2 col-form-label required-field">Final Price</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control"  formControlName="finalPrice" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="promoCodeDiscounts" class="col-sm-2 col-form-label">Promo discounts</label>
+              <div class="input-group col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="promoCodeDiscounts">
+                  <option value="0"></option>
+                  <option *ngFor='let disc of allPromoDiscData;let i = index' value="{{disc.id}}">{{disc.discout_name}}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button" (click)="addPaymentPlan()">Add</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="table-responsive">
+                <table class="table dataTable selTbl">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Display Name</th>
+                            <th scope="col">Value</th>
+                            <th scope="col">Period</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let plan of selPromoDiscArr; let i = index;">
+                          <td>
+                            {{plan.discout_name}}
+                          </td>
+                          <td>
+                            {{plan.display_name}}
+                          </td>
+                          <td>
+                            <span *ngIf="plan.discount_type=='PERCENTAGE'">{{plan.discount_value}}%</span>
+                            <span *ngIf="plan.discount_type=='AMOUNT'">{{plan.symbol}}{{plan.discount_value}}</span>
+                          </td>
+                          <td>
+                            {{plan.frequency}}
+                          </td>
+                          <td class="text-center">
+                            <a (click)="deletePlanRow(i,plan.id)" class="hover">
+                              <img src="assets/close.svg"/>
+                            </a>
+                          </td>
+                      </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <h6 class="form-sub-ttl">Complimentary gift details</h6>
+            <hr/>
+            <div class="form-group row">
+              <label for="compGiftStatus" class="col-sm-2 col-form-label">Enable Free Gift?</label>
+              <div class="col-sm-10 col-lg-5">
+                  <label class="switch">
+                      <input type="checkbox" class="primary" formControlName="compGiftStatus">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="compGiftDesc" class="col-sm-2 col-form-label">Gift Description</label>
+            <div class="col-sm-10 col-lg-5">
+              <input type="text" class="form-control" formControlName="compGiftDesc" placeholder="Enter Gift Description">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="compGiftConsentStatus" class="col-sm-2 col-form-label">Show Consent?</label>
+            <div class="col-sm-10 col-lg-5">
+                <label class="switch">
+                    <input type="checkbox" class="primary" formControlName="compGiftConsentStatus">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+            <div class="form-group row addPlanBtnSec offset-lg-2">
+              <div class="col-lg-2 addPlanBtnSubSec">
+                <button type="submit" [disabled]="loading" class="btn btn-primary addPlanBtn">Add</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+              <div class="col-lg-2 cancelBtnSec">
+                  <button type="button" class="btn btn-light cancelBtn" routerLink="/plans/all">Cancel</button>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

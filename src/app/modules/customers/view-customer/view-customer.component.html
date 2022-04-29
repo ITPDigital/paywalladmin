@@ -1,0 +1,226 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/customers/all" routerLinkActive="active-link" class="breadcrumb-link">Customers</a> > View Customer</h5>
+    </div>
+    <div class="card-body">
+        <form class="col-lg-8 editCustomerForm mx-auto" [formGroup]="editCustomerForm" (ngSubmit)="editCustomerFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="brandName" class="col-sm-2 col-form-label">Brand Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <!--<input type="text" class="form-control" formControlName="brandName"  [ngClass]="{ 'is-invalid': submitted && f.brandName.errors }" placeholder="Enter Brand Name">-->
+                <select class="form-control" formControlName="brandName" disabled>
+                  <option value="1" selected>ABEN</option>
+                  <option value="2">HME</option>
+                  <option value="3">CAT</option>
+                  <option value="4">CWO</option>
+                  <option value="5">OAG</option>
+                  <option value="6">LOG</option>
+                </select>
+                <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback">
+                    <div *ngIf="f.brandName.errors.required">Brand Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" disabled formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name">
+                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" disabled formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" placeholder="Enter Last Name">
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="email" class="form-control" disabled formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter Email">
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email && !f.email.errors.required">Email id is invalid</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="industry" class="col-sm-2 col-form-label">Industry</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" disabled formControlName="industry">
+                  <option value="1" selected>Test</option>
+                </select>
+                <div *ngIf="submitted && f.industry.errors" class="invalid-feedback">
+                    <div *ngIf="f.industry.errors.required">Industry is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="jobTitle" class="col-sm-2 col-form-label">Job Title</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" disabled formControlName="jobTitle">
+                  <option value="1" selected>Test</option>
+                </select>
+                <div *ngIf="submitted && f.jobTitle.errors" class="invalid-feedback">
+                    <div *ngIf="f.jobTitle.errors.required">Job Title is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="country" class="col-sm-2 col-form-label">Country</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" disabled formControlName="country">
+                  <option value="1" selected>Test</option>
+                </select>
+                <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                    <div *ngIf="f.country.errors.required">Country is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="compSize" class="col-sm-2 col-form-label">Company Size</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" disabled formControlName="compSize">
+                  <option value="1" selected>Test</option>
+                </select>
+                <div *ngIf="submitted && f.compSize.errors" class="invalid-feedback">
+                    <div *ngIf="f.compSize.errors.required">Company Size is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="dob" class="col-sm-2 col-form-label">DOB</label>
+                <div class="col-sm-10 col-lg-5">
+                  <input type="date" class="form-control" formControlName="dob" placeholder="Enter DOB">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="gender">
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Don't specify</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                <div class="col-sm-10 col-lg-5">
+                  <input type="phone" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" placeholder="Enter Phone Number">
+                  <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.phone.errors.pattern">Phone Number is invalid</div>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group row">
+              <label for="markOptin" class="col-sm-2 col-form-label">Marketing optin</label>
+              <div class="col-sm-10 col-lg-5">
+                <label class="switch">
+                    <input type="checkbox" disabled class="primary" checked="checked" formControlName="markOptin">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="thirdPartyOptin" class="col-sm-2 col-form-label">Third party optin</label>
+              <div class="col-sm-10 col-lg-5">
+                <label class="switch">
+                    <input type="checkbox" disabled class="primary" checked="checked" formControlName="thirdPartyOptin">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" disabled class="primary" checked="checked" formControlName="status">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h6 class="form-sub-ttl">Delivery address details</h6>
+            <hr/>
+            <div class="form-group row">
+              <label for="giftAddress1" class="col-sm-2 col-form-label">Gift Address 1</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="giftAddress1" placeholder="Enter Gift Address 1">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="giftAddress2" class="col-sm-2 col-form-label">Gift Address 2</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="giftAddress2" placeholder="Enter Gift Address 2">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="giftAddressCity" class="col-sm-2 col-form-label">Gift Address City</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="giftAddressCity" placeholder="Enter Gift Address City">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="giftAddressState" class="col-sm-2 col-form-label">Gift Address State</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="giftAddressState" placeholder="Enter Gift Address State">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="shipContactNum" class="col-sm-2 col-form-label">Shipping Contact Number</label>
+                <div class="col-sm-10 col-lg-5">
+                  <input type="shipContactNum" class="form-control" formControlName="shipContactNum" [ngClass]="{ 'is-invalid': submitted && f.shipContactNum.errors }" placeholder="Enter Shipping Contact Number">
+                  <div *ngIf="submitted && f.shipContactNum.errors" class="invalid-feedback">
+                      <div *ngIf="f.shipContactNum.errors.pattern">Shipping Contact Number is invalid</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="shippingCountry" class="col-sm-2 col-form-label">Shipping Country</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="shippingCountry">
+                  <option value="1" selected>Test</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="giftOpted" class="col-sm-2 col-form-label">Gift opted?</label>
+              <div class="col-sm-10 col-lg-5">
+                  <label class="switch">
+                      <input type="checkbox" class="primary" checked="checked" formControlName="giftOpted">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+          </div>
+            <h6 class="form-sub-ttl">Activity details</h6>
+            <hr/>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+            <h6 class="form-sub-ttl">Subscription details</h6>
+            <hr/>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+          </form>
+          <!--<div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h4 class="">User Activity</h4>
+              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+          </div>
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h4 class="">User Subscriptions</h4>
+              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+          </div>-->
+          <div class="form-group row addBrandBtnSec offset-lg-2">
+            <div class="col-lg-2 cancelBtnSec">
+                <button type="button" class="btn btn-light cancelBtn" routerLink="/customers/all">Back</button>
+              </div>
+          </div>
+    </div>
+</div>
