@@ -44,7 +44,7 @@ export class AddProductComponent implements OnInit {
       startDate: ['', [Validators.required]],
       paymentPlans: [''],
       endDate: [''],
-      productStatus: [1]
+      productStatus: [true]
     });
   }
 
@@ -74,7 +74,7 @@ export class AddProductComponent implements OnInit {
 
   /**********************************API Method to Get All active Brands*********************/
   getAllActiveBrands() {
-    this.productService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
@@ -112,7 +112,7 @@ export class AddProductComponent implements OnInit {
       'product_desc' : this.f.proDesc.value, 
       'start_date': this.f.startDate.value, 
       'end_date': this.f.endDate.value, 
-      'status': this.f.productStatus.value, 
+      'status': this.f.productStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'plans': this.selPlanIds, 
     };
     this.loading = true;

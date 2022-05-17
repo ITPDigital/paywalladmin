@@ -68,17 +68,6 @@ export class ProductsService {
       .catch(this.commonService.handleError);
   }
 
-  /*********************************API to Get all active brand details**************************************** */
-  getAllActiveBrands(status:number) {
-    return this.http
-      .get(`${this.url}/v1/brands/${status}`, {headers: contentHeaders})
-      .toPromise()
-      .then(response => {
-        return response;
-      })
-      .catch(this.commonService.handleError);
-  }
-
   /*************************************API to Update Product Status*********************************************/
   updateProductStatus(productId : number, isChecked: number): Promise<any> {
     return this.http

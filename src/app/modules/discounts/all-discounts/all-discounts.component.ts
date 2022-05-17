@@ -22,8 +22,7 @@ export class AllDiscountsComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private discountService: DiscountService,
-    private cdr: ChangeDetectorRef, 
-    private titleService: Title) {
+    private cdr: ChangeDetectorRef) {
       this.getAllDiscounts();
   }
 
@@ -32,8 +31,6 @@ export class AllDiscountsComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    //this.titleService.setTitle("Brands");
-    //this.commonService.setTitle("Brands");
   }
 
   /**********************************API Method to Get All the Products*********************/

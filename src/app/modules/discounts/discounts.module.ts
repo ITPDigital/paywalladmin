@@ -14,9 +14,11 @@ import { DiscountsRoutingModule } from './discounts-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { DiscountService } from '../../services/discount.service';
+import { TwoDigitDecimalNumbersDirective } from '../../directives/two-digit-decimal-numbers.directive';
+
 
 @NgModule({
-  declarations: [DiscountsComponent, AllDiscountsComponent, AddDiscountComponent, EditDiscountComponent],
+  declarations: [DiscountsComponent, AllDiscountsComponent, AddDiscountComponent, EditDiscountComponent, TwoDigitDecimalNumbersDirective],
   imports: [
     CommonModule,
     DiscountsRoutingModule,
@@ -30,3 +32,4 @@ import { DiscountService } from '../../services/discount.service';
   providers: [DiscountService]
 })
 export class DiscountsModule { }
+

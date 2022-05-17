@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import { CustomersService } from '../../../services/customers.service';
 import { Constants } from '../../../common/constants';
@@ -14,18 +13,22 @@ import { customValidators } from '../../../helpers/validator';
   styleUrls: ['./add-customer.component.scss']
 })
 export class AddCustomerComponent implements OnInit {
+  companySizeArr : any[] = DropdownConstants.COMPANY_SIZE_DATA;
+  industriesArr : any[] = DropdownConstants.INDUSTRIES_DATA;
+  jobTtlArr : any[] = DropdownConstants.JOB_TITLE_DATA;
+  countriesArr : any[] = DropdownConstants.COUNTRIES_DATA;
   addNewCustomerForm: FormGroup;
   submitted = false;
   loading = false;
   alerts: any[];
   allActiveBrands: any[];
+  selSubType : number = 1;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
     private customersService: CustomersService,
     private cdr: ChangeDetectorRef, 
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -47,12 +50,14 @@ export class AddCustomerComponent implements OnInit {
       compSize: ['', [Validators.required]],
       compName: ['', [Validators.required]],
       subType: [1, [Validators.required]],
+      subStartDate: [''],
+      subEndDate: [''],
       dob: [''],
       gender: [''],
       phone: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
-      markOptin: [1],
-      thirdPartyOptin: [1],
-      status: [1],
+      markOptin: [true],
+      thirdPartyOptin: [true],
+      status: [true],
       giftAddress1: [''],
       giftAddress2: [''],
       giftAddressCity: [''],
@@ -60,7 +65,7 @@ export class AddCustomerComponent implements OnInit {
       trn: [''],
       shipContactNum: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       shippingCountry: [''],
-      giftOpted: [0]
+      giftOpted: [false]
     }, {
         validator: customValidators.MustMatch('password', 'confirmPassword')
     });
@@ -68,7 +73,7 @@ export class AddCustomerComponent implements OnInit {
 
   /**********************************API Method to Get All active Brands*********************/
   getAllActiveBrands() {
-    this.customersService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
@@ -114,9 +119,9 @@ export class AddCustomerComponent implements OnInit {
     dataObj['comp_name'] = this.f.compName.value;
     dataObj['access_role'] = this.f.subType.value;
     dataObj['dob'] = this.f.dob.value;
-    dataObj['marketing_optin'] = this.f.markOptin.value==1 ? 'TRUE' : 'FALSE';
-    dataObj['third_party_optin'] = this.f.thirdPartyOptin.value==1 ? 'TRUE' : 'FALSE';
-    dataObj['status'] = this.f.status.value;
+    dataObj['marketing_optin'] = this.f.markOptin.value==true ? 'TRUE' : 'FALSE';
+    dataObj['third_party_optin'] = this.f.thirdPartyOptin.value==true ? 'TRUE' : 'FALSE';
+    dataObj['status'] = this.f.status.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
     dataObj['gender'] = this.f.gender.value;
     dataObj['phone'] = this.f.phone.value;
     dataObj['gift_address1'] = this.f.giftAddress1.value;
@@ -126,7 +131,9 @@ export class AddCustomerComponent implements OnInit {
     dataObj['shipping_contact_number'] = this.f.shipContactNum.value;
     dataObj['gift_address_country'] = this.f.shippingCountry.value;
     dataObj['tax_reg_no'] = this.f.trn.value;
-    dataObj['comp_gift_consent'] = this.f.giftOpted.value==1 ? 'TRUE' : 'FALSE';
+    dataObj['sub_start_date'] = this.f.subStartDate.value;
+    dataObj['sub_end_date'] = this.f.subEndDate.value;
+    dataObj['comp_gift_consent'] = this.f.giftOpted.value==true ? 'TRUE' : 'FALSE';
     console.log("--------"+JSON.stringify(dataObj))
     this.customersService.addNewCustomer(dataObj).then(
       res => {
@@ -164,6 +171,10 @@ export class AddCustomerComponent implements OnInit {
         }];
           this.loading = false;
       });
+  }
+
+  onSubTypeChange(type) {
+    this.selSubType = type;
   }
 
 }

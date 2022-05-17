@@ -22,6 +22,7 @@ export class AddPlanComponent implements OnInit {
   addNewPlanForm: FormGroup;
   submitted = false;
   loading = false;
+  showTrialPrice = false;
   alerts: any[];
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -53,22 +54,22 @@ export class AddPlanComponent implements OnInit {
       frequency: ['None', [Validators.required]],
       offset: ['None'],
       currency: ['USD', [Validators.required]],
-      basicPrice: ['1', [Validators.required]],
-      discount: [''],
+      basicPrice: ['0.00', [Validators.required]],
+      discount: [0],
       taxCode: ['',[Validators.required]],
       taxType: ['',[Validators.required]],
-      taxValue: ['1', [Validators.required]],
-      trialPrice: [{value:'0',disabled: true}],
-      finalPrice: [{value:'0',disabled: true}],
+      taxValue: ['0.00', [Validators.required]],
+      trialPrice: [{value:'0.00',disabled: true}],
+      finalPrice: [{value:'0.00',disabled: true}],
       promoCodeDiscounts: [''],
-      planStatus: [1],
-      planAutoRenew: [1],
-      compGiftStatus: [0],
+      planStatus: [true],
+      planAutoRenew: [true],
+      compGiftStatus: [false],
       compGiftDesc: [''],
-      compGiftConsentStatus: [0],
+      compGiftConsentStatus: [false],
       features: this.formBuilder.array([])
     })
-    this.setupRecalculation();
+    //this.setupRecalculation();
   }
 
 
@@ -77,7 +78,7 @@ export class AddPlanComponent implements OnInit {
 
   /**********************************API Method to Get All active Periods*********************/
   getAllActivePeriods() {
-    this.plansService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.periodsFltrArr = res['result'];
@@ -100,7 +101,7 @@ export class AddPlanComponent implements OnInit {
 
   /**********************************API Method to Get All active Currencies*********************/
   getAllActiveCurrencies() {
-    this.plansService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.currenciesFltrArr = res['result'];
@@ -181,7 +182,7 @@ export class AddPlanComponent implements OnInit {
       'plan_desc' : this.f.proDesc.value, 
       'contract_length': this.f.contractLength.value, 
       'renewal_plan': this.f.renewalPlan.value, 
-      'auto_renew': this.f.planAutoRenew.value, 
+      'auto_renew': this.f.planAutoRenew.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'frequency': this.f.frequency.value, 
       'offset': this.f.offset.value, 
       'currency': this.f.currency.value, 
@@ -191,10 +192,10 @@ export class AddPlanComponent implements OnInit {
       'tax_value': this.f.taxValue.value, 
       'plan_discount': this.f.discount.value, 
       'payment_type': this.f.paymentType.value, 
-      'is_comp_gift_enabled': this.f.compGiftStatus.value, 
+      'is_comp_gift_enabled': this.f.compGiftStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'comp_gift_desc': this.f.compGiftDesc.value, 
-      'show_comp_gift_consent': this.f.compGiftConsentStatus.value, 
-      'status': this.f.planStatus.value, 
+      'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'features': ['test1','test2'], 
       'promo_discounts': this.selDiscountIds
     };
@@ -207,7 +208,7 @@ export class AddPlanComponent implements OnInit {
           if(res['code']==1 && resStatus==1) {//success
             this.alerts = [{
               type: 'success',
-              msg: Constants.ADD_PRODUCT_SUCCESS_MSG,
+              msg: Constants.ADD_PLAN_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
             setTimeout(()=>{
@@ -216,7 +217,7 @@ export class AddPlanComponent implements OnInit {
           } else {
             this.alerts = [{
               type: 'danger',
-              msg: Constants.ADD_PRODUCT_FAILURE_MSG,
+              msg: Constants.ADD_PLAN_FAILURE_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
           }
@@ -224,7 +225,7 @@ export class AddPlanComponent implements OnInit {
       error => {
         this.alerts = [{
           type: 'danger',
-          msg: Constants.ADD_PRODUCT_FAILURE_MSG,
+          msg: Constants.ADD_PLAN_FAILURE_MSG,
           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
         }];
           this.loading = false;
@@ -232,16 +233,16 @@ export class AddPlanComponent implements OnInit {
 
   }
   
-  addPaymentPlan() {
-    let planId : number = parseInt(this.f.promoCodeDiscounts.value);
+  addPromoDiscount() {
+    let discountId : number = parseInt(this.f.promoCodeDiscounts.value);
     this.addNewPlanForm.controls['promoCodeDiscounts'].setValue(0);
-    if(planId && planId!=0 && !this.selPromoDiscArr.some(el => el.id === planId)) {
-      const selPlanObj= this.getPlanDet(planId);
-      this.selDiscountIds.push(planId);
+    if(discountId && discountId!=0 && !this.selPromoDiscArr.some(el => el.id === discountId)) {
+      const selPlanObj= this.getDiscountDet(discountId);
+      this.selDiscountIds.push(discountId);
       if(selPlanObj) {
         this.selPromoDiscArr.push(selPlanObj);
         this.allPromoDiscData = this.allPromoDiscData.filter(function (d) {
-          return d.id != planId;
+          return d.id != discountId;
         });
       }
     }
@@ -262,53 +263,96 @@ export class AddPlanComponent implements OnInit {
     return (<FormArray> this.addNewPlanForm.get('features')).controls
   }
 
-  deletePlanRow(index:any, planId) {
+  deletePromoDiscountRow(index:any, discountId) {
     this.selPromoDiscArr.splice(index, 1);
-    this.selDiscountIds.pop(planId);
-    const selPlanObj= this.getPlanDet(parseInt(planId));
+    this.selDiscountIds.pop(discountId);
+    const selPlanObj= this.getDiscountDet(parseInt(discountId));
     this.allPromoDiscData.push(selPlanObj);
     console.log("--this.selPromoDiscArr--"+JSON.stringify(this.selPromoDiscArr))
   }
 
-  getPlanDet(planId:number) {
-    if(planId) {
-      return this.tmpAllDiscountsData.filter(t=>t.id ==planId)[0];
+  getDiscountDet(discountId:number) {
+    if(discountId) {
+      return this.tmpAllDiscountsData.filter(t=>t.id ==discountId)[0];
     }
   }
 
-  onChangeUpdatePrices() {
-    alert("here")
-  }
   /*Calculate final Price*/
-  
 
-  formula1 = `basicPrice * taxValue`;
-  onChange(event: any, formValue: any) {
-    var taxTypeValue = event.target.value;
-    if (taxTypeValue == 'AMOUNT'){
-      var formula1 = `basicPrice + taxValue`;
-      console.log(formula1);
-    }else if(taxTypeValue == 'PERCENTAGE'){
-      formula1 = `basicPrice * taxValue`;
-      console.log(formula1);
-    }else{
-      formula1 = `0`;
-      console.log(formula1);
-    }
+ /* public taxtaxTypeValue;
+  onChange(e,basicPrice='basicPrice') {
+    let taxTypeValue = e.target.value;
+    console.log(basicPrice)
+    let taxValue;
+    console.log(taxValue)
+    let formula1 = ((taxTypeValue == 'AMOUNT') ? (parseFloat(basicPrice) + parseFloat(taxValue)) : (parseFloat(basicPrice) * parseFloat(taxValue)));
+    return (formula1);
   }
-  
-  calculateResult(formValue: any, formulaName: 'formula1') {
+
+
+  calculateResult(formValue: any, formulaName:'basicPrice' ) {
     let formula = this[formulaName];
+    console.log("------formula------------"+formula)
     Object.keys(formValue).forEach(
       (variable) => (formula = formula.replace(variable, formValue[variable]))
     );
     return eval(formula);
   }
+
   setupRecalculation(){
     this.addNewPlanForm.valueChanges.subscribe(value => {
-      value.finalPrice = this.calculateResult(value, "formula1")
+      value.finalPrice = this.calculateResult(value, "basicPrice")
       this.addNewPlanForm.controls.finalPrice.setValue(value.finalPrice, { emitEvent: false })
     });
+  }*/
+
+  onTaxTypeChange() {
+    this.calculateFinalPrice();
+  }
+
+  onPriceChange(): void {  
+    this.calculateFinalPrice();
+  }
+
+  calculateFinalPrice() {
+    let basePrice = parseFloat(this.f.basicPrice.value);
+    let taxType = this.f.taxType.value;
+    let taxValue = parseFloat(this.f.taxValue.value);
+    let finalPrice : number = basePrice;
+    if(taxType=="AMOUNT") {
+      finalPrice = (basePrice + taxValue);
+    } else if(taxType=="PERCENTAGE") {
+      finalPrice += (basePrice * taxValue) / 100;
+    }
+    if(finalPrice) {
+      this.addNewPlanForm.controls['finalPrice'].setValue(finalPrice.toFixed(2));
+    }
+    let discountId = this.f.discount.value;
+    if(discountId!=0) {
+      this.calculateTrialPrice(discountId);
+    }
+  }
+
+  calculateTrialPrice(val:number) {
+    if(val!=0) {
+      this.showTrialPrice = true;
+      const selPlanObj= this.getDiscountDet(val);
+      let trialPrice = 0.00;
+      let finalPrice = parseFloat(this.f.finalPrice.value);
+      console.log("----discount---"+JSON.stringify(selPlanObj))
+      if(selPlanObj && finalPrice!=0 && finalPrice!=0.00) {
+        if(selPlanObj['discount_type']=="AMOUNT") {
+          trialPrice = finalPrice - selPlanObj['discount_value'];
+        } else if(selPlanObj['discount_type']=="PERCENTAGE") {
+          trialPrice = finalPrice - ((finalPrice * selPlanObj['discount_value'])/100);
+        }
+        if(trialPrice) {
+          this.addNewPlanForm.controls['trialPrice'].setValue(trialPrice.toFixed(2));
+        }
+      }
+    } else {
+      this.showTrialPrice = false;
+    }
   }
 
 }

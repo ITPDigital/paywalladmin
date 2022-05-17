@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute,Router} from '@angular/router';
 import { CustomersService } from '../../../services/customers.service';
 import { Constants } from '../../../common/constants';
@@ -13,6 +12,10 @@ import { DropdownConstants } from '../../../common/dropdown_constants';
   styleUrls: ['./edit-customer.component.scss']
 })
 export class EditCustomerComponent implements OnInit {
+  companySizeArr : any[] = DropdownConstants.COMPANY_SIZE_DATA;
+  industriesArr : any[] = DropdownConstants.INDUSTRIES_DATA;
+  jobTtlArr : any[] = DropdownConstants.JOB_TITLE_DATA;
+  countriesArr : any[] = DropdownConstants.COUNTRIES_DATA;
   editCustomerForm: FormGroup;
   submitted = false;
   loading = false;
@@ -22,14 +25,14 @@ export class EditCustomerComponent implements OnInit {
   userEmail : string;
   brandId : string;
   showLoadingSpinner = true;
+  selSubType : number;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
     private customersService: CustomersService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -50,13 +53,15 @@ export class EditCustomerComponent implements OnInit {
       country: ['', [Validators.required]],
       compSize: ['', [Validators.required]],
       compName: ['', [Validators.required]],
-      subType: [1, [Validators.required]],
+      subType: ['', [Validators.required]],//Regular
+      subStartDate: [''],
+      subEndDate: [''],
       dob: [''],
       gender: [''],
       phone: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
-      markOptin: [1],
-      thirdPartyOptin: [1],
-      status: [1],
+      markOptin: [false],
+      thirdPartyOptin: [false],
+      status: [false],
       giftAddress1: [''],
       giftAddress2: [''],
       giftAddressCity: [''],
@@ -64,14 +69,14 @@ export class EditCustomerComponent implements OnInit {
       trn: [''],
       shipContactNum: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       shippingCountry: [''],
-      giftOpted: [0]
+      giftOpted: [false]
     });
     this.getCustomerDetail(this.customerId);
   }
 
   /**********************************API Method to Get All active Brands*********************/
   getAllActiveBrands() {
-    this.customersService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
@@ -112,7 +117,10 @@ export class EditCustomerComponent implements OnInit {
             this.editCustomerForm.controls['compSize'].setValue(data['comp_size']);
             this.editCustomerForm.controls['compName'].setValue(data['comp']);
             this.editCustomerForm.controls['subType'].setValue(data['access_role']);
+            this.selSubType = data['access_role'];
             this.editCustomerForm.controls['dob'].setValue(this.commonService.formatDate(data['dob']));
+            //this.editCustomerForm.controls['subStartDate'].setValue(this.commonService.formatDate(data['subStartDate']));
+            //this.editCustomerForm.controls['subEndDate'].setValue(this.commonService.formatDate(data['subEndDate']));
             this.editCustomerForm.controls['gender'].setValue(data['gender']);
             this.editCustomerForm.controls['phone'].setValue(data['phone']);
             this.editCustomerForm.controls['markOptin'].setValue(data['marketing_optin']=="TRUE" ? 1: 0);
@@ -175,7 +183,9 @@ export class EditCustomerComponent implements OnInit {
       'gift_address_country' : this.f.shippingCountry.value, 
       'tax_reg_no': this.f.trn.value, 
       'comp_gift_consent': this.f.giftOpted.value ==1 ? "TRUE" : "FALSE", 
-      'status': this.f.status.value
+      'sub_start_date': this.f.subStartDate.value, 
+      'sub_end_date': this.f.subEndDate.value, 
+      'status': this.f.status.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE
     };
     this.customersService.editCustomer(this.customerId,this.brandId,dataObj).then(
       res => {
@@ -212,6 +222,10 @@ export class EditCustomerComponent implements OnInit {
         }];
         this.loading = false;
       });
+  }
+
+  onSubTypeChange(type) {
+    this.selSubType = type;
   }
 
 }

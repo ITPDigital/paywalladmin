@@ -18,7 +18,15 @@ $border_color_1: #20a6fc;
 	.card-body {
 		padding-top: 4rem;
 		position: relative;
+		@media (max-width: 767px) {
+			padding-top: 1.3rem;
+		}
 		.editBrandForm {
+			.form-group {
+				@media (max-width: 767px) {
+					flex-direction: column;
+				}
+			}
 			label {
 				/*font-size: 11px;
 				font-weight: bold;*/
@@ -53,8 +61,15 @@ $border_color_1: #20a6fc;
 			}
 			.editBrandBtnSec {
 				margin-top: 1.75rem;
+				@media(max-width: 991px) {
+					display: flex;
+					justify-content: center;
+				}
 				.editBrandBtnSubSec,.cancelBtnSec {
                     padding-left:6px;
+				}
+				.editBrandBtnSubSec {
+					margin-bottom: 1rem;
 				}
 				button {
 					/*font-size: 13px;*/

@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router} from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import { Constants } from '../../../common/constants';
@@ -31,8 +30,7 @@ export class EditProductComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router, 
-    private productService: ProductsService,
-    private titleService: Title) { }
+    private productService: ProductsService) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -52,7 +50,7 @@ export class EditProductComponent implements OnInit {
       startDate: ['', [Validators.required]],
       paymentPlans: [''],
       endDate: [''],
-      productStatus: [1]
+      productStatus: [false]
     });
   }
 
@@ -84,7 +82,7 @@ export class EditProductComponent implements OnInit {
 
   /**********************************API Method to Get All active Brands*********************/
   getAllActiveBrands() {
-    this.productService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
@@ -172,7 +170,7 @@ export class EditProductComponent implements OnInit {
       'product_desc' : this.f.proDesc.value, 
       'start_date': this.f.startDate.value, 
       'end_date': this.f.endDate.value, 
-      'status': this.f.productStatus.value, 
+      'status': this.f.productStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'plans': this.updatePlansArr, 
     };
     this.productService.editProduct(this.productId,dataObj).then(
@@ -189,11 +187,11 @@ export class EditProductComponent implements OnInit {
               this.router.navigate(['/products/all']);
             },2000);
           } else {
-            this.alerts = [{
-              type: 'danger',
-              msg: Constants.UPDATE_PRODUCT_FAILURE_MSG,
-              timeout: Constants.DEF_ALERT_MSG_TIMEOUT
-            }];
+              this.alerts = [{
+                type: 'danger',
+                msg: Constants.UPDATE_PRODUCT_FAILURE_MSG,
+                timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+              }];
           }
       },
       error => {

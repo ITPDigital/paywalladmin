@@ -36,10 +36,9 @@ export class PromoCodesService {
   }
 
   /**********************************API to Add New Promo code**********************************************/
-  addNewPromocode(promo_code : string, promo_name : string, promo_desc : string, start_date : string, end_date : string, status : number){
-    let body = JSON.stringify({ promo_code, promo_name, promo_desc, start_date, end_date, status });
+  addNewPromocode(dataObj){
     return this.http
-      .post(`${this.url}/v1/promos/add`, body, {headers: contentHeaders})
+      .post(`${this.url}/v1/promos/add`, dataObj, {headers: contentHeaders})
       .toPromise()
       .then(response => {
         return response;
@@ -48,10 +47,9 @@ export class PromoCodesService {
   }
 
   /**********************************API to Edit Promo code detail**********************************************/
-  editPromocode(promo_code : string, promo_name : string, promo_desc : string, start_date : string, end_date : string, status : number, promoId : string){
-    let body = JSON.stringify({ promo_code, promo_name, promo_desc, start_date, end_date, status });
+  editPromocode(promoId : string, dataObj){
     return this.http
-      .post(`${this.url}/v1/promos/update/${promoId}`, body, {headers: contentHeaders})
+      .post(`${this.url}/v1/promos/update/${promoId}`, dataObj, {headers: contentHeaders})
       .toPromise()
       .then(response => {
         return response;

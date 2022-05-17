@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CustomersComponent } from './customers/customers.component';
 import { AllCustomersComponent } from './all-customers/all-customers.component';
 import { EditCustomerComponent } from './edit-customer/edit-customer.component';
-import { ViewCustomerComponent } from './view-customer/view-customer.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 
 import { AuthGuard } from '../../common/auth.guard';
@@ -22,10 +21,6 @@ const routes: Routes = [
             {
               path: 'add',
               component: AddCustomerComponent,
-            },
-            {
-                path: 'view/:id',
-                component: ViewCustomerComponent,
             },
             {
               path: 'edit/:id/:brandid',

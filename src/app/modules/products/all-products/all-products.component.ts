@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ProductsService } from '../../../services/products.service';
 import { Constants } from '../../../common/constants';
 
@@ -21,8 +20,7 @@ export class AllProductsComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private productsService: ProductsService,
-    private cdr: ChangeDetectorRef, 
-    private titleService: Title) {
+    private cdr: ChangeDetectorRef) {
       this.getAllProducts();
   }
 

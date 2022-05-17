@@ -1,7 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
-import { AllCustomers } from '../../../data/customers';
 import { CustomersService } from '../../../services/customers.service';
 import { Constants } from '../../../common/constants';
 
@@ -22,8 +20,7 @@ export class AllCustomersComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private cdr: ChangeDetectorRef, 
-    private customersService: CustomersService,
-    private titleService: Title) {
+    private customersService: CustomersService) {
     //this.fetchCustomersData(8);
     this.getAllActiveBrands();
   }
@@ -33,13 +30,11 @@ export class AllCustomersComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    //this.titleService.setTitle("Brands");
-    //this.commonService.setTitle("Brands");
   }
 
   /**********************************API Method to Get All active Brands*********************/
   getAllActiveBrands() {
-    this.customersService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveBrands(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
@@ -107,7 +102,7 @@ export class AllCustomersComponent implements OnInit {
       });
       this.rows = temp;
     } else {
-      this.fetchCustomersData(8);
+      this.fetchCustomersData(this.selectedBrand);
     }
   }
 

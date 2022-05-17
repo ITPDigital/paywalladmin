@@ -19,6 +19,8 @@ import { ProductsModule } from './modules/products/products.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PromoCodesModule } from './modules/promo-codes/promo-codes.module';
+import { WidgetsModule } from './modules/widgets/widgets.module';
+import { MessagingTemplatesModule } from './modules/messaging-templates/messaging-templates.module';
 
 import {CommonService} from './services/common.service';
 import {LoginService} from './services/login.service'
@@ -27,7 +29,6 @@ import { AuthGuard } from './common/auth.guard';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ChangepwdComponent } from './components/changepwd/changepwd.component';
-import { WidgetsComponent } from './components/widgets/widgets.component';
 import { ConfigurationsComponent } from './components/configurations/configurations.component';
 
 
@@ -40,8 +41,7 @@ import { ConfigurationsComponent } from './components/configurations/configurati
     DashboardComponent,
     ReportsComponent,
     ChangepwdComponent,
-    WidgetsComponent,
-    ConfigurationsComponent
+    ConfigurationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +56,7 @@ import { ConfigurationsComponent } from './components/configurations/configurati
     PlansModule,
     DiscountsModule,
     PromoCodesModule,
+    WidgetsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
 	AlertModule.forRoot()

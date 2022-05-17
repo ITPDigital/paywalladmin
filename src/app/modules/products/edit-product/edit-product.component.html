@@ -9,8 +9,8 @@
         <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
         <form *ngIf="!showLoadingSpinner" class="col-lg-8 editProductForm mx-auto" [formGroup]="editProductForm" (ngSubmit)="editProductFormSubmit()" novalidate>
             <div class="form-group row">
-                <label for="productId" class="col-sm-2 col-form-label required-field">Product ID</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="productId" class="col-sm-4 col-form-label required-field">Product ID</label>
+                <div class="col-sm-8 col-lg-5">
                   <input type="text" class="form-control" formControlName="productId" [ngClass]="{ 'is-invalid': submitted && f.productId.errors }" placeholder="Enter Product ID">
                   <div *ngIf="submitted && f.productId.errors" class="invalid-feedback">
                       <div *ngIf="f.productId.errors.required">Product ID is required</div>
@@ -19,8 +19,8 @@
                 
               </div>
             <div class="form-group row">
-              <label for="productName" class="col-sm-2 col-form-label required-field">Product Name</label>
-              <div class="col-sm-10 col-lg-5">
+              <label for="productName" class="col-sm-4 col-form-label required-field">Product Name</label>
+              <div class="col-sm-8 col-lg-5">
                 <input type="text" class="form-control" formControlName="productName"  [ngClass]="{ 'is-invalid': submitted && f.productName.errors }" placeholder="Enter Product Name">
                 <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
                     <div *ngIf="f.productName.errors.required">Product Name is required</div>
@@ -29,8 +29,8 @@
               
             </div>
             <div class="form-group row">
-              <label for="displayName" class="col-sm-2 col-form-label required-field">Display Name</label>
-              <div class="col-sm-10 col-lg-5">
+              <label for="displayName" class="col-sm-4 col-form-label required-field">Display Name</label>
+              <div class="col-sm-8 col-lg-5">
                 <input type="text" class="form-control" formControlName="displayName" [ngClass]="{ 'is-invalid': submitted && f.displayName.errors }" placeholder="Enter Display Name">
                 <div *ngIf="submitted && f.displayName.errors" class="invalid-feedback">
                     <div *ngIf="f.displayName.errors.required">Display Name is required</div>
@@ -39,8 +39,8 @@
               
             </div>
             <div class="form-group row">
-              <label for="proDesc" class="col-sm-2 col-form-label required-field">Description</label>
-              <div class="col-sm-10 col-lg-5">
+              <label for="proDesc" class="col-sm-4 col-form-label required-field">Description</label>
+              <div class="col-sm-8 col-lg-5">
                 <input type="text" class="form-control" formControlName="proDesc" [ngClass]="{ 'is-invalid': submitted && f.proDesc.errors }" placeholder="Enter Description">
                 <div *ngIf="submitted && f.proDesc.errors" class="invalid-feedback">
                     <div *ngIf="f.proDesc.errors.required">Description is required</div>
@@ -48,8 +48,8 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="brandName" class="col-sm-2 col-form-label required-field">Brand</label>
-              <div class="col-sm-10 col-lg-5">
+              <label for="brandName" class="col-sm-4 col-form-label required-field">Brand</label>
+              <div class="col-sm-8 col-lg-5">
                 <select class="form-control" formControlName="brandName">
                   <option value="">Select Brand</option>
                   <option *ngFor='let brand of allActiveBrands;let i = index' value="{{brand.id}}">{{brand.brand_name}}</option>
@@ -61,8 +61,8 @@
               
             </div>
             <div class="form-group row">
-                <label for="startDate" class="col-sm-2 col-form-label required-field">Start Date</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="startDate" class="col-sm-4 col-form-label required-field">Start Date</label>
+                <div class="col-sm-8 col-lg-5">
                   <input type="date" class="form-control" formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" placeholder="Select Start Date">
                   <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
                       <div *ngIf="f.startDate.errors.required">Start Date is required</div>
@@ -70,14 +70,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="endDate" class="col-sm-2 col-form-label">End Date</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="endDate" class="col-sm-4 col-form-label">End Date</label>
+                <div class="col-sm-8 col-lg-5">
                   <input type="date" class="form-control" formControlName="endDate" placeholder="Select End Date">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="productStatus" class="col-sm-2 col-form-label">Status</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="productStatus" class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-8 col-lg-5">
                     <label class="switch">
                         <input type="checkbox" class="primary" checked="checked" formControlName="productStatus">
                         <span class="slider round"></span>
@@ -85,8 +85,8 @@
                 </div>
             </div>
             <div class="form-group row">
-              <label for="paymentPlans" class="col-sm-2 col-form-label">Payment Plan</label>
-              <div class="input-group col-sm-10 col-lg-5">
+              <label for="paymentPlans" class="col-sm-4 col-form-label">Payment Plan</label>
+              <div class="input-group col-sm-8 col-lg-5">
                 <!--<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">-->
                 <select class="form-control" formControlName="paymentPlans">
                   <option value="0"></option>
@@ -140,11 +140,11 @@
                 </div>
             </div>
             <div class="form-group row editProductBtnSec offset-lg-2">
-              <div class="col-lg-2 editProductBtnSubSec">
+              <div class="col-md-4 col-lg-2 editProductBtnSubSec">
                 <button type="submit" [disabled]="loading" class="btn btn-primary editProductBtn">Update</button>
                 <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
               </div>
-              <div class="col-lg-2 cancelBtnSec">
+              <div class="col-md-4 col-lg-2 cancelBtnSec">
                   <button type="button" class="btn btn-light cancelBtn" routerLink="/products/all">Cancel</button>
                 </div>
             </div>

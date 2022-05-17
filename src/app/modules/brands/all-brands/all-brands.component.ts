@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { BrandsService } from '../../../services/brands.service';
 import { Constants } from '../../../common/constants';
 
@@ -22,8 +21,7 @@ export class AllBrandsComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private brandService: BrandsService,
-    private cdr: ChangeDetectorRef, 
-    private titleService: Title) {
+    private cdr: ChangeDetectorRef) {
       this.getAllBrands();
   }
 
@@ -32,7 +30,6 @@ export class AllBrandsComponent implements OnInit {
   }
   
   ngOnInit(): void {
-
   }
 
   /**********************************API Method to Get All the Brands*********************/

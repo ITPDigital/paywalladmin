@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
   isSelected: boolean = false;
-  constructor() { }
+  activeLink: string = "brands";
+  constructor(private commonService: CommonService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    this.commonService.activeLink$.subscribe((activeLink: string) => {
+      this.activeLink = activeLink;
+    });
   }
   toggleSideNav() {
     this.isSelected = !this.isSelected;

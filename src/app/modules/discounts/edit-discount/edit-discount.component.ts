@@ -26,6 +26,7 @@ export class EditDiscountComponent implements OnInit {
   loading = false;
   alerts: any[];
   showLoadingSpinner = true;
+  showCurrency : boolean =  false;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -55,7 +56,7 @@ export class EditDiscountComponent implements OnInit {
       currency: [''],
       discountDesc: [''],
       promoCodes: [''],
-      discountStatus: [1]
+      discountStatus: [false]
     });
   }
 
@@ -87,7 +88,7 @@ export class EditDiscountComponent implements OnInit {
 
   /**********************************API Method to Get All active Currencies*********************/
   getAllActiveCurrencies() {
-    this.discountService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.currenciesFltrArr = res['result'];
@@ -110,7 +111,7 @@ export class EditDiscountComponent implements OnInit {
 
   /**********************************API Method to Get All active Periods*********************/
   getAllActivePeriods() {
-    this.discountService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.periodsFltrArr = res['result'];
@@ -199,7 +200,7 @@ export class EditDiscountComponent implements OnInit {
       'discount_value': parseFloat(this.f.discountValue.value), 
       'discount_desc': this.f.discountDesc.value, 
       'discount_period': this.f.discountPeriod.value,
-      'status': this.f.discountStatus.value, 
+      'status': this.f.discountStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'promos': this.updatePromoArr, 
     };
     this.discountService.editDiscount(this.discountId,dataObj).then(
@@ -277,4 +278,14 @@ export class EditDiscountComponent implements OnInit {
       return this.tmpAllPromoCodeData.filter(t=>t.id ==promoId)[0];
     }
   }
+
+  discountType(){
+    let discountTypeValue = this.f.discountType.value;
+    if(discountTypeValue == 'PERCENTAGE'){
+      this.showCurrency = false;
+    }else{
+      this.showCurrency = true;
+    }
+  }
+  
 }

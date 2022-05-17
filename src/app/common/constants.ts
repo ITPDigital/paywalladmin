@@ -6,6 +6,18 @@ export class Constants {
   public static STATUS_INACTIVE : number = 0;
   public static VERSION_ADD : number = 1;
   public static VERSION_EDIT : number = 2;
+
+  //nav
+  public static NAV_BRANDS : string = "brands";
+  public static NAV_CUSTOMERS : string = "customers";
+  public static NAV_DASHBOARD : string = "dashboard";
+  public static NAV_WIDGETS : string = "widgets";
+  public static NAV_REPORTS : string = "reports";
+  public static NAV_CONFIG : string = "config";
+  public static NAV_PRODUCTS : string = "products";
+  public static NAV_PLANS : string = "plans";
+  public static NAV_DISCOUNTS : string = "discounts";
+  public static NAV_PROMO : string = "promo";
   
   //Brands constants
   public static VIEW_BRAND_FAILURE_MSG : string = 'Failed to load the brand details. Please try again later.';
@@ -70,5 +82,18 @@ export class Constants {
   public static DEL_PLAN_SUCCESS_MSG : string = 'Plan status has been updated successfully.';
   public static DEL_PLAN_FAILURE_MSG : string = 'Failed to Update Plan Status. Please try again later.';
 
-    
+  //Widgets constants
+  public static WIDGET_TYPE_DATA : any[] = [
+      {id:'1', name:'Paywall'},
+      {id:'2', name:'Notifier'}
+  ];
+  public static WIDGET_TYPE_PAYWALL : number = 1;
+  public static WIDGET_ACTION_TYPE_CUSTOM_COUNT : number = 1;
+  public static ADD_WIDGET_SUCCESS_MSG : string = 'New widget has been created successfully.';
+  public static ADD_WIDGET_FAILURE_MSG : string = 'Failed to create new widget. Please try again later.';
+  public static DEL_WIDGET_FAILURE_MSG : string = 'Failed to Update Widget Status. Please try again later.';
+  public static DEL_WIDGET_SUCCESS_MSG : string = 'Widget status has been updated successfully.';
+  public static UPDATE_WIDGET_FAILURE_MSG : string = 'Failed to update widget. Please try again later.';
+  public static UPDATE_WIDGET_SUCCESS_MSG : string = 'Widget details updated successfully.';
+  public static UPDATE_WIDGET_RULE_EXISTS_MSG : string = 'Rule already exists. Please try new rule or update the existing rule.';
   }

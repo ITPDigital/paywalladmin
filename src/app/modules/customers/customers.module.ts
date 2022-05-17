@@ -8,18 +8,15 @@ import { CommonModule } from '@angular/common';
 import { CustomersComponent } from './customers/customers.component';
 import { AllCustomersComponent } from './all-customers/all-customers.component';
 import { EditCustomerComponent } from './edit-customer/edit-customer.component';
-import { ViewCustomerComponent } from './view-customer/view-customer.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 
 import { CustomersRoutingModule } from './customers-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 //Services
 import { CustomersService } from '../../services/customers.service';
-//Directives
-import { NumberOnlyDirective } from '../../directives/numberOnly';
 
 @NgModule({
-  declarations: [CustomersComponent,AllCustomersComponent, EditCustomerComponent, ViewCustomerComponent, AddCustomerComponent],
+  declarations: [CustomersComponent,AllCustomersComponent, EditCustomerComponent, AddCustomerComponent],
   imports: [
     CommonModule,
     CustomersRoutingModule,

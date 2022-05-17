@@ -12,18 +12,7 @@ export class CustomersService {
   private url = environment.api_url;
 
   constructor(private http: HttpClient, private commonService : CommonService) { }
-
-  /*********************************API to Get all active brand details**************************************** */
-  getAllActiveBrands(status:number) {
-    return this.http
-      .get(`${this.url}/v1/brands/${status}`, {headers: contentHeaders})
-      .toPromise()
-      .then(response => {
-        return response;
-      })
-      .catch(this.commonService.handleError);
-  }
-
+  
   /*********************************API to Get all customer details**************************************** */
   getAllCustomers(brandId:number) {
     return this.http

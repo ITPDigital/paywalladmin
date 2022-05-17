@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { contentHeaders } from '../common/headers';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  private url = environment.api_url;
+  constructor(private http: HttpClient) { }
 
   //Top Nav Title Service
   private pageTtlSrc = new BehaviorSubject<string>("Paywall Admin");
@@ -20,7 +22,7 @@ export class CommonService {
   }
 
   //Sub Nav link activationService
-  activeLink: BehaviorSubject<string> = new BehaviorSubject('users');
+  activeLink: BehaviorSubject<string> = new BehaviorSubject('brands');
   activeLink$ = this.activeLink.asObservable();
 
   /***************************************Method to Activate Selected Sub Nav********************************************************** */
@@ -66,6 +68,39 @@ export class CommonService {
     } else {
       return '';
     }
+  }
+
+  /*********************************API to Get all active brand details**************************************** */
+  getAllActiveBrands(status:number) {
+    return this.http
+      .get(`${this.url}/v1/brands/${status}`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
+  /*********************************API to Get all active period constant details**************************************** */
+  getAllActivePeriods(status:number) {
+    return this.http
+      .get(`${this.url}/v1/constants/periods/${status}`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
+  /*********************************API to Get all active currencies constant details**************************************** */
+  getAllActiveCurrencies(status:number) {
+    return this.http
+      .get(`${this.url}/v1/constants/currencies/${status}`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.handleError);
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Title } from '@angular/platform-browser';
+import { Constants } from '../../../common/constants';
 
 @Component({
   selector: 'app-promo-codes',
@@ -10,6 +11,7 @@ import { Title } from '@angular/platform-browser';
 export class PromoCodesComponent implements OnInit {
 
   constructor(private commonService: CommonService, private cdr: ChangeDetectorRef, private titleService: Title) {
+    this.commonService.subNavSelect(Constants.NAV_PROMO);
   }
 
   ngAfterContentChecked() {

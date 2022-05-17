@@ -1,0 +1,90 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-3 col-sm-12">
+                <span>Groups: </span>
+                <select (change)="getAllWidgetsByGroup($event.target.value)" [(ngModel)]="selectedGroup">
+                    <option *ngFor='let group of allWidgetGroups;let i = index' value="{{group.id}}">{{group.group_name}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-5 col-sm-12 setTblSrchDiv text-right">
+                <input class="form-control setTblSrcFld" type="search" placeholder="Search Name" aria-label="Search" (keyup)="filterSrchStr($event)">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 setAddNewBtnDiv">
+                <a class="btn btn-primary setAddNewBtn" routerLink="/widgets/add" role="button">+ Add New Widget</a>
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
+    <div class="card-body">
+        <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <ngx-datatable *ngIf="!showLoadingSpinner" class="material container1 striped" [rows]="rows" [columnMode]="'flex'" [headerHeight]="50" [limit]="10" [footerHeight]="50" rowHeight="auto">
+            <ngx-datatable-column name="S.No" [flexGrow]="0.75">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template prop="rowIndex"> 
+                    {{(rowIndex + 1)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Brand Name" [flexGrow]="1" prop="brand_name">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.brand_name }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Type" [flexGrow]="1" prop="type">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row.type == 1">Paywall</span>
+                    <span *ngIf="row.type == 2">Notifier</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Display On" [flexGrow]="1.5" prop="action_name">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row.metering_action_id == 5">{{row.action_name}} - {{row.custom_count}}</span>
+                    <span *ngIf="row.metering_action_id != 5">{{row.action_name}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" [flexGrow]="2.5" prop="name">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.name}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Logged In?" [flexGrow]="1" prop="is_logged_in" *ngIf="selectedGroup==2">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row.is_logged_in == 0">No</span>
+                    <span *ngIf="row.is_logged_in == 1">Yes</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created on" [flexGrow]="1.5" prop="created_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.created_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Updated on" [flexGrow]="1.5" prop="updated_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.updated_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [flexGrow]="1" prop="is_active">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <label class="switch">
+                        <input type="checkbox" *ngIf="row.is_active == 1" class="primary" checked="checked" (change)="updateWidgetStatus(row.id, $event)">
+                        <input type="checkbox" *ngIf="row.is_active == 0" class="primary" (change)="updateWidgetStatus(row.id, $event)">
+                        <span class="slider round"></span>
+                    </label>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <!--<a routerLink="/customers/view/{{row.id}}" class="">
+                        <i class="nav-icon fas fa-eye viewDataImg"></i>
+                    </a>-->
+                    <a routerLink="/widgets/edit/{{row.id}}" class="">
+                        <img src="../../../assets/ic-mode-edit.svg" alt="Edit" class="editDataImg"/>
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+
+</div>
+    

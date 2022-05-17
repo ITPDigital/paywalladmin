@@ -38,7 +38,7 @@ export class AddPromoCodeComponent implements OnInit {
       promoDesc: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
       endDate: [''],
-      promocodeStatus: [1]
+      promocodeStatus: [true]
     });
   }
 
@@ -53,7 +53,14 @@ export class AddPromoCodeComponent implements OnInit {
         return;
     }
     this.loading = true;
-    this.promoCodeService.addNewPromocode(this.f.promoCode.value, this.f.promoName.value, this.f.promoDesc.value, this.f.startDate.value, this.f.endDate.value, this.f.promocodeStatus.value).then(
+    let dataObj = {};
+    dataObj['promo_code'] = this.f.promoCode.value;
+    dataObj['promo_name'] = this.f.promoName.value;
+    dataObj['promo_desc'] = this.f.promoDesc.value;
+    dataObj['start_date'] = this.f.startDate.value;
+    dataObj['end_date'] = this.f.endDate.value;
+    dataObj['status'] = this.f.promocodeStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    this.promoCodeService.addNewPromocode(dataObj).then(
       res => {
           this.loading = false;
           let resStatus = res['status']
@@ -81,7 +88,7 @@ export class AddPromoCodeComponent implements OnInit {
       error => {
         this.alerts = [{
           type: 'danger',
-          msg: error.json().message,
+          msg: error,
           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
         }];
           this.loading = false;

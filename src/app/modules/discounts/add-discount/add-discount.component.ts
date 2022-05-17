@@ -23,6 +23,7 @@ export class AddDiscountComponent implements OnInit {
   submitted = false;
   loading = false;
   alerts: any[];
+  showCurrency : boolean =  false;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -44,12 +45,12 @@ export class AddDiscountComponent implements OnInit {
       discountName: ['', [Validators.required]],
       displayName: ['', [Validators.required]],
       discountType: ['PERCENTAGE', [Validators.required]],
-      discountValue: ['', [Validators.required]],
+      discountValue: ['0.00', [Validators.required]],
       discountPeriod: ['None', [Validators.required]],
       currency: [''],
       discountDesc: [''],
       promoCodes: [''],
-      discountStatus: [1]
+      discountStatus: [true]
     });
   }
 
@@ -79,7 +80,7 @@ export class AddDiscountComponent implements OnInit {
 
   /**********************************API Method to Get All active Currencies*********************/
   getAllActiveCurrencies() {
-    this.discountService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.currenciesFltrArr = res['result'];
@@ -102,7 +103,7 @@ export class AddDiscountComponent implements OnInit {
 
   /**********************************API Method to Get All active Periods*********************/
   getAllActivePeriods() {
-    this.discountService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.periodsFltrArr = res['result'];
@@ -142,7 +143,7 @@ export class AddDiscountComponent implements OnInit {
       'discount_value': parseFloat(this.f.discountValue.value), 
       'discount_desc': this.f.discountDesc.value, 
       'discount_period': this.f.discountPeriod.value,
-      'status': this.f.discountStatus.value, 
+      'status': this.f.discountStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'promos': this.selPromoIds, 
     };
     this.loading = true;
@@ -204,4 +205,14 @@ export class AddDiscountComponent implements OnInit {
       return this.tmpAllPromoCodeData.filter(t=>t.id ==promoId)[0];
     }
   }
+
+  discountType(){
+    let discountTypeValue = this.f.discountType.value;
+    if(discountTypeValue == 'PERCENTAGE'){
+      this.showCurrency = false;
+    }else{
+      this.showCurrency = true;
+    }
+  }
+
 }

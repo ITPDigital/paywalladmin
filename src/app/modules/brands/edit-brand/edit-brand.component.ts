@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute,Router} from '@angular/router';
 import { BrandsService } from '../../../services/brands.service';
 import { Constants } from '../../../common/constants';
@@ -24,16 +23,13 @@ export class EditBrandComponent implements OnInit {
     private brandService: BrandsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router, 
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
   
   ngOnInit(): void {
-    //this.titleService.setTitle("Add Brand");
-    //this.commonService.setTitle("Add Brands");
     this.brandId = this.route.snapshot.paramMap.get('id');
     /****************Add New User Form Validation****************** */
     this.editBrandForm = this.formBuilder.group({
@@ -42,7 +38,7 @@ export class EditBrandComponent implements OnInit {
       maxLim: ['', [Validators.required]],
       offLim: ['', [Validators.required]],
       meteringPeriod: ['MONTH1', [Validators.required]],
-      brandStatus: [0]
+      brandStatus: [false]
     });
     this.getBrandDetail(this.brandId);
   }
@@ -88,7 +84,15 @@ export class EditBrandComponent implements OnInit {
         return;
     }
     this.loading = true;
-    this.brandService.editBrand(this.f.brandName.value, this.f.domainName.value, this.f.maxLim.value, this.f.offLim.value, this.f.meteringPeriod.value, this.f.brandStatus.value, this.brandId).then(
+
+    let dataObj = {};
+    dataObj['brand_name'] = this.f.brandName.value;
+    dataObj['domain_name'] = this.f.domainName.value;
+    dataObj['max_limit'] = this.f.maxLim.value;
+    dataObj['offered_limit'] = this.f.offLim.value;
+    dataObj['metering_period'] = this.f.meteringPeriod.value;
+    dataObj['status'] = this.f.brandStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    this.brandService.editBrand(this.brandId, dataObj).then(
       res => {
           this.loading = false;
           let resStatus = res['status']

@@ -24,28 +24,6 @@ export class PlansService {
       .catch(this.commonService.handleError);
   }
 
-  /*********************************API to Get all active period constant details**************************************** */
-  getAllActivePeriods(status:number) {
-    return this.http
-      .get(`${this.url}/v1/constants/periods/${status}`, {headers: contentHeaders})
-      .toPromise()
-      .then(response => {
-        return response;
-      })
-      .catch(this.commonService.handleError);
-  }
-
-  /*********************************API to Get all active currencies constant details**************************************** */
-  getAllActiveCurrencies(status:number) {
-    return this.http
-      .get(`${this.url}/v1/constants/currencies/${status}`, {headers: contentHeaders})
-      .toPromise()
-      .then(response => {
-        return response;
-      })
-      .catch(this.commonService.handleError);
-  }
-
   /*********************************API to Get all all active plan details**************************************** */
   getAllActivePlans(status:number) {
     return this.http

@@ -4,7 +4,6 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { ChangepwdComponent } from './components/changepwd/changepwd.component';
-import { WidgetsComponent } from './components/widgets/widgets.component';
 import { ConfigurationsComponent } from './components/configurations/configurations.component';
 import { AuthGuard } from './common/auth.guard';
 
@@ -13,7 +12,6 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'reports', component: ReportsComponent, canActivate: [AuthGuard]},
   {path: 'changepwd', component: ChangepwdComponent, canActivate: [AuthGuard]},
-  {path: 'widgets', component: WidgetsComponent, canActivate: [AuthGuard]},
   {path: 'config', component: ConfigurationsComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: 'dashboard', pathMatch: 'full', canActivate: [AuthGuard]}
 ];

@@ -10,9 +10,9 @@
             <div class="form-group row">
               <label for="discountName" class="col-sm-2 col-form-label required-field">Name</label>
               <div class="col-sm-10 col-lg-5">
-                <input type="text" class="form-control" formControlName="discountName"  [ngClass]="{ 'is-invalid': submitted && f.discountName.errors }" placeholder="Enter Product Name">
+                <input type="text" class="form-control" formControlName="discountName"  [ngClass]="{ 'is-invalid': submitted && f.discountName.errors }" placeholder="Enter Discount Name">
                 <div *ngIf="submitted && f.discountName.errors" class="invalid-feedback">
-                    <div *ngIf="f.discountName.errors.required">Product Name is required</div>
+                    <div *ngIf="f.discountName.errors.required">Discount Name is required</div>
                 </div>
               </div>
               
@@ -29,7 +29,7 @@
             <div class="form-group row">
               <label for="discountType" class="col-sm-2 col-form-label required-field">Discount Type</label>
               <div class="col-sm-10 col-lg-5">
-                <select class="form-control" formControlName="discountType" [ngClass]="{ 'is-invalid': submitted && f.discountType.errors }">
+                <select class="form-control" formControlName="discountType" (change)="discountType()" [ngClass]="{ 'is-invalid': submitted && f.discountType.errors }">
                   <option value="AMOUNT">Amount</option>
                   <option value="PERCENTAGE">Percentage</option>
                 </select>
@@ -38,10 +38,10 @@
               </div>
               </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="showCurrency"> 
               <label for="currency" class="col-sm-2 col-form-label">Currency</label>
               <div class="col-sm-10 col-lg-5">
-                <select class="form-control" formControlName="currency">
+                <select class="form-control" formControlName="currency" > 
                   <option value="">- Select a currency -</option>
                   <option *ngFor='let currency of currenciesFltrArr;let i = index' value="{{currency.disp_id}}">{{currency.description}}</option>
                 </select>
@@ -50,7 +50,7 @@
             <div class="form-group row">
               <label for="discountValue" class="col-sm-2 col-form-label required-field">Discount Value</label>
               <div class="col-sm-10 col-lg-5">
-                <input type="text" class="form-control" formControlName="discountValue" [ngClass]="{ 'is-invalid': submitted && f.discountValue.errors }" placeholder="Enter Discount Value">
+                <input type="text" class="form-control" formControlName="discountValue" [ngClass]="{ 'is-invalid': submitted && f.discountValue.errors }" placeholder="Enter Discount Value" appTwoDigitDecimalNumbers/>
                 <div *ngIf="submitted && f.discountValue.errors" class="invalid-feedback">
                     <div *ngIf="f.discountValue.errors.required">Discount Value is required</div>
                 </div>

@@ -27,8 +27,9 @@ import { TwoDigitDecimaNumberDirective } from '../../directives/two-digit-decima
     NgxDatatableModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
   ],
   providers: [PlansService]
 })
 export class PlansModule { }
+

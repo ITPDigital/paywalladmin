@@ -110,6 +110,21 @@ button:focus {
 			}
 		}
 	}
+	.datatable-footer {
+		.datatable-footer-inner {
+			@media(max-width: 599px) {
+				flex-direction: column;
+				height: auto!important;
+			}
+		}
+	}
+	&.material {
+		.datatable-footer {
+			.datatable-pager {
+				padding-bottom: 10px;
+			}
+		}
+	}
 }
 .table.selTbl thead th {
 	font-size: 14px;
@@ -242,9 +257,16 @@ input {
 
 /*******************Search button style************************/
 .setTblSrchDiv {
-	margin-top: 7px;
 	position: relative;
 	padding-right: 0;
+	@media(min-width: 600px) and (max-width: 991px) {
+		display: inline-block;
+    	max-width: calc(100% - 196px);
+	}
+	@media(max-width: 767px) {
+		margin-top: 7px;
+	}
+	
 	input.setTblSrcFld {
 		border-radius: 2px;
 		border: solid 1px #e9eff4;
@@ -253,6 +275,12 @@ input {
 		background-color: #ffffff;
 		width: 70%;
 		float: right;
+		@media (min-width: 600px) and (max-width: 1199px) {
+			width: 100%;
+		}
+		@media (max-width: 767px) {
+			float: initial;
+		}
 		&::placeholder {
 			font-size: 11px;
 			color:#97a4b1;
@@ -267,8 +295,15 @@ input {
 }
 
 .setAddNewBtnDiv {
-	margin-top: 7px;
 	text-align: right;
+	@media(min-width: 600px) and (max-width: 991px) {
+		display: inline-block;
+    	max-width: 141px;
+	}
+	@media(max-width: 767px) {
+		margin-top: 7px;
+		text-align: left;
+	}
 	.setAddNewBtn {
 		font-size: 15px;
 		@media (max-width: 599px) {
@@ -294,5 +329,24 @@ form .form-sub-ttl {
 @media (max-width:991px) {
 	.inner-container {
 		margin-left: 0;
+	}
+}
+
+.ng-tns-0-0 {
+	.custom-card {
+		.card-header {
+			.row {
+				@media (min-width: 992px) and (max-width: 1440px) {
+					&>.col-lg-7 {
+						flex: 0 0 32.333333%;
+						max-width: 32.333333%;
+					}
+					.col-lg-3 {
+						flex: 0 0 40%;
+    					max-width: 40%;
+					}
+				}
+			}
+		}
 	}
 }

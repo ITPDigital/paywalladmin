@@ -36,10 +36,9 @@ export class BrandsService {
   }
 
   /**********************************API to Add New Brand**********************************************/
-  addNewBrand(brand_name : string, domain_name : string, max_limit : number, offered_limit : number, metering_period : string, status : number){
-    let body = JSON.stringify({ brand_name, domain_name, max_limit, offered_limit, metering_period, status });
+  addNewBrand(dataObj){
     return this.http
-      .post(`${this.url}/v1/brands/add`, body, {headers: contentHeaders})
+      .post(`${this.url}/v1/brands/add`, dataObj, {headers: contentHeaders})
       .toPromise()
       .then(response => {
         return response;
@@ -48,10 +47,9 @@ export class BrandsService {
   }
 
   /**********************************API to Edit Brand detail**********************************************/
-  editBrand(brand_name : string, domain_name : string, max_limit : number, offered_limit : number, metering_period : string, status : number, brandId : string){
-    let body = JSON.stringify({ brand_name, domain_name, max_limit, offered_limit, metering_period, status });
+  editBrand(brandId : string, dataObj){
     return this.http
-      .post(`${this.url}/v1/brands/update/${brandId}`, body, {headers: contentHeaders})
+      .post(`${this.url}/v1/brands/update/${brandId}`, dataObj, {headers: contentHeaders})
       .toPromise()
       .then(response => {
         return response;

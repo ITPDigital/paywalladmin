@@ -1,16 +1,16 @@
 <div class="inner-container card custom-card">
     <div class="card-header">
         <div class="row">
-            <div class="col-lg-7 col-sm-12">
+            <div class="col-lg-7 col-md-4 col-sm-12">
                 <span>Brands: </span>
                 <select (change)="getAllCustomers($event.target.value)" [(ngModel)]="selectedBrand">
                     <option *ngFor='let brand of allActiveBrands;let i = index' value="{{brand.id}}">{{brand.brand_name}}</option>
                 </select>
             </div>
-            <div class="col-lg-3 col-sm-12 setTblSrchDiv text-right">
+            <div class="col-lg-3 col-md-4 col-sm-12 setTblSrchDiv text-right">
                 <input class="form-control setTblSrcFld" type="search" placeholder="Search Email/First Name/Last Name" aria-label="Search" (keyup)="filterSrchStr($event)">
             </div>
-            <div class="col-lg-2 col-sm-12 setAddNewBtnDiv">
+            <div class="col-lg-2 col-md-3 col-sm-12 setAddNewBtnDiv">
                 <a class="btn btn-primary setAddNewBtn" routerLink="/customers/add" role="button">+ Add New Customer</a>
             </div>
         </div>

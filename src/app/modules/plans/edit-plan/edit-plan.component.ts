@@ -20,6 +20,7 @@ export class EditPlanComponent implements OnInit {
   currenciesFltrArr: any[];
   selDiscountIds:any = [];
   updateDiscArr:any = [];
+  showTrialPrice:boolean = false;
 
   planId: string;
   editPlanForm: FormGroup;
@@ -66,18 +67,18 @@ export class EditPlanComponent implements OnInit {
       trialPrice: [{value:'',disabled: true}],
       finalPrice: [{value:'',disabled: true}],
       promoCodeDiscounts: [''],
-      planStatus: [1],
-      planAutoRenew: [1],
-      compGiftStatus: [0],
+      planStatus: [true],
+      planAutoRenew: [true],
+      compGiftStatus: [false],
       compGiftDesc: [''],
-      compGiftConsentStatus: [0],
+      compGiftConsentStatus: [false],
       features: this.formBuilder.array([])
     });
   }
 
   /**********************************API Method to Get All active Periods*********************/
   getAllActivePeriods() {
-    this.plansService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActivePeriods(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.periodsFltrArr = res['result'];
@@ -100,7 +101,7 @@ export class EditPlanComponent implements OnInit {
 
   /**********************************API Method to Get All active Currencies*********************/
   getAllActiveCurrencies() {
-    this.plansService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
+    this.commonService.getAllActiveCurrencies(Constants.STATUS_ACTIVE).then(
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.currenciesFltrArr = res['result'];
@@ -180,6 +181,8 @@ export class EditPlanComponent implements OnInit {
         if(res['code']==1 && res['status']==1) {//success
             this.showLoadingSpinner = false;
             let data = res.result[0];
+            let planDiscountId = data['discount_id'];
+            let trialPrice = data['trial_price'];
             this.editPlanForm.controls['planID'].setValue(data['id']);
             this.editPlanForm.controls['planName'].setValue(data['plan_name']);
             this.editPlanForm.controls['displayName'].setValue(data['plan_display_name']);
@@ -191,17 +194,20 @@ export class EditPlanComponent implements OnInit {
             this.editPlanForm.controls['offset'].setValue(data['offset']);
             this.editPlanForm.controls['currency'].setValue(data['currency']);
             this.editPlanForm.controls['basicPrice'].setValue(data['base_price']);
-            this.editPlanForm.controls['discount'].setValue(data['discount_id']);
+            this.editPlanForm.controls['discount'].setValue(planDiscountId);
             this.editPlanForm.controls['taxCode'].setValue(data['tax_code']);
             this.editPlanForm.controls['taxType'].setValue(data['tax_type']);
             this.editPlanForm.controls['taxValue'].setValue(data['tax_value']);
-            this.editPlanForm.controls['trialPrice'].setValue(data['trial_price']);
             this.editPlanForm.controls['finalPrice'].setValue(data['final_price']);
             this.editPlanForm.controls['planStatus'].setValue(parseInt(data['is_active']));
             this.editPlanForm.controls['planAutoRenew'].setValue(parseInt(data['auto_renew']));
             this.editPlanForm.controls['compGiftStatus'].setValue(parseInt(data['is_comp_gift_enabled']));
             this.editPlanForm.controls['compGiftDesc'].setValue(data['comp_gift_desc']);
             this.editPlanForm.controls['compGiftConsentStatus'].setValue(parseInt(data['show_comp_gift_consent']));
+            if(parseInt(planDiscountId)!=0 && parseFloat(trialPrice)!=0 && parseFloat(trialPrice)!=0.00) {
+              this.showTrialPrice = true;
+              this.editPlanForm.controls['trialPrice'].setValue(trialPrice);
+            }
             let mappedDiscountArr = res.result.discounts;
             let discountId =0;
             for(let i=0;i<mappedDiscountArr.length;i++) {
@@ -249,7 +255,7 @@ export class EditPlanComponent implements OnInit {
       'plan_desc' : this.f.proDesc.value, 
       'contract_length': this.f.contractLength.value, 
       'renewal_plan': this.f.renewalPlan.value, 
-      'auto_renew': this.f.planAutoRenew.value, 
+      'auto_renew': this.f.planAutoRenew.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'frequency': this.f.frequency.value, 
       'offset': this.f.offset.value, 
       'currency': this.f.currency.value, 
@@ -259,10 +265,10 @@ export class EditPlanComponent implements OnInit {
       'tax_value': this.f.taxValue.value, 
       'plan_discount': this.f.discount.value, 
       'payment_type': this.f.paymentType.value, 
-      'is_comp_gift_enabled': this.f.compGiftStatus.value, 
+      'is_comp_gift_enabled': this.f.compGiftStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'comp_gift_desc': this.f.compGiftDesc.value, 
-      'show_comp_gift_consent': this.f.compGiftConsentStatus.value, 
-      'status': this.f.planStatus.value, 
+      'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'features': [], 
       'discounts': this.updateDiscArr
     };
@@ -297,7 +303,7 @@ export class EditPlanComponent implements OnInit {
       });
   }
 
-  addPaymentPlan() {
+  addPromoDiscount() {
     let discountId : number = parseInt(this.f.promoCodeDiscounts.value);
     this.editPlanForm.controls['promoCodeDiscounts'].setValue(0);
     if(discountId && discountId!=0 && !this.selPromoDiscArr.some(el => el.id === discountId)) {
@@ -326,7 +332,7 @@ export class EditPlanComponent implements OnInit {
     return (<FormArray> this.editPlanForm.get('features')).controls
   }
 
-  deletePlanRow(index:any, discountId) {
+  deletePromoDiscountRow(index:any, discountId) {
     this.selPromoDiscArr.splice(index, 1);
     this.setUpdateDiscArr(discountId, Constants.VERSION_EDIT, Constants.STATUS_INACTIVE);
     const selPlanObj= this.getDiscountDet(parseInt(discountId));
@@ -355,4 +361,56 @@ export class EditPlanComponent implements OnInit {
       return this.tmpAllDiscountsData.filter(t=>t.id ==discountId)[0];
     }
   }
+
+  onTaxTypeChange() {
+    this.calculateFinalPrice();
+  }
+
+  onPriceChange(val: string): void {  
+    console.log(val);
+    this.calculateFinalPrice();
+  }
+
+  calculateFinalPrice() {
+    let basePrice = parseFloat(this.f.basicPrice.value);
+    let taxType = this.f.taxType.value;
+    let taxValue = parseFloat(this.f.taxValue.value);
+    let finalPrice : number = basePrice;
+    if(taxType=="AMOUNT") {
+      finalPrice = (basePrice + taxValue);
+    } else if(taxType=="PERCENTAGE") {
+      finalPrice += (basePrice * taxValue) / 100;
+    }
+    if(finalPrice) {
+      this.editPlanForm.controls['finalPrice'].setValue(finalPrice.toFixed(2));
+    }
+    let discountId = this.f.discount.value;
+    if(discountId!=0) {
+      this.calculateTrialPrice(discountId);
+    }
+  }
+
+  calculateTrialPrice(val:number) {
+    if(val!=0) {
+      this.showTrialPrice = true;
+      const selPlanObj= this.getDiscountDet(val);
+      let trialPrice = 0.00;
+      let finalPrice = parseFloat(this.f.finalPrice.value);
+      console.log("----discount---"+JSON.stringify(selPlanObj))
+      if(selPlanObj && finalPrice!=0 && finalPrice!=0.00) {
+        if(selPlanObj['discount_type']=="AMOUNT") {
+          trialPrice = finalPrice - selPlanObj['discount_value'];
+        } else if(selPlanObj['discount_type']=="PERCENTAGE") {
+          trialPrice = finalPrice - ((finalPrice * selPlanObj['discount_value'])/100);
+        }
+        if(trialPrice) {
+          this.editPlanForm.controls['trialPrice'].setValue(trialPrice.toFixed(2));
+        }
+      }
+    } else {
+      this.showTrialPrice = false;
+    }
+  }
+
+
 }

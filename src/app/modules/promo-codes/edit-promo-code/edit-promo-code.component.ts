@@ -88,7 +88,14 @@ export class EditPromoCodeComponent implements OnInit {
         return;
     }
     this.loading = true;
-    this.promoCodeService.editPromocode(this.f.promoCode.value, this.f.promoName.value, this.f.promoDesc.value, this.f.startDate.value, this.f.endDate.value, this.f.promocodeStatus.value, this.promoId).then(
+    let dataObj = {};
+    dataObj['promo_code'] = this.f.promoCode.value;
+    dataObj['promo_name'] = this.f.promoName.value;
+    dataObj['promo_desc'] = this.f.promoDesc.value;
+    dataObj['start_date'] = this.f.startDate.value;
+    dataObj['end_date'] = this.f.endDate.value;
+    dataObj['status'] = this.f.promocodeStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    this.promoCodeService.editPromocode(this.promoId, dataObj).then(
       res => {
           this.loading = false;
           let resStatus = res['status']

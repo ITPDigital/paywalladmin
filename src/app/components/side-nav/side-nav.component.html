@@ -15,7 +15,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                 <li class="nav-item">
-                    <a routerLink="/dashboard" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/dashboard" [class.active-link]="activeLink === 'dashboard'" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/brands/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/brands/all" [class.active-link]="activeLink === 'brands'" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
                             Brands
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/widgets" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/widgets/all" [class.active-link]="activeLink === 'widgets'" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Widgets
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/customers/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/customers/all" [class.active-link]="activeLink === 'customers'" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Customers
@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/products/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/products/all" [class.active-link]="activeLink === 'products'" class="nav-link">
                         <i class="nav-icon fas fa-university"></i>
                         <p>
                             Products
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/plans/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/plans/all" [class.active-link]="activeLink === 'plans'" class="nav-link">
                         <i class="nav-icon fas fa-credit-card"></i>
                         <p>
                             Payment Plans
@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/discounts/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/discounts/all" [class.active-link]="activeLink === 'discounts'" class="nav-link">
                         <i class="nav-icon fas fa-certificate"></i>
                         <p>
                             Discounts
@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/promocodes/all" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/promocodes/all" [class.active-link]="activeLink === 'promo'" class="nav-link">
                         <i class="nav-icon fas fa-bookmark"></i>
                         <p>
                             Promo codes
@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/reports" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/reports" [class.active-link]="activeLink === 'reports'" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Reports
@@ -87,7 +87,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/config" routerLinkActive="active-link" class="nav-link">
+                    <a routerLink="/config" [class.active-link]="activeLink === 'config'" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
                             Configurations

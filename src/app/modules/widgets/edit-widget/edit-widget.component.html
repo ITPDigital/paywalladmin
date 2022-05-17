@@ -1,0 +1,140 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/widgets/all" routerLinkActive="active-link" class="breadcrumb-link">Widgets</a> > Edit Widget</h5>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+      </div>
+      <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <form *ngIf="!showLoadingSpinner" class="col-lg-8 editWidgetForm mx-auto" [formGroup]="editWidgetForm" (ngSubmit)="editWidgetFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="brandName" class="col-sm-2 col-form-label required-field">Brand</label>
+              <div class="col-sm-10 col-lg-5">
+                <select class="form-control" formControlName="brandName">
+                  <option value="">Select Brand</option>
+                  <option *ngFor='let brand of allActiveBrands;let i = index' value="{{brand.id}}">{{brand.brand_name}}</option>
+                </select>
+                <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback">
+                    <div *ngIf="f.brandName.errors.required">Brand is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+                <label for="widgetType" class="col-sm-2 col-form-label required-field">Widget Type</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="widgetType" [ngClass]="{ 'is-invalid': submitted && f.widgetType.errors }" (change)="onWidgetTypeChange($event.target.value)">
+                    <option *ngFor='let widgetType of widgetTypeArr;let i = index' value="{{widgetType.id}}">{{widgetType.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && f.widgetType.errors" class="invalid-feedback">
+                      <div *ngIf="f.widgetType.errors.required">Widget Type is required</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="actionType" class="col-sm-2 col-form-label required-field">Action Type</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="actionType" [ngClass]="{ 'is-invalid': submitted && f.actionType.errors }" (change)="onWidgetActionChange($event.target.value)">
+                    <option *ngFor='let widgetAction of widgetActionFltrArr;let i = index' value="{{widgetAction.id}}">{{widgetAction.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && f.actionType.errors" class="invalid-feedback">
+                      <div *ngIf="f.actionType.errors.required">Action Type is required</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row" *ngIf="selWidgetAction==5">
+                <label for="customCount" class="col-sm-2 col-form-label">Custom count</label>
+                <div class="col-sm-10 col-lg-5">
+                  <input type="number" class="form-control" formControlName="customCount" placeholder="Enter Custom count">
+                </div>
+              </div>
+            <div class="form-group row">
+              <label for="widgetDesc" class="col-sm-2 col-form-label required-field">Description</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="widgetDesc"  [ngClass]="{ 'is-invalid': submitted && f.widgetDesc.errors }" placeholder="Enter Description">
+                <div *ngIf="submitted && f.widgetDesc.errors" class="invalid-feedback">
+                    <div *ngIf="f.widgetDesc.errors.required">Description is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="widgetName" class="col-sm-2 col-form-label required-field">Widget Name</label>
+              <div class="col-sm-10 col-lg-5">
+                <input type="text" class="form-control" formControlName="widgetName" [ngClass]="{ 'is-invalid': submitted && f.widgetName.errors }" placeholder="Enter Widget Name">
+                <div *ngIf="submitted && f.widgetName.errors" class="invalid-feedback">
+                    <div *ngIf="f.widgetName.errors.required">Widget Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="widgetGroup" class="col-sm-2 col-form-label required-field">Group</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="widgetGroup" [ngClass]="{ 'is-invalid': submitted && f.widgetGroup.errors }">
+                    <option value="0" disabled>Select a Group</option>
+                    <option *ngFor='let widgetGroup of widgetGroupArr;let i = index' value="{{widgetGroup.id}}">{{widgetGroup.group_name}}</option>
+                  </select>
+                  <div *ngIf="submitted && f.widgetGroup.errors" class="invalid-feedback">
+                      <div *ngIf="f.widgetGroup.errors.required">Widget Group is required</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="contentType" class="col-sm-2 col-form-label">Content Type</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="contentType">
+                    <option value="0">Select Content Type</option>
+                    <option *ngFor='let contentType of widgetCntTypeArr;let i = index' value="{{contentType.id}}">{{contentType.type}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="contentCategory" class="col-sm-2 col-form-label">Content Category</label>
+                <div class="col-sm-10 col-lg-5">
+                  <select class="form-control" formControlName="contentCategory">
+                    <option value="0">Select Content Category</option>
+                    <option *ngFor='let contentCategory of widgetCntCatArr;let i = index' value="{{contentCategory.id}}">{{contentCategory.category_name}}</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="isLoggedIn" class="col-sm-2 col-form-label">Is Logged In?</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" checked="checked" formControlName="isLoggedIn">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="widgetStatus" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" checked="checked" formControlName="widgetStatus">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="widgetContent" class="col-sm-2 col-form-label required-field">Widget Content</label>
+                <div class="col-sm-10 col-lg-10">
+                  <ckeditor [editor]="Editor" type="text" class="form-control ckeditor" formControlName="widgetContent" [ngClass]="{ 'is-invalid': submitted && f.widgetContent.errors }" placeholder="Enter Widget Content"></ckeditor>
+                  <!--<textarea type="text" class="form-control" formControlName="widgetContent" [ngClass]="{ 'is-invalid': submitted && f.widgetContent.errors }" placeholder="Enter Widget Content"></textarea>-->
+                  <div *ngIf="submitted && f.widgetContent.errors" class="invalid-feedback">
+                      <div *ngIf="f.widgetContent.errors.required">Widget Content is required</div>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group row editWidgetBtnSec offset-lg-2">
+              <div class="col-lg-2 editWidgetBtnSubSec">
+                <button type="submit" [disabled]="loading" class="btn btn-primary editWidgetBtn">Update</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+              <div class="col-lg-2 cancelBtnSec">
+                  <button type="button" class="btn btn-light cancelBtn" routerLink="/widgets/all">Cancel</button>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

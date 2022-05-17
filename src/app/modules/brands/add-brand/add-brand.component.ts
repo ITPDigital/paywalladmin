@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from './../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import { BrandsService } from '../../../services/brands.service';
 import { Constants } from '../../../common/constants';
@@ -21,8 +20,7 @@ export class AddBrandComponent implements OnInit {
     private commonService: CommonService, 
     private brandService: BrandsService,
     private cdr: ChangeDetectorRef, 
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -36,7 +34,7 @@ export class AddBrandComponent implements OnInit {
       maxLim: ['', [Validators.required]],
       offLim: ['', [Validators.required]],
       meteringPeriod: ['MONTH1', [Validators.required]],
-      brandStatus: [1]
+      brandStatus: [true]
     });
   }
 
@@ -51,7 +49,15 @@ export class AddBrandComponent implements OnInit {
         return;
     }
     this.loading = true;
-    this.brandService.addNewBrand(this.f.brandName.value, this.f.domainName.value, this.f.maxLim.value, this.f.offLim.value, this.f.meteringPeriod.value, this.f.brandStatus.value).then(
+    let dataObj = {};
+    dataObj['brand_name'] = this.f.brandName.value;
+    dataObj['domain_name'] = this.f.domainName.value;
+    dataObj['max_limit'] = this.f.maxLim.value;
+    dataObj['offered_limit'] = this.f.offLim.value;
+    dataObj['metering_period'] = this.f.meteringPeriod.value;
+    dataObj['status'] = this.f.brandStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+
+    this.brandService.addNewBrand(dataObj).then(
       res => {
           this.loading = false;
           let resStatus = res['status']
