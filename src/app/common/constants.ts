@@ -6,6 +6,8 @@ export class Constants {
   public static STATUS_INACTIVE : number = 0;
   public static VERSION_ADD : number = 1;
   public static VERSION_EDIT : number = 2;
+  public static STATUS_ACTIVE_LABEL : string = 'Active';
+  public static STATUS_INACTIVE_LABEL : string = 'Inactive';
 
   //nav
   public static NAV_BRANDS : string = "brands";
@@ -31,6 +33,10 @@ export class Constants {
   public static DEL_BRAND_SUCCESS_MSG : string = 'Brand status has been updated successfully.';
 
   //Customer constants
+  public static CUSTOMER_TYPE_REGULAR_USER : number = 1;
+  public static CUSTOMER_TYPE_FREE_USER : number = 2;
+  public static CUSTOMER_TYPE_CORP_USER : number = 3;
+  public static CUSTOMER_TYPE_STUDENT_USER : number = 4;
   public static VIEW_CUSTOMER_FAILURE_MSG : string = 'Failed to load the customer details. Please try again later.';
   public static UPDATE_CUSTOMER_EXISTS_MSG : string = 'Customer Email already exists.';
   public static UPDATE_CUSTOMER_NO_CHANGE_MSG : string = 'No changes has been made.';
@@ -49,8 +55,9 @@ export class Constants {
   public static UPDATE_PROMOS_SUCCESS_MSG : string = 'Promo code details updated successfully.';
   public static ADD_PROMOS_FAILURE_MSG : string = 'Failed to create new brand. Please try again later.';
   public static ADD_PROMOS_SUCCESS_MSG : string = 'New promo code has been created successfully.';
-  public static DEL_PRMOS_SUCCESS_MSG : string = 'Promo code status has been updated successfully.';
-  public static DEL_PRMOS_FAILURE_MSG : string = 'Failed to Update Promo code Status. Please try again later.';
+  public static DEL_PROMOS_SUCCESS_MSG : string = 'Promo code status has been updated successfully.';
+  public static DEL_PROMOS_FAILURE_MSG : string = 'Failed to Update Promo code Status. Please try again later.';
+  public static DEL_PROMOS_FAILURE_ALREADY_MAPPED_MSG : string = 'Failed to Update Promo code Status. Promo code is mapped with discount Id/Ids';
 
   // Products constants
   public static VIEW_PRODUCT_FAILURE_MSG : string = 'Failed to load the product details. Please try again later.';
@@ -88,7 +95,7 @@ export class Constants {
       {id:'2', name:'Notifier'}
   ];
   public static WIDGET_TYPE_PAYWALL : number = 1;
-  public static WIDGET_ACTION_TYPE_CUSTOM_COUNT : number = 1;
+  public static WIDGET_ACTION_TYPE_CUSTOM_COUNT : number = 5;
   public static ADD_WIDGET_SUCCESS_MSG : string = 'New widget has been created successfully.';
   public static ADD_WIDGET_FAILURE_MSG : string = 'Failed to create new widget. Please try again later.';
   public static DEL_WIDGET_FAILURE_MSG : string = 'Failed to Update Widget Status. Please try again later.';

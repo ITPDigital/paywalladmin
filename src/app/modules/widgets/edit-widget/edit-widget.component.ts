@@ -4,7 +4,7 @@ import { CommonService } from './../../../services/common.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { WidgetsService } from '../../../services/widgets.service';
 import { Constants } from '../../../common/constants';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as CustomBuild from '../ckeditor5-build-classic/build/ckeditor';
 
 @Component({
   selector: 'app-edit-widget',
@@ -24,10 +24,16 @@ export class EditWidgetComponent implements OnInit {
   widgetCntTypeArr : any[];
   widgetCntCatArr : any[];
   selWidgetAction : number;
+  selWidgetType : number;
   widgetId : string;
   showLoadingSpinner: boolean = true;
-  public Editor = ClassicEditor;
+  public Editor = CustomBuild;
+  public config={
+    toolbar:['heading','bold','italic','link','bulletedList','numberedList','|','outdent','indent','|','imageUpload','blockQuote','insertTable','mediaEmbed','undo','redo','sourceEditing'],
+    language:'en'
 
+  };
+  
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
     private widgetsService: WidgetsService,
@@ -74,7 +80,6 @@ export class EditWidgetComponent implements OnInit {
           this.widgetGroupArr = data['mtGroupObj'];
           this.widgetCntTypeArr = data['mtContTypeObj'];
           this.widgetCntCatArr = data['mtContCatObj'];
-          this.onWidgetTypeChange(Constants.WIDGET_TYPE_PAYWALL);
           this.getWidgetDetail(this.widgetId);
        } else {
           this.alerts = [{
@@ -123,9 +128,14 @@ export class EditWidgetComponent implements OnInit {
         if(res['code']==1 && res['status']==1) {//success
             this.showLoadingSpinner = false;
             let data = res.result[0];
-            this.editWidgetForm.controls['widgetType'].setValue(data['type']);
-            this.editWidgetForm.controls['actionType'].setValue(data['metering_action_id']);
-            if(data['metering_action_id']==Constants.WIDGET_ACTION_TYPE_CUSTOM_COUNT) {
+            let type = data['type'];
+            let actionType = data['metering_action_id'];
+            this.editWidgetForm.controls['widgetType'].setValue(type);
+            this.selWidgetType = type;
+            this.onWidgetTypeChange(type);
+            this.editWidgetForm.controls['actionType'].setValue(actionType);
+            this.selWidgetAction = actionType;
+            if(actionType==Constants.WIDGET_ACTION_TYPE_CUSTOM_COUNT) {
               this.editWidgetForm.controls['customCount'].setValue(data['custom_count']);
             }
             this.editWidgetForm.controls['widgetDesc'].setValue(data['description']);
@@ -213,6 +223,7 @@ export class EditWidgetComponent implements OnInit {
   }
 
   onWidgetTypeChange(type) {
+    this.selWidgetType = type;
     this.widgetActionFltrArr = this.widgetActionArr;
     const temp = this.widgetActionArr.filter(function (d) {
       return d.type == type;

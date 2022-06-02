@@ -41,7 +41,6 @@ export class AllPromoCodesComponent implements OnInit {
   
   /**********************************API Method to Get All the Promo Codes*********************/
   getAllPromocodes() {
-    let comp_id = localStorage.getItem('pw_compid');
     this.promoCodeService.getAllPromocodes().then(
       res=>{
        if(res['code']==1 && res['status']==1) {
@@ -98,13 +97,19 @@ export class AllPromoCodesComponent implements OnInit {
        if(res['code']==1 && res['status']==1) {//Success
          this.alerts = [{
            type: 'success',
-           msg: Constants.DEL_PRMOS_SUCCESS_MSG,
+           msg: Constants.DEL_PROMOS_SUCCESS_MSG,
            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
          }];
        } else {
+         let errorMsg = Constants.DEL_PROMOS_FAILURE_MSG;
+         let discArr = [];
+         if(res['status']==2) {
+            discArr = this.commonService.getIdsFromArr(discArr, res.result);
+            errorMsg = Constants.DEL_PROMOS_FAILURE_ALREADY_MAPPED_MSG+" '"+discArr+"'";
+         }
          this.alerts = [{
            type: 'danger',
-           msg: Constants.DEL_BRAND_FAILURE_MSG,
+           msg: errorMsg,
            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
          }];
        }

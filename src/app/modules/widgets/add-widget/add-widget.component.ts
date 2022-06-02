@@ -4,8 +4,7 @@ import { CommonService } from './../../../services/common.service';
 import { Router} from '@angular/router';
 import { WidgetsService } from '../../../services/widgets.service';
 import { Constants } from '../../../common/constants';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
+import * as CustomBuild from '../ckeditor5-build-classic/build/ckeditor';
 
 @Component({
   selector: 'app-add-widget',
@@ -25,8 +24,14 @@ export class AddWidgetComponent implements OnInit {
   widgetCntTypeArr : any[];
   widgetCntCatArr : any[];
   selWidgetAction : number;
-  public Editor = ClassicEditor;
-  public HtmlEmbed = HtmlEmbed;
+  selWidgetType : number = Constants.WIDGET_TYPE_PAYWALL;
+  public Editor = CustomBuild;
+  public config={
+    toolbar:['heading','bold','italic','link','bulletedList','numberedList','|','outdent','indent','|','imageUpload','blockQuote','insertTable','mediaEmbed','undo','redo','sourceEditing'],
+    language:'en'
+
+  };
+  
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -53,8 +58,8 @@ export class AddWidgetComponent implements OnInit {
       widgetGroup: ['0', [Validators.required]],
       contentType: ['0'],
       contentCategory: ['0'],
-      isLoggedIn: [1],
-      widgetStatus: [1],
+      isLoggedIn: [false],
+      widgetStatus: [true],
       widgetContent: ['', [Validators.required]]
     });
   }
@@ -171,6 +176,7 @@ export class AddWidgetComponent implements OnInit {
   }
 
   onWidgetTypeChange(type) {
+    this.selWidgetType = type;
     this.widgetActionFltrArr = this.widgetActionArr;
     const temp = this.widgetActionArr.filter(function (d) {
       return d.type == type;

@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { contentHeaders } from '../common/headers';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Constants } from '../common/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +102,19 @@ export class CommonService {
         return response;
       })
       .catch(this.handleError);
+  }
+
+  /*********************************Method to get status name based on status value**************************************** */
+  getStatusLabel(status:number) :string {
+    return status==Constants.STATUS_ACTIVE ? Constants.STATUS_ACTIVE_LABEL : Constants.STATUS_INACTIVE_LABEL;
+  }
+
+   /*********************************Method to get Ids from the array passed**************************************** */
+  getIdsFromArr(arr, data) {
+    for(let i=0;i<data.length;i++) {
+      arr.push(data[i].discount_id);
+    }
+    return arr;
   }
 
 }

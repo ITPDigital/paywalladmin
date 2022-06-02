@@ -28,6 +28,7 @@ export class EditPlanComponent implements OnInit {
   loading = false;
   alerts: any[];
   showLoadingSpinner = true;
+  planStatus : string;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -67,7 +68,7 @@ export class EditPlanComponent implements OnInit {
       trialPrice: [{value:'',disabled: true}],
       finalPrice: [{value:'',disabled: true}],
       promoCodeDiscounts: [''],
-      planStatus: [true],
+      //planStatus: [true],
       planAutoRenew: [true],
       compGiftStatus: [false],
       compGiftDesc: [''],
@@ -199,11 +200,22 @@ export class EditPlanComponent implements OnInit {
             this.editPlanForm.controls['taxType'].setValue(data['tax_type']);
             this.editPlanForm.controls['taxValue'].setValue(data['tax_value']);
             this.editPlanForm.controls['finalPrice'].setValue(data['final_price']);
-            this.editPlanForm.controls['planStatus'].setValue(parseInt(data['is_active']));
+            //this.editPlanForm.controls['planStatus'].setValue(parseInt(data['is_active']));
             this.editPlanForm.controls['planAutoRenew'].setValue(parseInt(data['auto_renew']));
             this.editPlanForm.controls['compGiftStatus'].setValue(parseInt(data['is_comp_gift_enabled']));
             this.editPlanForm.controls['compGiftDesc'].setValue(data['comp_gift_desc']);
             this.editPlanForm.controls['compGiftConsentStatus'].setValue(parseInt(data['show_comp_gift_consent']));
+            this.planStatus = this.commonService.getStatusLabel(parseInt(data['is_active']));
+            
+            let featuresData = res.result.features;
+            for(let i = 0; i < featuresData.length; i++){
+              let feature = res.result.features[i];
+              (this.editPlanForm.get('features') as FormArray).push(
+                this.formBuilder.control(feature['feature_desc'])
+              );
+            }
+
+
             if(parseInt(planDiscountId)!=0 && parseFloat(trialPrice)!=0 && parseFloat(trialPrice)!=0.00) {
               this.showTrialPrice = true;
               this.editPlanForm.controls['trialPrice'].setValue(trialPrice);
@@ -268,7 +280,7 @@ export class EditPlanComponent implements OnInit {
       'is_comp_gift_enabled': this.f.compGiftStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'comp_gift_desc': this.f.compGiftDesc.value, 
       'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
-      'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      //'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'features': [], 
       'discounts': this.updateDiscArr
     };
@@ -317,8 +329,9 @@ export class EditPlanComponent implements OnInit {
       }
     }
   }
-
+  
   addFeature(): void {
+    
     (this.editPlanForm.get('features') as FormArray).push(
       this.formBuilder.control(null)
     );
@@ -364,6 +377,7 @@ export class EditPlanComponent implements OnInit {
 
   onTaxTypeChange() {
     this.calculateFinalPrice();
+    console.log(this.f.features.value);
   }
 
   onPriceChange(val: string): void {  

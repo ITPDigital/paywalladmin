@@ -76,9 +76,12 @@ $background_color_4: #20a6fc;
 		}
 		.dropdown-menu {
 			min-width: auto;
-			left: -38px !important;
+			left: -78px !important;
 			border: solid 1px #e9eff4;
 			box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+			@media (max-width: 991px) {
+				left: -102px !important;	
+			}
 			.dropdown-item {
 				font-size: 13px;
 				&:hover {
@@ -99,7 +102,7 @@ $background_color_4: #20a6fc;
 				width: 0;
 				position: absolute;
 				pointer-events: none;
-				border-bottom-color: #ffffff;
+				border-bottom-color: #ddd;
 				border-width: 0 .5rem .5rem .5rem;
 			}
 		}

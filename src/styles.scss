@@ -58,9 +58,9 @@ button:focus {
 	border: 1px solid rgba(0, 0, 0, 0.125);
     border-top: none;
 }
-.breadcrumb-link {
-	text-decoration: underline;
-}
+// .breadcrumb-link {
+// 	text-decoration: underline;
+// }
 /******************Common form styles**********************/
 .required-field:after {
     content: "*";
@@ -115,6 +115,13 @@ button:focus {
 			@media(max-width: 599px) {
 				flex-direction: column;
 				height: auto!important;
+			}
+		}
+		.datatable-pager {
+			.pager {
+				@media(max-width: 599px) {
+					display: flex!important;
+				}
 			}
 		}
 	}

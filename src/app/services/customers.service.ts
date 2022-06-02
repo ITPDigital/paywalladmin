@@ -46,6 +46,17 @@ export class CustomersService {
       .catch(this.commonService.handleError);
   }
 
+  /*************************************API to Get Customer Roles*************************************** */
+  getAllCustomerRoles(status:number) : Promise<any> {
+    return this.http
+      .get(`${this.url}/v1/constants/roles/${status}`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.commonService.handleError);
+  }
+
   /**********************************API to Edit Customer details**********************************************/
   editCustomer(customerId,brandId,dataObj){
     return this.http

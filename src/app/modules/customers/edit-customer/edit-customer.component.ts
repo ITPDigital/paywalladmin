@@ -16,6 +16,7 @@ export class EditCustomerComponent implements OnInit {
   industriesArr : any[] = DropdownConstants.INDUSTRIES_DATA;
   jobTtlArr : any[] = DropdownConstants.JOB_TITLE_DATA;
   countriesArr : any[] = DropdownConstants.COUNTRIES_DATA;
+  userRolesArr : any[];
   editCustomerForm: FormGroup;
   submitted = false;
   loading = false;
@@ -26,20 +27,24 @@ export class EditCustomerComponent implements OnInit {
   brandId : string;
   showLoadingSpinner = true;
   selSubType : number;
+  userOrderArr: any[];
+  subProId : number;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
     private customersService: CustomersService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {
+      this.getAllActiveBrands();
+      this.getAllCustomerRoles();
+  }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
-    this.getAllActiveBrands();
     this.customerId = this.route.snapshot.paramMap.get('id');
     this.brandId = this.route.snapshot.paramMap.get('brandid');
     /****************Add New User Form Validation****************** */
@@ -97,6 +102,29 @@ export class EditCustomerComponent implements OnInit {
     );
   }
 
+  /**********************************API Method to Get All Customer roles*********************/
+  getAllCustomerRoles() {
+    this.customersService.getAllCustomerRoles(Constants.STATUS_ACTIVE).then(
+      res=>{
+       if(res['code']==1 && res['status']==1) {
+          this.userRolesArr = res['result'];
+       } else {
+          this.alerts = [{
+            type: 'danger',
+            msg: res['message'],
+            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+          }];
+       }
+      },error=>{
+          this.alerts = [{
+            type: 'danger',
+            msg: error['message'],
+            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+          }];
+      }
+    );
+  }
+
   // convenience getter for easy access to form fields
   get f() { return this.editCustomerForm.controls; }
 
@@ -106,8 +134,10 @@ export class EditCustomerComponent implements OnInit {
       res => {
         if(res['code']==1 && res['status']==1) {//success
             this.showLoadingSpinner = false;
-            let data = res.result;
-            this.editCustomerForm.controls['brandName'].setValue(data['brand']);
+            let data = res.result.userObj[0];
+            let order = res.result.orderObj[0];
+            this.userOrderArr = res.result.orderObj;
+            this.editCustomerForm.controls['brandName'].setValue(data['brand_id']);
             this.editCustomerForm.controls['firstName'].setValue(data['first_name']);
             this.editCustomerForm.controls['lastName'].setValue(data['last_name']);
             this.editCustomerForm.controls['email'].setValue(data['email']);
@@ -119,8 +149,6 @@ export class EditCustomerComponent implements OnInit {
             this.editCustomerForm.controls['subType'].setValue(data['access_role']);
             this.selSubType = data['access_role'];
             this.editCustomerForm.controls['dob'].setValue(this.commonService.formatDate(data['dob']));
-            //this.editCustomerForm.controls['subStartDate'].setValue(this.commonService.formatDate(data['subStartDate']));
-            //this.editCustomerForm.controls['subEndDate'].setValue(this.commonService.formatDate(data['subEndDate']));
             this.editCustomerForm.controls['gender'].setValue(data['gender']);
             this.editCustomerForm.controls['phone'].setValue(data['phone']);
             this.editCustomerForm.controls['markOptin'].setValue(data['marketing_optin']=="TRUE" ? 1: 0);
@@ -135,6 +163,14 @@ export class EditCustomerComponent implements OnInit {
             this.editCustomerForm.controls['shippingCountry'].setValue(data['gift_address_country']);
             this.editCustomerForm.controls['giftOpted'].setValue(data['comp_gift_consent']=="TRUE" ? 1: 0);
             this.userEmail = data['email'];
+            //if(order['status']==Constants.STATUS_ACTIVE &&  (this.selSubType== Constants.CUSTOMER_TYPE_FREE_USER || this.selSubType== Constants.CUSTOMER_TYPE_CORP_USER || this.selSubType== Constants.CUSTOMER_TYPE_STUDENT_USER) ) {
+             if(order) {
+              this.editCustomerForm.controls['subStartDate'].setValue(this.commonService.formatDate(order['start_date']));
+              this.editCustomerForm.controls['subEndDate'].setValue(this.commonService.formatDate(order['end_date']));
+              this.subProId = order['product_id'];
+             }
+             
+           // }
         } else {
           this.alerts = [{
             type: 'danger',
@@ -160,6 +196,7 @@ export class EditCustomerComponent implements OnInit {
         return;
     }
     this.loading = true;
+    let orderLen = this.userOrderArr.length;
     let dataObj = { 
       'first_name' : this.f.firstName.value, 
       'last_name' : this.f.lastName.value, 
@@ -185,6 +222,8 @@ export class EditCustomerComponent implements OnInit {
       'comp_gift_consent': this.f.giftOpted.value ==1 ? "TRUE" : "FALSE", 
       'sub_start_date': this.f.subStartDate.value, 
       'sub_end_date': this.f.subEndDate.value, 
+      'sub_id': orderLen > 0 ? this.userOrderArr[0].id : '', 
+      'sub_pro_id': orderLen > 0 ? this.userOrderArr[0].product_id : '', 
       'status': this.f.status.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE
     };
     this.customersService.editCustomer(this.customerId,this.brandId,dataObj).then(
@@ -198,7 +237,7 @@ export class EditCustomerComponent implements OnInit {
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
             setTimeout(()=>{
-              this.router.navigate(['/customers/all']);
+              //this.router.navigate(['/customers/all']);
             },2000);
           } else {
             let errorMsg = Constants.UPDATE_CUSTOMER_FAILURE_MSG;
@@ -225,7 +264,7 @@ export class EditCustomerComponent implements OnInit {
   }
 
   onSubTypeChange(type) {
-    this.selSubType = type;
+      this.selSubType = type;
   }
 
 }

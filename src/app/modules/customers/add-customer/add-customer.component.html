@@ -221,7 +221,8 @@
             <label for="shippingCountry" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Shipping Country</label>
             <div class="col-md-9 col-lg-5">
               <select class="form-control" formControlName="shippingCountry">
-                <option value="United Arab Emirates">United Arab Emirates</option>
+                <option value="">Please Select</option>
+                <option *ngFor='let country of countriesArr;let i = index' value="{{country.id}}">{{country.name}}</option>
               </select>
             </div>
           </div>
@@ -240,10 +241,7 @@
           <label for="subType" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Subscription Type</label>
           <div class="col-md-9 col-lg-5">
             <select class="form-control" formControlName="subType" (change)="onSubTypeChange($event.target.value)">
-              <option value="1" selected>Regular User</option>
-              <option value="2">Free User</option>
-              <option value="3">Corporate User</option>
-              <option value="4">Student User</option>
+              <option *ngFor='let role of userRolesArr;let i = index' value="{{role.id}}">{{role.access_role_name}}</option>
             </select>
             <div *ngIf="submitted && f.subType.errors" class="invalid-feedback">
                 <div *ngIf="f.subType.errors.required">Subscription Type is required</div>

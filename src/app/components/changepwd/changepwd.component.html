@@ -6,10 +6,10 @@
       <div *ngFor="let alert of alerts">
           <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
       </div>
-      <form class="col-lg-8 changePwdForm mx-auto" [formGroup]="changePwdForm" (ngSubmit)="changePwdFormSubmit()" novalidate>
+      <form class="col-lg-10 changePwdForm mx-auto" [formGroup]="changePwdForm" (ngSubmit)="changePwdFormSubmit()" novalidate>
         <div class="form-group row">
-          <label for="oldPwd" class="col-sm-2 col-form-label">Old Password</label>
-          <div class="col-sm-10 col-lg-5">
+          <label for="oldPwd" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Old Password</label>
+          <div class="col-md-9 col-lg-5">
             <input type="password" class="form-control" formControlName="oldPwd" [ngClass]="{ 'is-invalid': submitted && f.oldPwd.errors }" placeholder="Enter old password">
             <div *ngIf="submitted && f.oldPwd.errors" class="invalid-feedback">
                 <div *ngIf="f.oldPwd.errors.required">Old Password is required</div>
@@ -17,8 +17,8 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="newPwd" class="col-sm-2 col-form-label">New Password</label>
-          <div class="col-sm-10 col-lg-5">
+          <label for="newPwd" class="col-md-3 col-lg-4 col-xl-2 col-form-label">New Password</label>
+          <div class="col-md-9 col-lg-5">
             <input type="password" class="form-control" formControlName="newPwd" [ngClass]="{ 'is-invalid': submitted && f.newPwd.errors }" placeholder="Enter new password">
             <div *ngIf="submitted && f.newPwd.errors" class="invalid-feedback">
                 <div *ngIf="f.newPwd.errors.required">New Password is required</div>
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="confirmPwd" class="col-sm-2 col-form-label">Confirm Password</label>
-          <div class="col-sm-10 col-lg-5">
+          <label for="confirmPwd" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Confirm Password</label>
+          <div class="col-md-9 col-lg-5">
             <input type="password" class="form-control" formControlName="confirmPwd" [ngClass]="{ 'is-invalid': submitted && f.confirmPwd.errors }" placeholder="Confirm password">
             <div *ngIf="submitted && f.confirmPwd.errors" class="invalid-feedback">
                 <div *ngIf="f.confirmPwd.errors.required">Confirm Password is required</div>
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group row changePwdBtnSec offset-lg-2">
+        <div class="form-group row changePwdBtnSec offset-md-3 offset-lg-2">
             <div class="col-lg-2 changePwdBtnSubSec">
               <button type="submit" [disabled]="loading" class="btn btn-primary saveBtn">Done</button>
               <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />

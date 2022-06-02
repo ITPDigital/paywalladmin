@@ -23,9 +23,9 @@ $border_color_1: #20a6fc;
 		}
 		.editBrandForm {
 			.form-group {
-				@media (max-width: 767px) {
-					flex-direction: column;
-				}
+				// @media (max-width: 767px) {
+				// 	flex-direction: column;
+				// }
 			}
 			label {
 				/*font-size: 11px;
@@ -62,7 +62,6 @@ $border_color_1: #20a6fc;
 			.editBrandBtnSec {
 				margin-top: 1.75rem;
 				@media(max-width: 991px) {
-					display: flex;
 					justify-content: center;
 				}
 				.editBrandBtnSubSec,.cancelBtnSec {

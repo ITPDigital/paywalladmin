@@ -15,6 +15,16 @@
                 </div>
             </div>
             <div class="form-group row">
+              <label for="discountStatus" class="col-sm-2 col-form-label">Status</label>
+              <div class="col-sm-10 col-lg-5">
+                  <!--<label class="switch">
+                      <input type="checkbox" class="primary" checked="checked" formControlName="discountStatus">
+                      <span class="slider round"></span>
+                  </label>-->
+                  <span>{{discountStatus}}</span>
+              </div>
+          </div>
+            <div class="form-group row">
               <label for="discountName" class="col-sm-2 col-form-label required-field">Name</label>
               <div class="col-sm-10 col-lg-5">
                 <input type="text" class="form-control" formControlName="discountName"  [ngClass]="{ 'is-invalid': submitted && f.discountName.errors }" placeholder="Enter Discount Name">
@@ -79,15 +89,6 @@
                     <div *ngIf="f.discountPeriod.errors.required">Discount Period is required</div>
                 </div>
               </div>
-            </div>
-            <div class="form-group row">
-                <label for="discountStatus" class="col-sm-2 col-form-label">Status</label>
-                <div class="col-sm-10 col-lg-5">
-                    <label class="switch">
-                        <input type="checkbox" class="primary" checked="checked" formControlName="discountStatus">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
             </div>
             <div class="form-group row">
               <label for="promoCodes" class="col-sm-2 col-form-label">Promo codes</label>

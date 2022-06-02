@@ -18,6 +18,7 @@ export class EditPromoCodeComponent implements OnInit {
   promoId : string;
   alerts: any[];
   showLoadingSpinner = true;
+  promoStatus : string;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -41,8 +42,8 @@ export class EditPromoCodeComponent implements OnInit {
       promoName: ['', [Validators.required]],
       promoDesc: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
-      endDate: [''],
-      promocodeStatus: [0]
+      endDate: ['']
+      //promocodeStatus: [false]
     });
     this.getPromocodeDetail(this.promoId);    
   }
@@ -62,7 +63,8 @@ export class EditPromoCodeComponent implements OnInit {
             this.editPromocodeForm.controls['promoDesc'].setValue(data['description']);
             this.editPromocodeForm.controls['startDate'].setValue(this.commonService.formatDate(data['start_date'])); //console.log(this.commonService.formatDate(data['start_date']));
             this.editPromocodeForm.controls['endDate'].setValue(this.commonService.formatDate(data['end_date'])); //this.commonService.formatDate(data['end_date'])
-            this.editPromocodeForm.controls['promocodeStatus'].setValue(data['is_active']);
+            this.promoStatus = this.commonService.getStatusLabel(parseInt(data['is_active']));
+            //this.editPromocodeForm.controls['promocodeStatus'].setValue(data['is_active']);
         } else {
           this.alerts = [{
             type: 'danger',
@@ -94,7 +96,7 @@ export class EditPromoCodeComponent implements OnInit {
     dataObj['promo_desc'] = this.f.promoDesc.value;
     dataObj['start_date'] = this.f.startDate.value;
     dataObj['end_date'] = this.f.endDate.value;
-    dataObj['status'] = this.f.promocodeStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    //dataObj['status'] = this.f.promocodeStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
     this.promoCodeService.editPromocode(this.promoId, dataObj).then(
       res => {
           this.loading = false;

@@ -22,11 +22,6 @@ $border_color_1: #20a6fc;
 			padding-top: 1.3rem;
 		}
 		.editCustomerForm {
-			.form-group {
-				@media (max-width: 767px) {
-					flex-direction: column;
-				}
-			}
 			label {
 				/*font-size: 11px;
 				font-weight: bold;*/
@@ -62,11 +57,13 @@ $border_color_1: #20a6fc;
 			.addBrandBtnSec {
 				margin-top: 1.75rem;
 				@media(max-width: 991px) {
-					display: flex;
 					justify-content: center;
 				}
 				.addBrandBtnSubSec,.cancelBtnSec {
                     padding-left:6px;
+				}
+				.addBrandBtnSubSec {
+					margin-bottom: 1rem;
 				}
 				button {
 					/*font-size: 13px;*/
@@ -79,9 +76,6 @@ $border_color_1: #20a6fc;
 				.addBrandBtn {
 					background-color: $background_color_2;
 					border-color: $border_color_1;
-					@media (max-width: 767px) {
-						margin-bottom: 1rem;
-					}
 				}
 				.cancelBtn {
 					border: solid 1px #e9eff4;

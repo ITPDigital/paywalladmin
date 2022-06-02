@@ -27,6 +27,7 @@ export class EditDiscountComponent implements OnInit {
   alerts: any[];
   showLoadingSpinner = true;
   showCurrency : boolean =  false;
+  discountStatus : string;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -55,8 +56,8 @@ export class EditDiscountComponent implements OnInit {
       discountPeriod: ['', [Validators.required]],
       currency: [''],
       discountDesc: [''],
-      promoCodes: [''],
-      discountStatus: [false]
+      promoCodes: ['']
+      //discountStatus: [false]
     });
   }
 
@@ -151,7 +152,8 @@ export class EditDiscountComponent implements OnInit {
             this.editDiscountForm.controls['discountPeriod'].setValue(data['discount_period']);
             this.editDiscountForm.controls['currency'].setValue(data['currency']);
             this.editDiscountForm.controls['discountDesc'].setValue(data['discount_desc']);
-            this.editDiscountForm.controls['discountStatus'].setValue(data['is_active']);
+           // this.editDiscountForm.controls['discountStatus'].setValue(data['is_active']);
+           this.discountStatus = this.commonService.getStatusLabel(parseInt(data['is_active']));
             let mappedPromoArr = res.result.promo;
             let promoId =0;
             for(let i=0;i<mappedPromoArr.length;i++) {
@@ -200,8 +202,8 @@ export class EditDiscountComponent implements OnInit {
       'discount_value': parseFloat(this.f.discountValue.value), 
       'discount_desc': this.f.discountDesc.value, 
       'discount_period': this.f.discountPeriod.value,
-      'status': this.f.discountStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
-      'promos': this.updatePromoArr, 
+      //'status': this.f.discountStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'promos': this.updatePromoArr
     };
     this.discountService.editDiscount(this.discountId,dataObj).then(
       res => {

@@ -17,6 +17,7 @@ export class AddCustomerComponent implements OnInit {
   industriesArr : any[] = DropdownConstants.INDUSTRIES_DATA;
   jobTtlArr : any[] = DropdownConstants.JOB_TITLE_DATA;
   countriesArr : any[] = DropdownConstants.COUNTRIES_DATA;
+  userRolesArr : any[];
   addNewCustomerForm: FormGroup;
   submitted = false;
   loading = false;
@@ -28,14 +29,16 @@ export class AddCustomerComponent implements OnInit {
     private commonService: CommonService, 
     private customersService: CustomersService,
     private cdr: ChangeDetectorRef, 
-    private router: Router) { }
+    private router: Router) {
+      this.getAllActiveBrands();
+      this.getAllCustomerRoles();
+    }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
-    this.getAllActiveBrands();
     /****************Add New User Form Validation****************** */
     this.addNewCustomerForm = this.formBuilder.group({
       brandName: ['', [Validators.required]],
@@ -49,7 +52,7 @@ export class AddCustomerComponent implements OnInit {
       country: ['', [Validators.required]],
       compSize: ['', [Validators.required]],
       compName: ['', [Validators.required]],
-      subType: [1, [Validators.required]],
+      subType: [Constants.CUSTOMER_TYPE_REGULAR_USER, [Validators.required]],
       subStartDate: [''],
       subEndDate: [''],
       dob: [''],
@@ -77,6 +80,29 @@ export class AddCustomerComponent implements OnInit {
       res=>{
        if(res['code']==1 && res['status']==1) {
         this.allActiveBrands = res['result'];
+       } else {
+          this.alerts = [{
+            type: 'danger',
+            msg: res['message'],
+            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+          }];
+       }
+      },error=>{
+          this.alerts = [{
+            type: 'danger',
+            msg: error['message'],
+            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+          }];
+      }
+    );
+  }
+
+  /**********************************API Method to Get All Customer roles*********************/
+  getAllCustomerRoles() {
+    this.customersService.getAllCustomerRoles(Constants.STATUS_ACTIVE).then(
+      res=>{
+       if(res['code']==1 && res['status']==1) {
+          this.userRolesArr = res['result'];
        } else {
           this.alerts = [{
             type: 'danger',

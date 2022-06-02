@@ -53,8 +53,14 @@ $border_color_1: #20a6fc;
 			}
 			.editWidgetBtnSec {
 				margin-top: 1.75rem;
+				@media(max-width: 991px) {
+					justify-content: center;
+				}
 				.editWidgetBtnSubSec,.cancelBtnSec {
                     padding-left:6px;
+				}
+				.editWidgetBtnSubSec {
+					margin-bottom: 1rem;
 				}
 				button {
 					/*font-size: 13px;*/

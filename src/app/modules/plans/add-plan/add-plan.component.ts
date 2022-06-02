@@ -196,7 +196,7 @@ export class AddPlanComponent implements OnInit {
       'comp_gift_desc': this.f.compGiftDesc.value, 
       'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
-      'features': ['test1','test2'], 
+      'features': this.f.features.value, 
       'promo_discounts': this.selDiscountIds
     };
     console.log("---dataObj---"+JSON.stringify(dataObj));
