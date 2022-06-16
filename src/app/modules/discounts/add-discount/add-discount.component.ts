@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import { DiscountService } from '../../../services/discount.service';
 import { Constants } from '../../../common/constants';
@@ -29,8 +28,7 @@ export class AddDiscountComponent implements OnInit {
     private commonService: CommonService, 
     private discountService: DiscountService,
     private cdr: ChangeDetectorRef, 
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -40,7 +38,7 @@ export class AddDiscountComponent implements OnInit {
     this.getAllActivePeriods();
     this.getAllActiveCurrencies();
     this.getAllActivePromos();
-    /****************Add New User Form Validation****************** */
+    /****************Add New Discount Form Validation****************** */
     this.addNewDiscountForm = this.formBuilder.group({
       discountName: ['', [Validators.required]],
       displayName: ['', [Validators.required]],
@@ -127,7 +125,7 @@ export class AddDiscountComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.addNewDiscountForm.controls; }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new discount form***************************************** */
   addNewDiscountFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -143,7 +141,7 @@ export class AddDiscountComponent implements OnInit {
       'discount_value': parseFloat(this.f.discountValue.value), 
       'discount_desc': this.f.discountDesc.value, 
       'discount_period': this.f.discountPeriod.value,
-      'status': this.f.discountStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'status': this.commonService.getStatusValue(this.f.discountStatus.value), 
       'promos': this.selPromoIds, 
     };
     this.loading = true;

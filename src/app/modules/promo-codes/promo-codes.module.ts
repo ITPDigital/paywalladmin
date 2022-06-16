@@ -14,6 +14,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AllPromoCodesComponent } from './all-promo-codes/all-promo-codes.component';
 import { PromoCodesService } from '../../services/promo-codes.service';
 
+import { DirectivesModule } from '../../directives/directives.module';
+
 @NgModule({
   declarations: [PromoCodesComponent, AddPromoCodeComponent, EditPromoCodeComponent, AllPromoCodesComponent],
   imports: [
@@ -22,6 +24,7 @@ import { PromoCodesService } from '../../services/promo-codes.service';
     FormsModule,
     ReactiveFormsModule,
     NgxDatatableModule,
+    DirectivesModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot()

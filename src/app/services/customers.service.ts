@@ -67,4 +67,15 @@ export class CustomersService {
       })
       .catch(this.commonService.handleError);
   }
+
+  /**********************************API to Get Customer Transaction History details**********************************************/
+  getCustomerTransHistDetail(customerId,brandId, orderId){
+    return this.http
+      .get(`${this.url}/v1/orders/${orderId}/account/${customerId}/brand/${brandId}`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.commonService.handleError);
+  }
 }

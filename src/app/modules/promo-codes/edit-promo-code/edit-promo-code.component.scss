@@ -53,8 +53,14 @@ $border_color_1: #20a6fc;
 			}
 			.editPromocodeBtnSec {
 				margin-top: 1.75rem;
+				@media (max-width: 991px) {
+					justify-content: center;
+				}
 				.editPromocodeBtnSubSec,.cancelBtnSec {
                     padding-left:6px;
+				}
+				.editPromocodeBtnSubSec {
+					margin-bottom: 1rem;
 				}
 				button {
 					/*font-size: 13px;*/

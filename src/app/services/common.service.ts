@@ -41,13 +41,22 @@ export class CommonService {
    /***************************************Method to Handle Errors********************************************************** */
    public handleError(error: any): Promise<any> {
     if(error.status == 403 || error.status == 401 || error.status==0) {//Logging out for access denied case
-      this.logout();
+      localStorage.removeItem('pw_checksum');
+      localStorage.removeItem('pw_id');
+      localStorage.removeItem('pw_fname');
+      localStorage.removeItem('pw_lname');
+      localStorage.removeItem('pw_email');
+      localStorage.removeItem('pw_role');
+      localStorage.removeItem('pw_compid');
+      window.location.href = '/login';
+      //this.logout();
     } else {
       return Promise.reject(error.message || error);
     }
   }
 
   logout() {
+    alert("here1")
     localStorage.removeItem('pw_checksum');
     localStorage.removeItem('pw_id');
     localStorage.removeItem('pw_fname');
@@ -104,17 +113,44 @@ export class CommonService {
       .catch(this.handleError);
   }
 
+  /*********************************API to Get all report types details**************************************** */
+  getAllReportTypes() {
+    return this.http
+      .get(`${this.url}/v1/reports`, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
   /*********************************Method to get status name based on status value**************************************** */
   getStatusLabel(status:number) :string {
     return status==Constants.STATUS_ACTIVE ? Constants.STATUS_ACTIVE_LABEL : Constants.STATUS_INACTIVE_LABEL;
   }
 
-   /*********************************Method to get Ids from the array passed**************************************** */
+  /*********************************Method to get Ids from the array passed**************************************** */
   getIdsFromArr(arr, data) {
     for(let i=0;i<data.length;i++) {
-      arr.push(data[i].discount_id);
+      arr.push(data[i].id);
     }
     return arr;
+  }
+
+  /*********************************Method to get value from ID**************************************** */
+  getValueFromArr(arr, value, name) {
+    const foundObj = arr.find(({ id }) => id == value);
+    return foundObj[name];
+  }
+
+  /*********************************Common method to get status value**************************************** */
+  getStatusValue(currentValue : boolean) : number {
+      return currentValue === true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+  }
+
+  /*********************************Common method to get status value**************************************** */
+  setStatusValue(status) : boolean {
+    return status == Constants.STATUS_ACTIVE ? true : false;
   }
 
 }

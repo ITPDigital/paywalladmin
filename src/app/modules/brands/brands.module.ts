@@ -17,8 +17,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { BrandsService } from '../../services/brands.service';
 
+import { DomainValidation } from '../../directives/domain-validation.directive';
+
 @NgModule({
-  declarations: [AllBrandsComponent, BrandsComponent, AddBrandComponent, EditBrandComponent],
+  declarations: [AllBrandsComponent, BrandsComponent, AddBrandComponent, EditBrandComponent, DomainValidation],
   imports: [
     CommonModule,
     BrandsRoutingModule,

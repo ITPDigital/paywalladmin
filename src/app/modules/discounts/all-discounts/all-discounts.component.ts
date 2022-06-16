@@ -1,7 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { CommonService } from '../../../services/common.service';
-import { AllDiscounts } from '../../../data/discounts';
 import { DiscountService } from '../../../services/discount.service';
 import { Constants } from '../../../common/constants';
 
@@ -85,7 +83,7 @@ export class AllDiscountsComponent implements OnInit {
 
   /******************************Method to update Discount Status (Active/Inactive)***************************/
   updateDiscountStatus( discountId: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.discountService.updateDiscountStatus(discountId, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success
@@ -95,12 +93,18 @@ export class AllDiscountsComponent implements OnInit {
            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
          }];
        } else {
-         this.alerts = [{
-           type: 'danger',
-           msg: Constants.DEL_DISCOUNT_FAILURE_MSG,
-           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
-         }];
-       }
+          let errorMsg = Constants.DEL_DISCOUNT_FAILURE_MSG;
+          let planArr = [];
+          if(res['status']==2) {
+            planArr = this.commonService.getIdsFromArr(planArr, res.result);
+            errorMsg = Constants.DEL_DISCOUNT_FAILURE_ALREADY_MAPPED_MSG+" '"+planArr+"'";
+          }
+          this.alerts = [{
+            type: 'danger',
+            msg: errorMsg,
+            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+          }];
+        }
        this.getAllDiscounts();
      },
      error => {

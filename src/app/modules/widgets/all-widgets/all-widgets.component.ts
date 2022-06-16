@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { CustomersService } from '../../../services/customers.service';
 import { WidgetsService } from '../../../services/widgets.service';
 import { Constants } from '../../../common/constants';
 
@@ -19,8 +18,7 @@ export class AllWidgetsComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private cdr: ChangeDetectorRef,
-    private widgetsService: WidgetsService,
-    private customersService: CustomersService) {
+    private widgetsService: WidgetsService) {
     this.getAllWidgetGroups();
     this.getAllWidgets();
   }
@@ -32,7 +30,7 @@ export class AllWidgetsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  /**********************************API Method to Get All active Brands*********************/
+  /**********************************API Method to Get All active widget groups*********************/
   getAllWidgetGroups() {
     this.widgetsService.getAllWidgetGroups().then(
       res=>{
@@ -55,7 +53,7 @@ export class AllWidgetsComponent implements OnInit {
     );
   }
 
-  /**********************************API Method to Get All the Products*********************/
+  /**********************************API Method to Get All Widgets*********************/
   getAllWidgets() {
     this.showLoadingSpinner = true;
     this.widgetsService.getAllWidgets().then(
@@ -85,7 +83,7 @@ export class AllWidgetsComponent implements OnInit {
 
   /******************************Method to update Widget Status (Active/Inactive)***************************/
   updateWidgetStatus( widgetId: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.widgetsService.updateWidgetStatus(widgetId, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success

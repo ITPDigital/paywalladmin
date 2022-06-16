@@ -63,4 +63,15 @@ export class LoginService {
       this.currentUserSubject.next("");
       this.commonService.logout();
   }
+
+  /**********************************API to chnage Admin user's password**********************************************/
+  changeAdminPwd(dataObj){
+    return this.http
+      .post(`${this.url}/v1/admin/changepwd`, dataObj, {headers: contentHeaders})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(this.commonService.handleError);
+  }
 }

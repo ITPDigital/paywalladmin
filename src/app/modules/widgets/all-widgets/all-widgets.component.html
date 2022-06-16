@@ -37,7 +37,7 @@
                     <span *ngIf="row.type == 2">Notifier</span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Display On" [flexGrow]="1.5" prop="action_name">
+            <ngx-datatable-column name="Display on" [flexGrow]="1.5" prop="action_name">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <span *ngIf="row.metering_action_id == 5">{{row.action_name}} - {{row.custom_count}}</span>
                     <span *ngIf="row.metering_action_id != 5">{{row.action_name}}</span>
@@ -75,11 +75,8 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="Action" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <!--<a routerLink="/customers/view/{{row.id}}" class="">
-                        <i class="nav-icon fas fa-eye viewDataImg"></i>
-                    </a>-->
-                    <a routerLink="/widgets/edit/{{row.id}}" class="">
-                        <img src="../../../assets/ic-mode-edit.svg" alt="Edit" class="editDataImg"/>
+                    <a routerLink="/widgets/edit/{{row.id}}" class="" title="View/Edit">
+                        <i class="bi bi-pencil-fill editDataImg"></i>
                     </a>
                 </ng-template>
             </ngx-datatable-column>

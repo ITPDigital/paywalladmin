@@ -55,7 +55,7 @@ export class AddBrandComponent implements OnInit {
     dataObj['max_limit'] = this.f.maxLim.value;
     dataObj['offered_limit'] = this.f.offLim.value;
     dataObj['metering_period'] = this.f.meteringPeriod.value;
-    dataObj['status'] = this.f.brandStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    dataObj['status'] = this.commonService.getStatusValue(this.f.brandStatus.value);
 
     this.brandService.addNewBrand(dataObj).then(
       res => {

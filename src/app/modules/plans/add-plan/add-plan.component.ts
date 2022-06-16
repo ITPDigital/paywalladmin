@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import { PlansService } from '../../../services/plans.service';
 import { Constants } from '../../../common/constants';
@@ -28,8 +27,7 @@ export class AddPlanComponent implements OnInit {
     private commonService: CommonService, 
     private plansService: PlansService,
     private cdr: ChangeDetectorRef,
-    private router: Router,
-    private titleService: Title) {
+    private router: Router) {
 
     }
 
@@ -43,7 +41,7 @@ export class AddPlanComponent implements OnInit {
     this.getAllActiveCurrencies();
     this.getAllActivePlans();
     this.getAllActiveDiscounts();
-    /****************Add New User Form Validation****************** */
+    /****************Add New Plan Form Validation****************** */
     this.addNewPlanForm = this.formBuilder.group({
       planName: ['', [Validators.required]],
       displayName: ['', [Validators.required]],
@@ -169,7 +167,7 @@ export class AddPlanComponent implements OnInit {
       });
   }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new plan form***************************************** */
   addNewPlanFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -182,7 +180,7 @@ export class AddPlanComponent implements OnInit {
       'plan_desc' : this.f.proDesc.value, 
       'contract_length': this.f.contractLength.value, 
       'renewal_plan': this.f.renewalPlan.value, 
-      'auto_renew': this.f.planAutoRenew.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'auto_renew': this.commonService.getStatusValue(this.f.planAutoRenew.value),
       'frequency': this.f.frequency.value, 
       'offset': this.f.offset.value, 
       'currency': this.f.currency.value, 
@@ -192,10 +190,10 @@ export class AddPlanComponent implements OnInit {
       'tax_value': this.f.taxValue.value, 
       'plan_discount': this.f.discount.value, 
       'payment_type': this.f.paymentType.value, 
-      'is_comp_gift_enabled': this.f.compGiftStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'is_comp_gift_enabled': this.commonService.getStatusValue(this.f.compGiftStatus.value), 
       'comp_gift_desc': this.f.compGiftDesc.value, 
-      'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
-      'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'show_comp_gift_consent': this.commonService.getStatusValue(this.f.compGiftConsentStatus.value), 
+      'status': this.commonService.getStatusValue(this.f.planStatus.value), 
       'features': this.f.features.value, 
       'promo_discounts': this.selDiscountIds
     };
@@ -276,35 +274,6 @@ export class AddPlanComponent implements OnInit {
       return this.tmpAllDiscountsData.filter(t=>t.id ==discountId)[0];
     }
   }
-
-  /*Calculate final Price*/
-
- /* public taxtaxTypeValue;
-  onChange(e,basicPrice='basicPrice') {
-    let taxTypeValue = e.target.value;
-    console.log(basicPrice)
-    let taxValue;
-    console.log(taxValue)
-    let formula1 = ((taxTypeValue == 'AMOUNT') ? (parseFloat(basicPrice) + parseFloat(taxValue)) : (parseFloat(basicPrice) * parseFloat(taxValue)));
-    return (formula1);
-  }
-
-
-  calculateResult(formValue: any, formulaName:'basicPrice' ) {
-    let formula = this[formulaName];
-    console.log("------formula------------"+formula)
-    Object.keys(formValue).forEach(
-      (variable) => (formula = formula.replace(variable, formValue[variable]))
-    );
-    return eval(formula);
-  }
-
-  setupRecalculation(){
-    this.addNewPlanForm.valueChanges.subscribe(value => {
-      value.finalPrice = this.calculateResult(value, "basicPrice")
-      this.addNewPlanForm.controls.finalPrice.setValue(value.finalPrice, { emitEvent: false })
-    });
-  }*/
 
   onTaxTypeChange() {
     this.calculateFinalPrice();

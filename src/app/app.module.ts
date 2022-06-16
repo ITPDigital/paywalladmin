@@ -21,15 +21,21 @@ import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PromoCodesModule } from './modules/promo-codes/promo-codes.module';
 import { WidgetsModule } from './modules/widgets/widgets.module';
 import { MessagingTemplatesModule } from './modules/messaging-templates/messaging-templates.module';
+import { StManageAdminModule } from './modules/st-manage-admin/st-manage-admin.module';
+import { ConfigModule } from './modules/config/config.module';
 
 import {CommonService} from './services/common.service';
 import {LoginService} from './services/login.service'
 import { AuthGuard } from './common/auth.guard';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ChangepwdComponent } from './components/changepwd/changepwd.component';
 import { ConfigurationsComponent } from './components/configurations/configurations.component';
+import { NgxPopper } from 'angular-popper';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 
 @NgModule({
@@ -41,7 +47,7 @@ import { ConfigurationsComponent } from './components/configurations/configurati
     DashboardComponent,
     ReportsComponent,
     ChangepwdComponent,
-    ConfigurationsComponent,
+    ConfigurationsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,9 +63,15 @@ import { ConfigurationsComponent } from './components/configurations/configurati
     DiscountsModule,
     PromoCodesModule,
     WidgetsModule,
+    ConfigModule,
+    MessagingTemplatesModule,
+    StManageAdminModule,
     BrowserAnimationsModule,
+    NgxDatatableModule,
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
-	AlertModule.forRoot()
+	AlertModule.forRoot(),
+	NgxPopper
   ],
   providers: [CommonService, LoginService, AuthGuard, Title],
   bootstrap: [AppComponent]

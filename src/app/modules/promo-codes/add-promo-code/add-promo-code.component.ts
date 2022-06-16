@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from './../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import { PromoCodesService } from '../../../services/promo-codes.service';
 import { Constants } from '../../../common/constants';
@@ -21,17 +20,14 @@ export class AddPromoCodeComponent implements OnInit {
     private commonService: CommonService, 
     private promoCodeService: PromoCodesService,
     private cdr: ChangeDetectorRef, 
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
   
   ngOnInit(): void {
-    //this.titleService.setTitle("Add Brand");
-    //this.commonService.setTitle("Add Brands");
-    /****************Add New User Form Validation****************** */
+    /****************Add New Promo-code Form Validation****************** */
     this.addNewPromocodeForm = this.formBuilder.group({
       promoCode: ['', [Validators.required]],
       promoName: ['', [Validators.required]],
@@ -45,7 +41,7 @@ export class AddPromoCodeComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.addNewPromocodeForm.controls; }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new promo code form***************************************** */
   addNewPromocodeFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -59,7 +55,7 @@ export class AddPromoCodeComponent implements OnInit {
     dataObj['promo_desc'] = this.f.promoDesc.value;
     dataObj['start_date'] = this.f.startDate.value;
     dataObj['end_date'] = this.f.endDate.value;
-    dataObj['status'] = this.f.promocodeStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    dataObj['status'] = this.commonService.getStatusValue(this.f.promocodeStatus.value);
     this.promoCodeService.addNewPromocode(dataObj).then(
       res => {
           this.loading = false;
@@ -88,7 +84,7 @@ export class AddPromoCodeComponent implements OnInit {
       error => {
         this.alerts = [{
           type: 'danger',
-          msg: error,
+          msg: Constants.ADD_PROMOS_FAILURE_MSG,
           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
         }];
           this.loading = false;

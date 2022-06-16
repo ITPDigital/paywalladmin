@@ -21,10 +21,11 @@
             <div class="form-group row">
               <label for="productName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Product Name</label>
               <div class="col-md-9 col-lg-5">
-                <input type="text" class="form-control" formControlName="productName"  [ngClass]="{ 'is-invalid': submitted && f.productName.errors }" placeholder="Enter Product Name">
+                <input type="text" class="form-control" formControlName="productName"  [ngClass]="{ 'is-invalid': submitted && f.productName.errors }" placeholder="Enter Product Name" appNameValidation>
                 <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
                     <div *ngIf="f.productName.errors.required">Product Name is required</div>
                 </div>
+                <small class="text-muted">Only letters, digits, underscore or dash. No whitespaces or symbols</small>
               </div>
               
             </div>
@@ -35,6 +36,7 @@
                 <div *ngIf="submitted && f.displayName.errors" class="invalid-feedback">
                     <div *ngIf="f.displayName.errors.required">Display Name is required</div>
                 </div>
+                <small class="text-muted">Name to be displayed on the front-end</small>
               </div>
               
             </div>
@@ -84,7 +86,7 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row add-input-group">
               <label for="paymentPlans" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Payment Plan</label>
               <div class="input-group col-md-9 col-lg-5">
                 <!--<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">-->
@@ -114,7 +116,7 @@
                     <tbody>
                         <tr *ngFor="let plan of selPlanArr; let i = index;">
                           <td>
-                            {{plan.plan_name}}
+                            <a routerLink="/plans/edit/{{plan.id}}">{{plan.plan_name}}</a>
                           </td>
                           <td>
                             {{plan.plan_desc}}
@@ -123,7 +125,7 @@
                             {{plan.frequency_text}}
                           </td>
                           <td>
-                            {{plan.trial_price}}
+                            <span *ngIf="plan.trial_price != '$0.00'">{{plan.trial_price}}</span>
                           </td>
                           <td>
                             {{plan.symbol}}{{plan.final_price}}

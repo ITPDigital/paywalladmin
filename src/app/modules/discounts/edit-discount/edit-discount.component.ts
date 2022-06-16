@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router} from '@angular/router';
 import { DiscountService } from '../../../services/discount.service';
 import { Constants } from '../../../common/constants';
@@ -34,8 +33,7 @@ export class EditDiscountComponent implements OnInit {
     private discountService: DiscountService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef, 
-    private router: Router, 
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -46,7 +44,7 @@ export class EditDiscountComponent implements OnInit {
     this.getAllActiveCurrencies();
     this.getAllActivePromos();
     this.discountId = this.route.snapshot.paramMap.get('id');
-    /****************Add New User Form Validation****************** */
+    /****************Edit Discount Form Validation****************** */
     this.editDiscountForm = this.formBuilder.group({
       discountID: [{value:this.discountId,disabled: true}],
       discountName: ['', [Validators.required]],
@@ -171,7 +169,7 @@ export class EditDiscountComponent implements OnInit {
         } else {
           this.alerts = [{
             type: 'danger',
-            msg: Constants.VIEW_BRAND_FAILURE_MSG,
+            msg: Constants.VIEW_DISCOUNT_FAILURE_MSG,
             timeout: Constants.DEF_ALERT_MSG_TIMEOUT
           }];
         }
@@ -179,7 +177,7 @@ export class EditDiscountComponent implements OnInit {
       error => {
            this.alerts = [{
             type: 'danger',
-            msg: error.json().message,
+            msg: Constants.VIEW_DISCOUNT_FAILURE_MSG,
             timeout: Constants.DEF_ALERT_MSG_TIMEOUT
           }];
       });
@@ -215,9 +213,9 @@ export class EditDiscountComponent implements OnInit {
               msg: Constants.UPDATE_DISCOUNT_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/discounts/all']);
-            },2000);
+            },2000);*/
           } else {
             this.alerts = [{
               type: 'danger',
@@ -229,7 +227,7 @@ export class EditDiscountComponent implements OnInit {
       error => {
         this.alerts = [{
           type: 'danger',
-          msg: error.json().message,
+          msg: Constants.UPDATE_DISCOUNT_FAILURE_MSG,
           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
         }];
         this.loading = false;

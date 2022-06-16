@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { PlansService } from '../../../services/plans.service';
 import { Constants } from '../../../common/constants';
 
@@ -21,8 +20,7 @@ export class AllPlansComponent implements OnInit {
 
   constructor(private commonService: CommonService, 
     private plansService: PlansService,
-    private cdr: ChangeDetectorRef, 
-    private titleService: Title) {
+    private cdr: ChangeDetectorRef) {
       this.getAllPlans();
   }
 
@@ -86,7 +84,7 @@ export class AllPlansComponent implements OnInit {
 
   /******************************Method to update Plan Status (Active/Inactive)***************************/
   updatePlanStatus( planId: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.plansService.updatePlanStatus(planId, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success
@@ -96,11 +94,17 @@ export class AllPlansComponent implements OnInit {
            timeout: Constants.DEF_ALERT_MSG_TIMEOUT
          }];
        } else {
-         this.alerts = [{
-           type: 'danger',
-           msg: Constants.DEL_PLAN_FAILURE_MSG,
-           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
-         }];
+        let errorMsg = Constants.DEL_PLAN_FAILURE_MSG;
+        let proArr = [];
+        if(res['status']==2) {
+          proArr = this.commonService.getIdsFromArr(proArr, res.result);
+           errorMsg = Constants.DEL_PLAN_FAILURE_ALREADY_MAPPED_MSG+" '"+proArr+"'";
+        }
+        this.alerts = [{
+          type: 'danger',
+          msg: errorMsg,
+          timeout: Constants.DEF_ALERT_MSG_TIMEOUT
+        }];
        }
        this.getAllPlans();
      },

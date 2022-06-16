@@ -12,6 +12,16 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.loginService.currentUserValue;
         if (currentUser) {
+            const userRole : number = parseInt(localStorage.getItem('pw_role'));
+            if (route.data.role) {
+                if(route.data.role===userRole) {
+                    return true;
+                } else {
+                    alert("Permission denied!")
+                    this.router.navigate(['/dashboard']);
+                    return false;
+                }
+            }
             // authorised so return true
             return true;
         }

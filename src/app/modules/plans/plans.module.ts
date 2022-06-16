@@ -16,6 +16,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PlansService } from '../../services/plans.service';
 import { TwoDigitDecimaNumberDirective } from '../../directives/two-digit-decima-number.directive';
 
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [PlansComponent, AllPlansComponent, AddPlanComponent, EditPlanComponent, TwoDigitDecimaNumberDirective],
@@ -26,6 +27,7 @@ import { TwoDigitDecimaNumberDirective } from '../../directives/two-digit-decima
     ReactiveFormsModule,
     NgxDatatableModule,
     BrowserAnimationsModule,
+    DirectivesModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
   ],

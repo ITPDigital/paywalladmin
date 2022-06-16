@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { PromoCodesService } from '../../../services/promo-codes.service';
 import { Constants } from '../../../common/constants';
 
@@ -18,15 +17,10 @@ export class AllPromoCodesComponent implements OnInit {
   selStatus: number = 1;
   alerts: any[];
   showLoadingSpinner = true;
-
-  /*constructor(private commonService: CommonService, private promoCodeService: PromoCodesService, private cdr: ChangeDetectorRef, private titleService: Title) {
-    this.fetchPromocodesData(this.selStatus);
-  }*/
   
   constructor(private commonService: CommonService, 
     private promoCodeService: PromoCodesService,
-    private cdr: ChangeDetectorRef, 
-    private titleService: Title) {
+    private cdr: ChangeDetectorRef) {
       this.getAllPromocodes();
   }  
 
@@ -67,7 +61,7 @@ export class AllPromoCodesComponent implements OnInit {
   }  
   
 
-    /******************************Method to filter the status based brand data***************************/
+  /******************************Method to filter the status based promo data***************************/
   fetchPromocodesData(status: number) {
     this.rows = this.tmp;
     const temp = this.rows.filter(function (d) {
@@ -76,7 +70,7 @@ export class AllPromoCodesComponent implements OnInit {
     this.rows = temp;
   }
 
-  /******************************Method to set selected brand status dropdown***************************/
+  /******************************Method to set selected promo status dropdown***************************/
   filterStaus(status : number) {
     if(status == 1) {
       this.selStatus = status;
@@ -89,9 +83,9 @@ export class AllPromoCodesComponent implements OnInit {
     }
   }
 
-  /******************************Method to update Brand Status (Active/Inactive)***************************/
+  /******************************Method to update promo code Status (Active/Inactive)***************************/
   updatePromocodeStatus( id: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.promoCodeService.updatePromocodeStatus(id, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success
@@ -118,14 +112,14 @@ export class AllPromoCodesComponent implements OnInit {
      error => {
        this.alerts = [{
          type: 'danger',
-         msg: error['message'],
+         msg: Constants.DEL_PROMOS_FAILURE_MSG,
          timeout: Constants.DEF_ALERT_MSG_TIMEOUT
        }];
        this.getAllPromocodes();
      });
   }
 
-  /******************************Method to filter brand/domain column based on search string***************************/
+  /******************************Method to filter promocode/name column based on search string***************************/
   filterSrchStr(event) {
     const val = event.target.value.toLowerCase();
     if(val) {

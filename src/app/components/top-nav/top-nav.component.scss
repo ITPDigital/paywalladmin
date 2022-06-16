@@ -76,11 +76,12 @@ $background_color_4: #20a6fc;
 		}
 		.dropdown-menu {
 			min-width: auto;
-			left: -78px !important;
+			left: -64px !important;
 			border: solid 1px #e9eff4;
 			box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 			@media (max-width: 991px) {
-				left: -102px !important;	
+				left: -86px !important;	
+				transform: translateY(6px)!important;
 			}
 			.dropdown-item {
 				font-size: 13px;

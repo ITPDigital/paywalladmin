@@ -115,11 +115,20 @@
             <div class="form-group row">
               <label for="gender" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Gender</label>
               <div class="col-md-9 col-lg-5">
+                <input id="male" type="radio" class="circleradio" value="male" name="gender" formControlName="gender">
+                <label for="male">Male</label>
+  
+                <input type="radio" id="female" class="circleradio"  formControlName="gender" name="gender" value="female">
+                <label for="female">Female</label>
+  
+                <input type="radio" id="n.a" class="circleradio" formControlName="gender" name="gender"  value="n.a">
+                <label for="n.a">Don't specify</label>
+                <!---
                 <select class="form-control" formControlName="gender">
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="n.a">Don't specify</option>
-                </select>
+                </select>-->
               </div>
             </div>
             <div class="form-group row">
@@ -250,8 +259,8 @@
                   <thead>
                       <tr>
                           <th scope="col">Order ID</th>
-                          <th scope="col">Product Name</th>
-                          <th scope="col">Payment Plan</th>
+                          <th scope="col">Product ID</th>
+                          <th scope="col">Payment Plan ID</th>
                           <th scope="col">Status</th>
                           <th scope="col">Start Date</th>
                           <th scope="col">End Date</th>
@@ -264,13 +273,13 @@
                           {{order.id}}
                         </td>
                         <td>
-                          {{order.product_id}}
+                          <a routerLink="/products/edit/{{order.product_id}}">{{order.product_id}}</a>
                         </td>
                         <td>
-                          {{order.product_plan_id}}
+                          <a routerLink="/plans/edit/{{order.product_plan_id}}">{{order.product_plan_id}}</a>
                         </td>
                         <td>
-                          {{order.status}}
+                          {{commonService.getValueFromArr(orderStatusArr,order.status,'name')}}
                         </td>
                         <td>
                           {{order.start_date | date: 'MMM d y'}}
@@ -279,7 +288,7 @@
                           {{order.end_date | date: 'MMM d y'}}
                         </td>
                         <td class="text-center">
-                          <a href="#">View details</a>
+                          <a routerLink="/customers/order/{{order.id}}/account/{{customerId}}/brand/{{brandId}}">View details</a>
                         </td>
                     </tr>
                   </tbody>

@@ -58,7 +58,7 @@ export class EditBrandComponent implements OnInit {
             this.editBrandForm.controls['maxLim'].setValue(data['max_limit']);
             this.editBrandForm.controls['offLim'].setValue(data['offered_limit']);
             this.editBrandForm.controls['meteringPeriod'].setValue(data['metering_period']);
-            this.editBrandForm.controls['brandStatus'].setValue(data['is_active']);
+            this.editBrandForm.controls['brandStatus'].setValue(this.commonService.setStatusValue(data['is_active']));
         } else {
           this.alerts = [{
             type: 'danger',
@@ -91,7 +91,7 @@ export class EditBrandComponent implements OnInit {
     dataObj['max_limit'] = this.f.maxLim.value;
     dataObj['offered_limit'] = this.f.offLim.value;
     dataObj['metering_period'] = this.f.meteringPeriod.value;
-    dataObj['status'] = this.f.brandStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    dataObj['status'] = this.commonService.getStatusValue(this.f.brandStatus.value);
     this.brandService.editBrand(this.brandId, dataObj).then(
       res => {
           this.loading = false;
@@ -102,9 +102,9 @@ export class EditBrandComponent implements OnInit {
               msg: Constants.UPDATE_BRAND_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/brands/all']);
-            },2000);
+            },2000);*/
           } else {
             let errorMsg = Constants.UPDATE_BRAND_FAILURE_MSG;
             if(resStatus==3) {

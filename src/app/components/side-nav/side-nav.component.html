@@ -16,7 +16,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                 <li class="nav-item">
                     <a routerLink="/dashboard" [class.active-link]="activeLink === 'dashboard'" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon bi bi-speedometer"></i>
                         <p>
                             Dashboard
                         </p>
@@ -24,7 +24,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/brands/all" [class.active-link]="activeLink === 'brands'" class="nav-link">
-                        <i class="nav-icon fas fa-tags"></i>
+                        <i class="nav-icon bi bi-tags"></i>
                         <p>
                             Brands
                         </p>
@@ -32,7 +32,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/widgets/all" [class.active-link]="activeLink === 'widgets'" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon bi bi-grid-3x3-gap"></i>
                         <p>
                             Widgets
                         </p>
@@ -40,7 +40,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/customers/all" [class.active-link]="activeLink === 'customers'" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="nav-icon bi bi-people"></i>
                         <p>
                             Customers
                         </p>
@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/products/all" [class.active-link]="activeLink === 'products'" class="nav-link">
-                        <i class="nav-icon fas fa-university"></i>
+                        <i class="nav-icon bi bi-bank"></i>
                         <p>
                             Products
                         </p>
@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/plans/all" [class.active-link]="activeLink === 'plans'" class="nav-link">
-                        <i class="nav-icon fas fa-credit-card"></i>
+                        <i class="nav-icon bi bi-credit-card"></i>
                         <p>
                             Payment Plans
                         </p>
@@ -64,7 +64,7 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/discounts/all" [class.active-link]="activeLink === 'discounts'" class="nav-link">
-                        <i class="nav-icon fas fa-certificate"></i>
+                        <i class="nav-icon bi bi-percent"></i>
                         <p>
                             Discounts
                         </p>
@@ -72,27 +72,76 @@
                 </li>
                 <li class="nav-item">
                     <a routerLink="/promocodes/all" [class.active-link]="activeLink === 'promo'" class="nav-link">
-                        <i class="nav-icon fas fa-bookmark"></i>
+                        <i class="nav-icon bi bi-bookmark"></i>
                         <p>
                             Promo codes
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a routerLink="/messagingtemplates/all" [class.active-link]="activeLink === 'emails'" class="nav-link">
+                        <i class="nav-icon bi bi-envelope"></i>
+                        <p>
+                            Email Templates
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a routerLink="/reports" [class.active-link]="activeLink === 'reports'" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
+                        <i class="nav-icon bi bi-table"></i>
                         <p>
                             Reports
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a routerLink="/config" [class.active-link]="activeLink === 'config'" class="nav-link">
-                        <i class="nav-icon fas fa-cogs"></i>
+                <li class="nav-item menu-has-child" (click) ="toggleSubMenu($event)">
+                    <a class="nav-link" href="javascript:void(0);">
+                        <i class="nav-icon bi bi-gear"></i>
                         <p>
                             Configurations
+                            <i class="bi bi-chevron-left right"></i>
                         </p>
                     </a>
+                    <ul>
+                        <li>
+                            <a routerLink="/config/currency/all" [class.active-link]="activeLink === 'currency'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Currencies</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/contcat/all" [class.active-link]="activeLink === 'contcat'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Content Categories</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/conttype/all" [class.active-link]="activeLink === 'conttype'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Content Types</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/metactiontype/all" [class.active-link]="activeLink === 'acttype'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Met. Action Types</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/periods/all" [class.active-link]="activeLink === 'periods'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Periods</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/userrole/all" [class.active-link]="activeLink === 'userroles'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>User Roles</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/cancelreason/all" [class.active-link]="activeLink === 'cancelreason'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Cancel Reasons</p></a>
+                        </li>
+                        <li>
+                            <a routerLink="/config/paymenttype/all" [class.active-link]="activeLink === 'paymenttype'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Payment Types</p></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item menu-has-child" (click) ="toggleSubMenu($event)" *ngIf="settingsPrmns">
+                    <a class="nav-link" href="javascript:void(0);">
+                        <i class="nav-icon bi bi-tools"></i>
+                        <p>
+                            Settings
+                            <i class="bi bi-chevron-left right"></i>
+                        </p>
+                    </a>
+                    <ul>
+                        <li>
+                            <a routerLink="/settings/admin/all" [class.active-link]="activeLink === 'manageadmin'" class="nav-link"><i class="bi bi-circle-fill nav-icon"></i><p>Manage Admin</p></a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

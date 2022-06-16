@@ -98,7 +98,7 @@ export class AddProductComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.addNewProductForm.controls; }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new product form***************************************** */
   addNewProductFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -112,7 +112,7 @@ export class AddProductComponent implements OnInit {
       'product_desc' : this.f.proDesc.value, 
       'start_date': this.f.startDate.value, 
       'end_date': this.f.endDate.value, 
-      'status': this.f.productStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'status': this.commonService.getStatusValue(this.f.productStatus.value), 
       'plans': this.selPlanIds, 
     };
     this.loading = true;

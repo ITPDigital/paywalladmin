@@ -121,14 +121,16 @@ export class EditProductComponent implements OnInit {
             this.editProductForm.controls['brandName'].setValue(data['brand_id']);
             this.editProductForm.controls['startDate'].setValue(this.commonService.formatDate(data['start_date']));
             this.editProductForm.controls['endDate'].setValue(this.commonService.formatDate(data['end_date']));
-            this.editProductForm.controls['productStatus'].setValue(parseInt(data['is_active']));
+            this.editProductForm.controls['productStatus'].setValue(this.commonService.setStatusValue(parseInt(data['is_active'])));
             let mappedPlanArr = res.result.plans;
+            console.log("-------all------"+JSON.stringify(mappedPlanArr))
             let planId =0;
             for(let i=0;i<mappedPlanArr.length;i++) {
               planId = mappedPlanArr[i].id;
               if(planId && planId!=0 && !this.selPlanArr.some(el => el.id === planId)) {
                 const selPlanObj= this.getPlanDet(planId);
                 if(selPlanObj) {
+                  console.log("-----selPlanObj------"+JSON.stringify(selPlanObj))
                   this.selPlanArr.push(selPlanObj);
                   this.allPlansData = this.allPlansData.filter(function (d) {
                     return d.id != planId;
@@ -140,7 +142,7 @@ export class EditProductComponent implements OnInit {
         } else {
           this.alerts = [{
             type: 'danger',
-            msg: Constants.VIEW_BRAND_FAILURE_MSG,
+            msg: Constants.VIEW_PRODUCT_FAILURE_MSG,
             timeout: Constants.DEF_ALERT_MSG_TIMEOUT
           }];
         }
@@ -148,13 +150,13 @@ export class EditProductComponent implements OnInit {
       error => {
            this.alerts = [{
             type: 'danger',
-            msg: Constants.VIEW_BRAND_FAILURE_MSG,
+            msg: Constants.VIEW_PRODUCT_FAILURE_MSG,
             timeout: Constants.DEF_ALERT_MSG_TIMEOUT
           }];
       });
   }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit edit product form***************************************** */
   editProductFormSubmit() {
       this.submitted = true;
     // stop here if form is invalid
@@ -170,7 +172,7 @@ export class EditProductComponent implements OnInit {
       'product_desc' : this.f.proDesc.value, 
       'start_date': this.f.startDate.value, 
       'end_date': this.f.endDate.value, 
-      'status': this.f.productStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'status': this.commonService.getStatusValue(this.f.productStatus.value), 
       'plans': this.updatePlansArr, 
     };
     this.productService.editProduct(this.productId,dataObj).then(
@@ -183,9 +185,9 @@ export class EditProductComponent implements OnInit {
               msg: Constants.UPDATE_PRODUCT_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/products/all']);
-            },2000);
+            },2000);*/
           } else {
               this.alerts = [{
                 type: 'danger',

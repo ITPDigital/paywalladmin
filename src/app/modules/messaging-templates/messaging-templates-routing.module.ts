@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { MessagingTemplatesComponent } from './messaging-templates/messaging-templates.component';
 import { AllMessagingTemplatesComponent } from './all-messaging-templates/all-messaging-templates.component';
 import { EditMessagingTemplatesComponent } from './edit-messaging-templates/edit-messaging-templates.component';
-import { ViewMessagingTemplatesComponent } from './view-messaging-templates/view-messaging-templates.component';
 import { AddMessagingTemplatesComponent } from './add-messaging-templates/add-messaging-templates.component';
 
 import { AuthGuard } from '../../common/auth.guard';
@@ -24,11 +23,7 @@ const routes: Routes = [
               component: AddMessagingTemplatesComponent,
             },
             {
-                path: 'view/:id',
-                component: ViewMessagingTemplatesComponent,
-            },
-            {
-              path: 'edit/:id/:brandid',
+              path: 'edit/:id',
               component: EditMessagingTemplatesComponent
             },
             { path: '', redirectTo: 'messagingtemplates/all', pathMatch: 'full' }
@@ -41,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CustomersRoutingModule { }
+export class MessagingTemplatesRoutingModule { }

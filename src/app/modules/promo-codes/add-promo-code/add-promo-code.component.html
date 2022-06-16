@@ -8,9 +8,9 @@
         </div>
         <form class="col-lg-8 addNewPromocodeForm mx-auto" [formGroup]="addNewPromocodeForm" (ngSubmit)="addNewPromocodeFormSubmit()" novalidate>
             <div class="form-group row">
-              <label for="promoCode" class="col-sm-2 col-form-label required-field">Promo code</label>
-              <div class="col-sm-10 col-lg-5">
-                <input type="text" class="form-control" formControlName="promoCode"  [ngClass]="{ 'is-invalid': submitted && f.promoCode.errors }" placeholder="Enter Promo code">
+              <label for="promoCode" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Promo code</label>
+              <div class="col-md-9 col-lg-5">
+                <input type="text" class="form-control" formControlName="promoCode"  [ngClass]="{ 'is-invalid': submitted && f.promoCode.errors }" placeholder="Enter Promo code" appNameValidation>
                 <div *ngIf="submitted && f.promoCode.errors" class="invalid-feedback">
                     <div *ngIf="f.promoCode.errors.required">Promo Code is required</div>
                 </div>
@@ -18,23 +18,24 @@
               
             </div>
             <div class="form-group row">
-              <label for="promoName" class="col-sm-2 col-form-label required-field">Name</label>
-              <div class="col-sm-10 col-lg-5">
-                <input type="text" class="form-control" formControlName="promoName" [ngClass]="{ 'is-invalid': submitted && f.promoName.errors }" placeholder="Enter Promo Name">
+              <label for="promoName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Name</label>
+              <div class="col-md-9 col-lg-5">
+                <input type="text" class="form-control" formControlName="promoName" [ngClass]="{ 'is-invalid': submitted && f.promoName.errors }" placeholder="Enter Promo Name" appNameValidation>
                 <div *ngIf="submitted && f.promoName.errors" class="invalid-feedback">
                     <div *ngIf="f.promoName.errors.required">Promo Name is required</div>
                 </div>
+                <small class="text-muted">Only letters, digits, underscore or dash. No whitespaces or symbols</small>
               </div>  
             </div>
             <div class="form-group row">
-              <label for="promoDesc" class="col-sm-2 col-form-label required-field">Description</label>
-              <div class="col-sm-10 col-lg-5">
+              <label for="promoDesc" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Description</label>
+              <div class="col-md-9 col-lg-5">
                 <input type="text" class="form-control" formControlName="promoDesc" placeholder="Enter Description">
               </div>
             </div>
             <div class="form-group row">
-                <label for="startDate" class="col-sm-2 col-form-label required-field">Start Date</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="startDate" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Start Date</label>
+                <div class="col-md-9 col-lg-5">
                   <input type="date" class="form-control" formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }">
                   <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
                       <div *ngIf="f.startDate.errors.required">Start Date is required</div>
@@ -42,26 +43,26 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="endDate" class="col-sm-2 col-form-label">End Date</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="endDate" class="col-md-3 col-lg-4 col-xl-3 col-form-label">End Date</label>
+                <div class="col-md-9 col-lg-5">
                   <input type="date" class="form-control" formControlName="endDate">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="promocodeStatus" class="col-sm-2 col-form-label">Status</label>
-                <div class="col-sm-10 col-lg-5">
+                <label for="promocodeStatus" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Status</label>
+                <div class="col-md-9 col-lg-5">
                     <label class="switch">
                         <input type="checkbox" class="primary" checked="checked" formControlName="promocodeStatus">
                         <span class="slider round"></span>
                     </label>
                 </div>
             </div>
-            <div class="form-group row addPromocodeBtnSec offset-lg-2">
-              <div class="col-lg-2 addPromocodeBtnSubSec">
+            <div class="form-group row addPromocodeBtnSec offset-lg-4 offset-xl-2">
+              <div class="col-sm-4 col-xl-3 addPromocodeBtnSubSec">
                 <button type="submit" [disabled]="loading" class="btn btn-primary addPromocodeBtn">Add</button>
                 <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
               </div>
-              <div class="col-lg-2 cancelBtnSec">
+              <div class="col-sm-4 col-xl-3 cancelBtnSec">
                   <button type="button" class="btn btn-light cancelBtn" routerLink="/promocodes/all">Cancel</button>
                 </div>
             </div>

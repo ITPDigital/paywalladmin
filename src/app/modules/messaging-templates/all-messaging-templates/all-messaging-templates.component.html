@@ -1,1 +1,79 @@
-<p>all-messaging-templates works!</p>
+<div class="inner-container card custom-card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-3 col-sm-12">
+                <span>Types: </span>
+                <select (change)="getAllTemplatesByGroup($event.target.value)" [(ngModel)]="selectedType">
+                    <option *ngFor='let emailType of allEmailTypes;let i = index' value="{{emailType.id}}">{{emailType.email_temp_name}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-5 col-sm-12 setTblSrchDiv text-right">
+                <input class="form-control setTblSrcFld" type="search" placeholder="Search Brand/From Address/Subject" aria-label="Search" (keyup)="filterSrchStr($event)">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 setAddNewBtnDiv">
+                <a class="btn btn-primary setAddNewBtn" routerLink="/messagingtemplates/add" role="button">+ Add New Template</a>
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
+    <div class="card-body">
+        <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <ngx-datatable *ngIf="!showLoadingSpinner" class="material container1 striped" [rows]="rows" [columnMode]="'flex'" [headerHeight]="50" [limit]="10" [footerHeight]="50" rowHeight="auto">
+            <ngx-datatable-column name="S.No" [flexGrow]="0.75">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template prop="rowIndex"> 
+                    {{(rowIndex + 1)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Brand Name" [flexGrow]="1" prop="brand_name">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.brand_name}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Email Type" [flexGrow]="1" prop="email_type_id">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{commonService.getValueFromArr(allEmailTypes,row.email_type_id,'email_temp_name')}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="From Address" [flexGrow]="2.5" prop="from_address">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.from_address}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Subject" [flexGrow]="1.5" prop="subject">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.subject}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created on" [flexGrow]="1.5" prop="created_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.created_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Updated on" [flexGrow]="1.5" prop="updated_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.updated_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [flexGrow]="1" prop="is_active">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <label class="switch">
+                        <input type="checkbox" *ngIf="row.is_active == 1" class="primary" checked="checked" (change)="updateTemplateStatus(row.id, $event)">
+                        <input type="checkbox" *ngIf="row.is_active == 0" class="primary" (change)="updateTemplateStatus(row.id, $event)">
+                        <span class="slider round"></span>
+                    </label>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <a routerLink="/messagingtemplates/edit/{{row.id}}" class="" title="View/Edit">
+                        <i class="bi bi-pencil-fill editDataImg"></i>
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+
+</div>
+    

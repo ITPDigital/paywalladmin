@@ -84,7 +84,7 @@ export class AllBrandsComponent implements OnInit {
 
   /******************************Method to update Brand Status (Active/Inactive)***************************/
   updateBrandStatus( brandId: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.brandService.updateBrandStatus(brandId, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success

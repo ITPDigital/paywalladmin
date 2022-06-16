@@ -75,8 +75,8 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="Action" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a routerLink="/plans/edit/{{row.id}}" class="">
-                        <img src="../../../assets/ic-mode-edit.svg" alt="Edit" class="editDataImg"/>
+                    <a routerLink="/plans/edit/{{row.id}}" class="" title="View/Edit">
+                        <i class="bi bi-pencil-fill editDataImg"></i>
                     </a>
                 </ng-template>
             </ngx-datatable-column>

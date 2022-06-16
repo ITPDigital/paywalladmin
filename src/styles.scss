@@ -7,20 +7,21 @@
 @import '~@swimlane/ngx-datatable/themes/dark.scss';
 @import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
+@import "~ngx-bootstrap/datepicker/bs-datepicker.scss";
 
-*{
+* {
     font-family: 'Lato', sans-serif;
     color: #233539;
 }
 html {
-    font-family: 'Lato', sans-serif;
-    line-height: 1.15;
+    // font-family: 'Lato', sans-serif;
+    // line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
 }
 body {
     margin: 0;
-    font-family: 'Lato', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -28,22 +29,25 @@ body {
     text-align: left;
     background-color: #fff;
 }
-
-
-.invalid-feedback div {
-    color: #dc3545;
-    font-size: 11px;
+.invalid-feedback {
+	div {
+		color: #dc3545;
+		font-size: 11px;
+	}
 }
-
-.form-control:focus {
-	box-shadow: none;
+.form-control {
+	&:focus {
+		box-shadow: none;
+	}
 }
 .hover {
 	cursor: pointer;
 }
-button:focus {
-	box-shadow: none !important;
-	outline: none !important;
+button {
+	&:focus {
+		box-shadow: none !important;
+		outline: none !important;
+	}
 }
 
 /********************Common container styles********************/
@@ -51,20 +55,29 @@ button:focus {
     margin-left: 250px;
     padding: 1.5rem 1rem;
 }
-.custom-card .card-header {
-	border: 1px solid rgba(0, 0, 0, 0.125);
-}
-.custom-card .card-body {
-	border: 1px solid rgba(0, 0, 0, 0.125);
-    border-top: none;
+.custom-card {
+	.card-header {
+		border: 1px solid rgba(0, 0, 0, 0.125);
+	}
+	.card-body {
+		border: 1px solid rgba(0, 0, 0, 0.125);
+		border-top: none;
+	}
 }
 // .breadcrumb-link {
 // 	text-decoration: underline;
 // }
 /******************Common form styles**********************/
-.required-field:after {
-    content: "*";
-    color: #e42d13;
+.required-field {
+	&:after {
+		content: "*";
+		color: #e42d13;
+	}
+}
+small {
+	&.text-muted {
+		font-size: 0.75rem;
+	}
 }
 /****************Data table styles***************************/
 .ngx-datatable {
@@ -133,44 +146,60 @@ button:focus {
 		}
 	}
 }
-.table.selTbl thead th {
-	font-size: 14px;
+.table {
+	&.selTbl {
+		thead {
+			th {
+				font-size: 14px;
+			}
+		}
+	}
 }
-
 
 /***************************Alert Style***************************/
 .alert {
     position: absolute;
     left: 27%;
+	z-index: 999;
     font-size: 14px;
     width: 45%;
-    z-index: 999;
-    margin: 0 auto;
     letter-spacing: 0.4px;
     color: #ffffff;
     padding: 0.50rem 1.25rem;
     border-radius: 3px;
+
+	&.alert-danger {
+		background-color: #de5245;
+	}
+	&.alert-success {
+		background-color: #2fbe60;
+	}
+	&.alert-dismissible {
+		.close {
+			padding: 0.50rem 1.25rem;
+			font-weight: 500;
+			text-shadow: none;
+		}
+	}
 }
-.alert.alert-danger {
-  background-color: #de5245;
+
+// .alert.alert-dismissible .close {
+//   padding: 0.50rem 1.25rem;
+//   font-weight: 500;
+//   text-shadow: none;
+// }
+// .alert.alert-dismissible .close span {
+//   color: #ffffff;
+// }
+.accFormContainer {
+	.alert {
+		position: relative;
+		width: 100%;
+		left: 0%;
+		margin-bottom: 20px;
+	}
 }
-.alert.alert-success {
-  background-color: #2fbe60;
-}
-.alert.alert-dismissible .close {
-  padding: 0.50rem 1.25rem;
-  font-weight: 500;
-  text-shadow: none;
-}
-.alert.alert-dismissible .close span {
-  color: #ffffff;
-}
-.accFormContainer .alert {
-    position: relative;
-    width: 100%;
-    left: 0%;
-    margin-bottom: 20px;
-}
+
 /*************************Toggle button style***************************/
 .switch {
 	position: relative;
@@ -243,24 +272,36 @@ input {
 .viewDataImg {
 	margin-right: 10px;
 }
-.statusFltr button.dropdown-toggle {
-	padding-left: 0;
-    font-size: 20px;
+.statusFltr {
+	button {
+		&.dropdown-toggle, &:focus, &:active, &:hover {
+			color: #000000 !important;
+			background-color: transparent !important;
+			border: none !important;
+			outline: none;
+			box-shadow: none !important;
+			padding-left: 0;
+			font-size: 20px;
+		}
+	}
+	ul {
+		&.dropdown-menu {
+			padding: 0.5rem;
+			box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
 }
-.statusFltr button.dropdown-toggle, .statusFltr button.dropdown-toggle:focus, .statusFltr button.dropdown-toggle:active, .statusFltr button.dropdown-toggle:hover {
-	color: #000000 !important;
-	background-color: transparent !important;
-	border: none !important;
-	outline: none;
-	box-shadow: none !important;
-}
-.statusFltr ul.dropdown-menu {
-	padding: 0.5rem;
-	box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
-}
-.statusFltr ul.dropdown-menu:hover {
-	cursor: pointer;
-}
+
+// .statusFltr button.dropdown-toggle, .statusFltr button.dropdown-toggle:focus, .statusFltr button.dropdown-toggle:active, .statusFltr button.dropdown-toggle:hover {
+// 	color: #000000 !important;
+// 	background-color: transparent !important;
+// 	border: none !important;
+// 	outline: none;
+// 	box-shadow: none !important;
+// }
 
 /*******************Search button style************************/
 .setTblSrchDiv {
@@ -274,26 +315,28 @@ input {
 		margin-top: 7px;
 	}
 	
-	input.setTblSrcFld {
-		border-radius: 2px;
-		border: solid 1px #e9eff4;
-		background: url(assets/search-black.svg) no-repeat 8px 12px;
-		padding-left: 26px;
-		background-color: #ffffff;
-		width: 70%;
-		float: right;
-		@media (min-width: 600px) and (max-width: 1199px) {
-			width: 100%;
-		}
-		@media (max-width: 767px) {
-			float: initial;
-		}
-		&::placeholder {
-			font-size: 11px;
-			color:#97a4b1;
-		}
-		@media (max-width: 599px) {
-			width: 100%;
+	input {
+		&.setTblSrcFld {
+			border-radius: 2px;
+			border: solid 1px #e9eff4;
+			background: url(assets/search-black.svg) no-repeat 8px 12px;
+			padding-left: 26px;
+			background-color: #ffffff;
+			width: 70%;
+			float: right;
+			@media (min-width: 600px) and (max-width: 1199px) {
+				width: 100%;
+			}
+			@media (max-width: 767px) {
+				float: initial;
+			}
+			&::placeholder {
+				font-size: 11px;
+				color:#97a4b1;
+			}
+			@media (max-width: 599px) {
+				width: 100%;
+			}
 		}
 	}
 	@media (max-width: 599px) {
@@ -303,9 +346,10 @@ input {
 
 .setAddNewBtnDiv {
 	text-align: right;
-	@media(min-width: 600px) and (max-width: 991px) {
+	@media(min-width: 600px) and (max-width: 1336px) {
 		display: inline-block;
-    	max-width: 141px;
+    	max-width: 192px;
+    	width: 192px;
 	}
 	@media(max-width: 767px) {
 		margin-top: 7px;
@@ -354,6 +398,38 @@ form .form-sub-ttl {
 					}
 				}
 			}
+		}
+	}
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+.card-title {
+	a {
+		text-decoration: none;
+	}
+}
+.login-box {
+	.input-group-text {
+		padding: 0.675rem 0.75rem;
+	}
+}
+.nav-sidebar {
+	.nav-link {
+		.bi-circle-fill {
+			font-size: 0.8rem!important;
+			margin-right: 0.3rem!important;
+		}
+	}
+}
+.add-input-group {
+	.input-group {
+		@media (min-width: 768px) {
+			width: 75%;
+		}
+		@media (min-width: 992px) {
+			width: 41.66666667%;
 		}
 	}
 }

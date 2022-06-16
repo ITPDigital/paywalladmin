@@ -59,7 +59,7 @@ export class AllProductsComponent implements OnInit {
     );
   }
 
-    /******************************Method to filter the status based product data***************************/
+  /******************************Method to filter the status based product data***************************/
   fetchProductsData(status: number) {
     this.rows = this.tmp;
     const temp = this.rows.filter(function (d) {
@@ -83,7 +83,7 @@ export class AllProductsComponent implements OnInit {
 
   /******************************Method to update Product Status (Active/Inactive)***************************/
   updateProductStatus( productId: number, event: any) {
-    const isChecked = event.target.checked == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE; //1- Active; 0-Inactive
+    const isChecked = this.commonService.getStatusValue(event.target.checked);
     this.productsService.updateProductStatus(productId, isChecked).then(
      res => {
        if(res['code']==1 && res['status']==1) {//Success

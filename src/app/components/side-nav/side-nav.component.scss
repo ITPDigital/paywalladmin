@@ -66,6 +66,31 @@ $background_color_2: #20a6fc;
 .toggleLogo, .overlay-close {
 	display: none;
 }
+.nav-item.menu-has-child > ul {
+	padding-left: 0;
+	display: none;
+}
+.nav-item.menu-has-child.show-sub-menu > ul {
+	display: block;
+}
+.nav-item.menu-has-child > ul .fa-circle {
+	font-size: 12px;
+}
+.nav-item.menu-has-child > a {
+	position: relative;
+}
+.nav-item.menu-has-child > a > p > .right {
+	position: absolute;
+    right: 1rem;
+    top: 0.7rem;
+	transition: -webkit-transform ease-in-out .3s;
+    transition: transform ease-in-out .3s;
+    transition: transform ease-in-out .3s,-webkit-transform ease-in-out .3s;
+}
+.nav-item.menu-has-child.show-sub-menu > a > p > .right {
+	-webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
 
 /**************************Mobile & Tab view styles************************************/
 @media (max-width:991px) {

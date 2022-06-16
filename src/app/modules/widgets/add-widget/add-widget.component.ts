@@ -26,9 +26,11 @@ export class AddWidgetComponent implements OnInit {
   selWidgetAction : number;
   selWidgetType : number = Constants.WIDGET_TYPE_PAYWALL;
   public Editor = CustomBuild;
+  
   public config={
     toolbar:['heading','bold','italic','link','bulletedList','numberedList','|','outdent','indent','|','imageUpload','blockQuote','insertTable','mediaEmbed','undo','redo','sourceEditing'],
-    language:'en'
+    language:'en',
+    startupMode: 'sourceEditing'
 
   };
   
@@ -118,7 +120,7 @@ export class AddWidgetComponent implements OnInit {
     );
   }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new widget form***************************************** */
   addNewWidgetFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -135,9 +137,9 @@ export class AddWidgetComponent implements OnInit {
     dataObj['widgetName'] = this.f.widgetName.value;
     dataObj['widgetGroup'] = this.f.widgetGroup.value;
     dataObj['contentType'] = this.f.contentType.value;
-    dataObj['contentCategory'] = this.f.contentCategory.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
-    dataObj['isLoggedIn'] = this.f.isLoggedIn.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
-    dataObj['status'] = this.f.widgetStatus.value;
+    dataObj['contentCategory'] = this.f.contentCategory.value;
+    dataObj['isLoggedIn'] = this.commonService.getStatusValue(this.f.isLoggedIn.value);
+    dataObj['status'] = this.commonService.getStatusValue(this.f.widgetStatus.value);
     dataObj['widgetContent'] = this.f.widgetContent.value;
     this.widgetsService.addNewWidget(dataObj).then(
       res => {

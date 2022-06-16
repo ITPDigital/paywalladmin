@@ -1,0 +1,57 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-lg-9 col-sm-12">  
+                <h5 class="card-title d-none d-sm-block">All Periods</h5>
+            </div>
+            <div class="col-lg-3 col-sm-12 setTblSrchDiv text-right">
+                <input class="form-control setTblSrcFld" type="search" placeholder="Search Display ID/Name" aria-label="Search" (keyup)="filterSrchStr($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
+    <div class="card-body">
+        <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <ngx-datatable class="material container1 striped" *ngIf="!showLoadingSpinner" [rows]="rows" [columnMode]="'flex'" [headerHeight]="50" [limit]="10" [footerHeight]="50" rowHeight="auto">
+            <ngx-datatable-column name="S.No" [flexGrow]="0.75">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template prop="rowIndex"> 
+                    {{(rowIndex + 1)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Display ID" [flexGrow]="1" prop="disp_id">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.disp_id}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" [flexGrow]="1.5" prop="display_name">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.display_name}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Number of Days" [flexGrow]="1" prop="number_of_days">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.number_of_days}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created on" [flexGrow]="1.5" prop="created_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.created_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Updated on" [flexGrow]="1.5" prop="updated_on">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.updated_on | date: 'MMM d y, h:mm a'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [flexGrow]="1" prop="is_active">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{commonService.getValueFromArr(defStatusArr,row.is_active,'name')}}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+
+</div>
+    

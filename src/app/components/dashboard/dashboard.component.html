@@ -1,4 +1,23 @@
 <div class="inner-container">
+  <div class="card-header mb-3">
+      <div class="row align-items-center">
+          
+          <div class="col-lg-4 col-md-4 col-sm-12">
+              <span>Brands: </span>
+              
+              <select  class="selectcontrol">
+                   <option *ngFor='let brand of allActiveBrands;let i = index' value="{{brand.id}}" (change)="brandFilterChange($event.target.value)">{{brand.brand_name}}</option>
+              </select>
+          </div>
+        
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <input type="text"
+            placeholder="Daterangepicker"
+            class="form-control" (bsValueChange)="dateRangeChange($event)"
+            bsDaterangepicker>
+          </div>
+      </div>
+  </div>
     <div class="row">
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">

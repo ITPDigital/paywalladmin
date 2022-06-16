@@ -1,0 +1,90 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/brands/all" routerLinkActive="active-link" class="breadcrumb-link">Admin</a> > Add New</h5>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+      </div>
+        <form class="col-lg-10 addNewCompAdminForm mx-auto" [formGroup]="addNewCompAdminForm" (ngSubmit)="addNewCompAdminFormSubmit()" novalidate>
+            <div class="form-group row">
+              <label for="firstName" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">First Name</label>
+              <div class="col-md-9 col-lg-5">
+                <input type="text" class="form-control" formControlName="firstName"  [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" placeholder="Enter First Name">
+                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="lastName" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Last Name</label>
+              <div class="col-md-9 col-lg-5">
+                <input type="text" class="form-control" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" placeholder="Enter Last Name">
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Email</label>
+                <div class="col-md-9 col-lg-5">
+                  <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter Email">
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email && !f.email.errors.required">Email id is invalid</div>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Password</label>
+                <div class="col-md-9 col-lg-5">
+                    <input type="text" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Enter Password">
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="confirmPassword" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Confirm Password</label>
+                <div class="col-md-9 col-lg-5">
+                    <input type="password" class="form-control" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Enter Confirm Password">
+                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                    <div *ngIf="f.confirmPassword.errors.mustMatch">Confirm Passwords must match</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="role" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Role</label>
+              <div class="col-md-9 col-lg-5">
+                <select class="form-control" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+                  <option *ngFor='let adminRole of adminRoleArr;let i = index' value="{{adminRole.id}}">{{adminRole.name}}</option>
+                </select>
+                <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                    <div *ngIf="f.role.errors.required">Rule Expiry Period is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="adminStatus" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Status</label>
+                <div class="col-md-9 col-lg-5">
+                    <label class="switch">
+                        <input type="checkbox" class="primary" checked="checked" formControlName="adminStatus">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row addCompAdminBtnSec offset-lg-4 offset-xl-2">
+              <div class="col-sm-4 col-xl-2 addCompAdminBtnSubSec">
+                <button type="submit" [disabled]="loading" class="btn btn-primary addCompAdminBtn">Add</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+              <div class="col-sm-4 col-xl-2 cancelBtnSec">
+                  <button type="button" class="btn btn-light cancelBtn" routerLink="/settings/admin/all">Cancel</button>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

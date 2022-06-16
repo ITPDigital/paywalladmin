@@ -90,3 +90,11 @@ $border_color_1: #20a6fc;
 		}
 	}
 }
+input.circleradio {
+    margin-right: 12px;
+    vertical-align: middle;
+}
+input.circleradio + label {
+    margin-right: 20px;
+    vertical-align: middle;
+}

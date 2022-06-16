@@ -16,12 +16,11 @@ export class AllCustomersComponent implements OnInit {
   allActiveBrands: any[];
   alerts: any[];
   showLoadingSpinner = true;
-  selectedBrand : number = 1;
+  selectedBrand : number = 8;//PMV temporary
 
   constructor(private commonService: CommonService, 
     private cdr: ChangeDetectorRef, 
     private customersService: CustomersService) {
-    //this.fetchCustomersData(8);
     this.getAllActiveBrands();
   }
 
@@ -56,7 +55,7 @@ export class AllCustomersComponent implements OnInit {
     );
   }
 
-  /**********************************API Method to Get All the Products*********************/
+  /**********************************API Method to Get All the Customers*********************/
   getAllCustomers(brandId: number) {
     this.showLoadingSpinner = true;
     this.customersService.getAllCustomers(brandId).then(

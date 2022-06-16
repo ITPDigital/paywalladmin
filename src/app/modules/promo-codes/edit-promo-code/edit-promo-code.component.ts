@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from './../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute,Router} from '@angular/router';
 import { PromoCodesService } from '../../../services/promo-codes.service';
 import { Constants } from '../../../common/constants';
@@ -25,25 +24,21 @@ export class EditPromoCodeComponent implements OnInit {
     private promoCodeService: PromoCodesService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router, 
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
   
   ngOnInit(): void {
-    //this.titleService.setTitle("Add Brand");
-    //this.commonService.setTitle("Add Brands");
     this.promoId = this.route.snapshot.paramMap.get('id');    
-    /****************Add New User Form Validation****************** */
+    /****************Edit Promo Code Form Validation****************** */
     this.editPromocodeForm = this.formBuilder.group({
       promoCode: ['', [Validators.required]],
       promoName: ['', [Validators.required]],
       promoDesc: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
       endDate: ['']
-      //promocodeStatus: [false]
     });
     this.getPromocodeDetail(this.promoId);    
   }
@@ -51,7 +46,7 @@ export class EditPromoCodeComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.editPromocodeForm.controls; }
 
-  /**************************Method to get Brand detail to prefill the form*******************************/
+  /**************************Method to get promo code detail to prefill the form*******************************/
   getPromocodeDetail(promoId) {
     this.promoCodeService.getPromocodeDetail(promoId).then(
       res => {
@@ -82,7 +77,7 @@ export class EditPromoCodeComponent implements OnInit {
       });
   }  
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit edit promo code form***************************************** */
   editPromocodeFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -107,9 +102,9 @@ export class EditPromoCodeComponent implements OnInit {
               msg: Constants.UPDATE_PROMOS_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/promocodes/all']);
-            },2000);
+            },2000);*/
           } else {
             let errorMsg = Constants.UPDATE_PROMOS_FAILURE_MSG;
             if(resStatus==3) {
@@ -125,7 +120,7 @@ export class EditPromoCodeComponent implements OnInit {
       error => {
         this.alerts = [{
           type: 'danger',
-          msg: error.json().message,
+          msg: Constants.UPDATE_PROMOS_FAILURE_MSG,
           timeout: Constants.DEF_ALERT_MSG_TIMEOUT
         }];
           this.loading = false;

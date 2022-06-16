@@ -131,13 +131,22 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="gender" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Gender</label>
+            <label for="male" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Gender</label>
             <div class="col-md-9 col-lg-5">
+              <input id="male" type="radio" class="circleradio" value="male" name="gender" formControlName="gender">
+              <label for="male">Male</label>
+
+              <input type="radio" id="female" class="circleradio"  formControlName="gender" name="gender" value="female">
+              <label for="female">Female</label>
+
+              <input type="radio" id="n.a" class="circleradio" formControlName="gender" name="gender"  value="n.a">
+              <label for="n.a">Don't specify</label>
+              <!--
               <select class="form-control" formControlName="gender">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="n.a">Don't specify</option>
-              </select>
+              </select>-->
             </div>
           </div>
           <div class="form-group row">

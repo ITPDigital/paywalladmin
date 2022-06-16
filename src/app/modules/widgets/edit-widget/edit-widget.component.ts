@@ -144,8 +144,8 @@ export class EditWidgetComponent implements OnInit {
             this.editWidgetForm.controls['widgetGroup'].setValue(data['widget_group_id']);
             this.editWidgetForm.controls['contentType'].setValue(data['content_type_id']);
             this.editWidgetForm.controls['contentCategory'].setValue(data['content_category_id']);
-            this.editWidgetForm.controls['isLoggedIn'].setValue(parseInt(data['is_logged_in']));
-            this.editWidgetForm.controls['widgetStatus'].setValue(parseInt(data['is_active']));
+            this.editWidgetForm.controls['isLoggedIn'].setValue(this.commonService.setStatusValue(parseInt(data['is_logged_in'])));
+            this.editWidgetForm.controls['widgetStatus'].setValue(this.commonService.setStatusValue(parseInt(data['is_active'])));
             this.editWidgetForm.controls['widgetContent'].setValue(data['content']);
         } else {
           this.alerts = [{
@@ -164,7 +164,7 @@ export class EditWidgetComponent implements OnInit {
       });
   }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit edit widget form***************************************** */
   editWidgetFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -182,8 +182,8 @@ export class EditWidgetComponent implements OnInit {
     dataObj['widgetGroup'] = parseInt(this.f.widgetGroup.value);
     dataObj['contentType'] = parseInt(this.f.contentType.value);
     dataObj['contentCategory'] = parseInt(this.f.contentCategory.value);
-    dataObj['isLoggedIn'] = this.f.isLoggedIn.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
-    dataObj['status'] = this.f.widgetStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    dataObj['isLoggedIn'] = this.commonService.getStatusValue(this.f.isLoggedIn.value);
+    dataObj['status'] = this.commonService.getStatusValue(this.f.widgetStatus.value);
     dataObj['widgetContent'] = this.f.widgetContent.value;
     console.log("-----dataObj"+JSON.stringify(dataObj))
     this.widgetsService.editWidget(this.widgetId, dataObj).then(
@@ -196,9 +196,9 @@ export class EditWidgetComponent implements OnInit {
               msg: Constants.UPDATE_WIDGET_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/widgets/all']);
-            }, 2000);
+            }, 2000);*/
           } else {
             let errorMsg = Constants.UPDATE_WIDGET_FAILURE_MSG;
             if(resStatus==2) {

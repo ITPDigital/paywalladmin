@@ -11,22 +11,22 @@
             <div class="form-group row">
               <label for="brandName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Brand Name</label>
               <div class="col-md-9 col-lg-5">
-                <input type="text" class="form-control" formControlName="brandName"  [ngClass]="{ 'is-invalid': submitted && f.brandName.errors }" placeholder="Enter Brand Name">
-                <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback">
+                <input type="text" class="form-control" formControlName="brandName"  [ngClass]="{ 'is-invalid': submitted && f.brandName.errors }" placeholder="Enter Brand Name" >
+                <div *ngIf="submitted && f.brandName.errors" class="invalid-feedback" >
                     <div *ngIf="f.brandName.errors.required">Brand Name is required</div>
                 </div>
               </div>
               
             </div>
             <div class="form-group row">
-              <label for="domainName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Domain Name</label>
+              <label for="domainName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Domain URL</label>
               <div class="col-md-9 col-lg-5">
-                <input type="text" class="form-control" formControlName="domainName" [ngClass]="{ 'is-invalid': submitted && f.domainName.errors }" placeholder="Enter Domain Name">
+                <input type="text" class="form-control" formControlName="domainName" [ngClass]="{ 'is-invalid': submitted && f.domainName.errors }" placeholder="Enter Domain Name" appDomainValidation>
                 <div *ngIf="submitted && f.domainName.errors" class="invalid-feedback">
-                    <div *ngIf="f.domainName.errors.required">Domain Name is required</div>
+                    <div *ngIf="f.domainName.errors.required">Domain URL is required</div>
                 </div>
+                <small class="text-muted">Domain URL should be in this format - www.example.com</small>
               </div>
-              
             </div>
             <div class="form-group row">
               <label for="maxLim" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Max. Limit</label>

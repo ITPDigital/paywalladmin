@@ -29,6 +29,7 @@ export class EditCustomerComponent implements OnInit {
   selSubType : number;
   userOrderArr: any[];
   subProId : number;
+  orderStatusArr : any[] = Constants.ORDER_STATUS;
 
   constructor(private formBuilder: FormBuilder,
     private commonService: CommonService, 
@@ -47,7 +48,7 @@ export class EditCustomerComponent implements OnInit {
   ngOnInit(): void {
     this.customerId = this.route.snapshot.paramMap.get('id');
     this.brandId = this.route.snapshot.paramMap.get('brandid');
-    /****************Add New User Form Validation****************** */
+    /****************Edit customer Form Validation****************** */
     this.editCustomerForm = this.formBuilder.group({
       brandName: [{value: '', disabled: true}, [Validators.required]],
       firstName: ['', [Validators.required]],
@@ -137,10 +138,11 @@ export class EditCustomerComponent implements OnInit {
             let data = res.result.userObj[0];
             let order = res.result.orderObj[0];
             this.userOrderArr = res.result.orderObj;
+            this.userEmail = data['email'];
             this.editCustomerForm.controls['brandName'].setValue(data['brand_id']);
             this.editCustomerForm.controls['firstName'].setValue(data['first_name']);
             this.editCustomerForm.controls['lastName'].setValue(data['last_name']);
-            this.editCustomerForm.controls['email'].setValue(data['email']);
+            this.editCustomerForm.controls['email'].setValue(this.userEmail);
             this.editCustomerForm.controls['industry'].setValue(data['industry']);
             this.editCustomerForm.controls['jobTitle'].setValue(data['job_ttl']);
             this.editCustomerForm.controls['country'].setValue(data['country']);
@@ -151,8 +153,8 @@ export class EditCustomerComponent implements OnInit {
             this.editCustomerForm.controls['dob'].setValue(this.commonService.formatDate(data['dob']));
             this.editCustomerForm.controls['gender'].setValue(data['gender']);
             this.editCustomerForm.controls['phone'].setValue(data['phone']);
-            this.editCustomerForm.controls['markOptin'].setValue(data['marketing_optin']=="TRUE" ? 1: 0);
-            this.editCustomerForm.controls['thirdPartyOptin'].setValue(data['third_party_optin']=="TRUE" ? 1: 0);
+            this.editCustomerForm.controls['markOptin'].setValue(data['marketing_optin']=="TRUE" ? true: false);
+            this.editCustomerForm.controls['thirdPartyOptin'].setValue(data['third_party_optin']=="TRUE" ? true: false);
             this.editCustomerForm.controls['status'].setValue(data['status']);
             this.editCustomerForm.controls['giftAddress1'].setValue(data['gift_address1']);
             this.editCustomerForm.controls['giftAddress2'].setValue(data['gift_address2']);
@@ -161,8 +163,7 @@ export class EditCustomerComponent implements OnInit {
             this.editCustomerForm.controls['trn'].setValue(data['tax_reg_no']);
             this.editCustomerForm.controls['shipContactNum'].setValue(data['shipping_contact_number']);
             this.editCustomerForm.controls['shippingCountry'].setValue(data['gift_address_country']);
-            this.editCustomerForm.controls['giftOpted'].setValue(data['comp_gift_consent']=="TRUE" ? 1: 0);
-            this.userEmail = data['email'];
+            this.editCustomerForm.controls['giftOpted'].setValue(data['comp_gift_consent']=="TRUE" ? true: false);
             //if(order['status']==Constants.STATUS_ACTIVE &&  (this.selSubType== Constants.CUSTOMER_TYPE_FREE_USER || this.selSubType== Constants.CUSTOMER_TYPE_CORP_USER || this.selSubType== Constants.CUSTOMER_TYPE_STUDENT_USER) ) {
              if(order) {
               this.editCustomerForm.controls['subStartDate'].setValue(this.commonService.formatDate(order['start_date']));
@@ -224,7 +225,7 @@ export class EditCustomerComponent implements OnInit {
       'sub_end_date': this.f.subEndDate.value, 
       'sub_id': orderLen > 0 ? this.userOrderArr[0].id : '', 
       'sub_pro_id': orderLen > 0 ? this.userOrderArr[0].product_id : '', 
-      'status': this.f.status.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE
+      'status': this.commonService.getStatusValue(this.f.status.value)
     };
     this.customersService.editCustomer(this.customerId,this.brandId,dataObj).then(
       res => {
@@ -236,9 +237,9 @@ export class EditCustomerComponent implements OnInit {
               msg: Constants.UPDATE_CUSTOMER_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
-              //this.router.navigate(['/customers/all']);
-            },2000);
+            /*setTimeout(()=>{
+              this.router.navigate(['/customers/all']);
+            },2000);*/
           } else {
             let errorMsg = Constants.UPDATE_CUSTOMER_FAILURE_MSG;
             if(resStatus== 2) {

@@ -15,6 +15,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { ProductsService } from '../../services/products.service';
 
+import { DirectivesModule } from '../../directives/directives.module';
+
 @NgModule({
   declarations: [ProductsComponent, AllProductsComponent, EditProductComponent, AddProductComponent],
   imports: [
@@ -23,6 +25,7 @@ import { ProductsService } from '../../services/products.service';
     FormsModule,
     ReactiveFormsModule,
     NgxDatatableModule,
+    DirectivesModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot()

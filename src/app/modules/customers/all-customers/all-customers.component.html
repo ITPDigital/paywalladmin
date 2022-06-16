@@ -49,11 +49,8 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="Action" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <!--<a routerLink="/customers/view/{{row.id}}" class="">
-                        <i class="nav-icon fas fa-eye viewDataImg"></i>
-                    </a>-->
-                    <a routerLink="/customers/edit/{{row.id}}/{{row.brand_id}}" class="">
-                        <img src="../../../assets/ic-mode-edit.svg" alt="Edit" class="editDataImg"/>
+                    <a routerLink="/customers/edit/{{row.id}}/{{row.brand_id}}" class="" title="View/Edit">
+                        <i class="bi bi-pencil-fill editDataImg"></i>
                     </a>
                 </ng-template>
             </ngx-datatable-column>

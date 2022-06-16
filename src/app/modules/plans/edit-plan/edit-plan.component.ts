@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
-import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute} from '@angular/router';
 import { PlansService } from '../../../services/plans.service';
 import { Constants } from '../../../common/constants';
@@ -35,8 +34,7 @@ export class EditPlanComponent implements OnInit {
     private plansService: PlansService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
-    private titleService: Title) { }
+    private router: Router) { }
 
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -201,10 +199,10 @@ export class EditPlanComponent implements OnInit {
             this.editPlanForm.controls['taxValue'].setValue(data['tax_value']);
             this.editPlanForm.controls['finalPrice'].setValue(data['final_price']);
             //this.editPlanForm.controls['planStatus'].setValue(parseInt(data['is_active']));
-            this.editPlanForm.controls['planAutoRenew'].setValue(parseInt(data['auto_renew']));
-            this.editPlanForm.controls['compGiftStatus'].setValue(parseInt(data['is_comp_gift_enabled']));
+            this.editPlanForm.controls['planAutoRenew'].setValue(this.commonService.setStatusValue(parseInt(data['auto_renew'])));
+            this.editPlanForm.controls['compGiftStatus'].setValue(this.commonService.setStatusValue(parseInt(data['is_comp_gift_enabled'])));
             this.editPlanForm.controls['compGiftDesc'].setValue(data['comp_gift_desc']);
-            this.editPlanForm.controls['compGiftConsentStatus'].setValue(parseInt(data['show_comp_gift_consent']));
+            this.editPlanForm.controls['compGiftConsentStatus'].setValue(this.commonService.setStatusValue(parseInt(data['show_comp_gift_consent'])));
             this.planStatus = this.commonService.getStatusLabel(parseInt(data['is_active']));
             
             let featuresData = res.result.features;
@@ -252,7 +250,7 @@ export class EditPlanComponent implements OnInit {
       });
   }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit edit plan form***************************************** */
   editPlanFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -261,13 +259,15 @@ export class EditPlanComponent implements OnInit {
     }
     this.loading = true;
     console.log("---editProductFormSubmit editPlansArr---"+JSON.stringify(this.updateDiscArr));
+    console.log(this.f.features.value);
+    console.log(this.formBuilder.array([]));
     let dataObj = { 
       'plan_name' : this.f.planName.value, 
       'plan_display_name' : this.f.displayName.value, 
       'plan_desc' : this.f.proDesc.value, 
       'contract_length': this.f.contractLength.value, 
       'renewal_plan': this.f.renewalPlan.value, 
-      'auto_renew': this.f.planAutoRenew.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'auto_renew': this.commonService.getStatusValue(this.f.planAutoRenew.value), 
       'frequency': this.f.frequency.value, 
       'offset': this.f.offset.value, 
       'currency': this.f.currency.value, 
@@ -277,9 +277,9 @@ export class EditPlanComponent implements OnInit {
       'tax_value': this.f.taxValue.value, 
       'plan_discount': this.f.discount.value, 
       'payment_type': this.f.paymentType.value, 
-      'is_comp_gift_enabled': this.f.compGiftStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'is_comp_gift_enabled': this.commonService.getStatusValue(this.f.compGiftStatus.value), 
       'comp_gift_desc': this.f.compGiftDesc.value, 
-      'show_comp_gift_consent': this.f.compGiftConsentStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
+      'show_comp_gift_consent': this.commonService.getStatusValue(this.f.compGiftConsentStatus.value), 
       //'status': this.f.planStatus.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE, 
       'features': [], 
       'discounts': this.updateDiscArr
@@ -294,9 +294,9 @@ export class EditPlanComponent implements OnInit {
               msg: Constants.UPDATE_PLAN_SUCCESS_MSG,
               timeout: Constants.DEF_ALERT_MSG_TIMEOUT
             }];
-            setTimeout(()=>{
+            /*setTimeout(()=>{
               this.router.navigate(['/plans/all']);
-            },2000);
+            },2000);*/
           } else {
             this.alerts = [{
               type: 'danger',

@@ -1,0 +1,223 @@
+<div class="inner-container card custom-card">
+    <div class="card-header">
+      <h5 class="card-title"><a routerLink="/customers/all" routerLinkActive="active-link" class="breadcrumb-link">Customers</a> > <a routerLink="/customers/edit/{{customerId}}/{{brandId}}">View Profile</a> > Order Details</h5>
+    </div>
+    <div class="card-body">
+        <div *ngFor="let alert of alerts">
+          <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+        </div>
+        <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
+        <div class="form-group row" *ngIf="!showLoadingSpinner">
+          <h6 class="form-sub-ttl">Order Details</h6>
+          <hr/>
+          <div class="table-responsive">
+            <table class="table dataTable selTbl table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Plan ID</th>
+                        <th scope="col">Contract Length</th>
+                        <th scope="col">Frequency</th>
+                        <th scope="col">Trial Period</th>
+                        <th scope="col">Discount ID</th>
+                        <th scope="col">Promo Discount ID</th>
+                        <th scope="col">Promo Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>
+                        {{userOrderObj.id}}
+                      </td>
+                      <td>
+                        <a routerLink="/products/edit/{{userOrderObj.product_id}}">{{userOrderObj.product_id}}</a>
+                      </td>
+                      <td>
+                        <a routerLink="/plans/edit/{{userOrderObj.product_plan_id}}">{{userOrderObj.product_plan_id}}</a>
+                      </td>
+                      <td>
+                        {{userOrderObj.contract_length}}
+                      </td>
+                      <td>
+                        {{userOrderObj.frequency}}
+                      </td>
+                      <td>
+                        {{userOrderObj.offset}}
+                      </td>
+                      <td>
+                        <a routerLink="/discounts/edit/{{userOrderObj.discount_id}}">{{userOrderObj.discount_id}}</a>
+                      </td>
+                      <td>
+                        <a routerLink="/discounts/edit/{{userOrderObj.promo_discount_id}}">{{userOrderObj.promo_discount_id}}</a>
+                      </td>
+                      <td>
+                        ColMissing
+                      </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table dataTable selTbl table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Base Price</th>
+                        <th scope="col">Final Price</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Trial End Date</th>
+                        <th scope="col">Discount End Date</th>
+                        <th scope="col">Last Payment Date</th>
+                        <th scope="col">Next Payment Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>
+                        ${{userOrderObj.base_price}}
+                      </td>
+                      <td>
+                        ${{userOrderObj.final_price}}
+                      </td>
+                      <td>
+                        {{userOrderObj.start_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{userOrderObj.end_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{userOrderObj.start_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{userOrderObj.trial_end_date}}
+                      </td>
+                      <td>
+                        {{userOrderObj.discount_end_date}}
+                      </td>
+                      <td>
+                        {{userOrderObj.next_payment_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{commonService.getValueFromArr(orderStatusArr,userOrderObj.status,'name')}}
+                      </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table dataTable selTbl table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Cancel Request Date</th>
+                        <th scope="col">Cancel Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>
+                        {{recentTransArr.cancel_req_date }}
+                      </td>
+                      <td>
+                        {{recentTransArr.cancel_reason}}
+                      </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-primary me-md-2" (click)="changeCard()">Change card</button>
+            <button type="button" class="btn btn-danger" (click)="cancelTrans()">Cancel</button>
+          </div>
+          <h6 class="form-sub-ttl">Transactions</h6>
+          <hr/>
+          <div class="table-responsive">
+            <table class="table dataTable selTbl table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Payment ID</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Payment Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let trans of userTransHistArr; let i = index;">
+                      <td>
+                        {{trans.id}}
+                      </td>
+                      <td>
+                        {{trans.created}}
+                      </td>
+                      <td>
+                        {{trans.external_payment_id}}
+                      </td>
+                      <td>
+                        {{trans.payment_type}}
+                      </td>
+                      <td>
+                        ${{trans.amount}}
+                      </td>
+                      <td>
+                        {{trans.last_payment_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{trans.next_payment_date | date: 'MMM d y'}}
+                      </td>
+                      <td>
+                        {{trans.transaction_type}}
+                      </td>
+                      <td>
+                        {{commonService.getValueFromArr(transStatusArr,trans.status,'name')}}
+                      </td>
+                      <td>
+                        {{trans.external_trans_status}}
+                      </td>
+                      <td class="text-center">
+                        <a href="javascript:;" (click)="viewInvoice(trans.user_license_id)">View Invoice</a>
+                      </td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+            <h6 class="form-sub-ttl">Purchase History</h6>
+            <hr/>
+            <div class="table-responsive">
+              <table class="table dataTable selTbl table-borderless">
+                  <thead>
+                      <tr>
+                          <th scope="col">Purchase ID</th>
+                          <th scope="col">Start Date</th>
+                          <th scope="col">End Date</th>
+                          <th scope="col">Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let purchase of userPurchaseArr; let i = index;">
+                        <td>
+                          {{purchase.id}}
+                        </td>
+                        <td>
+                          {{purchase.start_date | date: 'MMM d y'}}
+                        </td>
+                        <td>
+                          {{purchase.end_date | date: 'MMM d y'}}
+                        </td>
+                        <td>
+                          {{commonService.getValueFromArr(purchaseStatusArr,purchase.status,'name')}}
+                        </td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+</div>

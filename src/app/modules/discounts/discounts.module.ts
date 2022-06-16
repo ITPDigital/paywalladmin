@@ -16,6 +16,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DiscountService } from '../../services/discount.service';
 import { TwoDigitDecimalNumbersDirective } from '../../directives/two-digit-decimal-numbers.directive';
 
+import { DirectivesModule } from '../../directives/directives.module';
+
 
 @NgModule({
   declarations: [DiscountsComponent, AllDiscountsComponent, AddDiscountComponent, EditDiscountComponent, TwoDigitDecimalNumbersDirective],
@@ -26,6 +28,7 @@ import { TwoDigitDecimalNumbersDirective } from '../../directives/two-digit-deci
     ReactiveFormsModule,
     NgxDatatableModule,
     BrowserAnimationsModule,
+    DirectivesModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot()
   ],

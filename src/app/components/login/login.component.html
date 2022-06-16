@@ -14,7 +14,7 @@
                         <input type="email" class="form-control" placeholder="Email" formControlName="accEmailAddFld" [ngClass]="{ 'is-invalid': submitted && f.accEmailAddFld.errors }">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                                <span class="bi bi-envelope-fill"></span>
                             </div>
                         </div>
                         <div *ngIf="submitted && f.accEmailAddFld.errors" class="invalid-feedback">
@@ -26,7 +26,7 @@
                         <input type="password" class="form-control" placeholder="Password" formControlName="accPwdFld" [ngClass]="{ 'is-invalid': submitted && f.accPwdFld.errors }">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                                <span class="bi bi-lock-fill"></span>
                             </div>
                         </div>
                         <div *ngIf="submitted && f.accPwdFld.errors" class="invalid-feedback">

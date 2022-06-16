@@ -123,7 +123,7 @@ export class AddCustomerComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.addNewCustomerForm.controls; }
 
-  /*******************************Method to submit add new brand form***************************************** */
+  /*******************************Method to submit add new customer form***************************************** */
   addNewCustomerFormSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -147,7 +147,7 @@ export class AddCustomerComponent implements OnInit {
     dataObj['dob'] = this.f.dob.value;
     dataObj['marketing_optin'] = this.f.markOptin.value==true ? 'TRUE' : 'FALSE';
     dataObj['third_party_optin'] = this.f.thirdPartyOptin.value==true ? 'TRUE' : 'FALSE';
-    dataObj['status'] = this.f.status.value == true ? Constants.STATUS_ACTIVE : Constants.STATUS_INACTIVE;
+    dataObj['status'] = this.commonService.getStatusValue(this.f.status.value);
     dataObj['gender'] = this.f.gender.value;
     dataObj['phone'] = this.f.phone.value;
     dataObj['gift_address1'] = this.f.giftAddress1.value;
@@ -175,7 +175,7 @@ export class AddCustomerComponent implements OnInit {
               this.router.navigate(['/customers/all']);
             }, 2000);
           } else {
-            let errorMsg = Constants.ADD_BRAND_FAILURE_MSG;
+            let errorMsg = Constants.ADD_CUSTOMER_FAILURE_MSG;
             if(resStatus==2) {
               errorMsg = Constants.UPDATE_CUSTOMER_EXISTS_MSG;
             }

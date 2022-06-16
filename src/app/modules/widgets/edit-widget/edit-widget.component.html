@@ -7,9 +7,9 @@
         <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
       </div>
       <div *ngIf="showLoadingSpinner" class="loadingSpinner"></div>
-        <form *ngIf="!showLoadingSpinner" class="col-lg-10 editWidgetForm mx-auto" [formGroup]="editWidgetForm" (ngSubmit)="editWidgetFormSubmit()" novalidate>
+        <form *ngIf="!showLoadingSpinner" class="col-lg-10 col-xl-8 editWidgetForm mx-auto" [formGroup]="editWidgetForm" (ngSubmit)="editWidgetFormSubmit()" novalidate>
             <div class="form-group row">
-              <label for="brandName" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Brand</label>
+              <label for="brandName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Brand</label>
               <div class="col-md-9 col-lg-8 col-xl-5">
                 <select class="form-control" formControlName="brandName">
                   <option value="">Select Brand</option>
@@ -22,7 +22,7 @@
               
             </div>
             <div class="form-group row">
-                <label for="widgetType" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Widget Type</label>
+                <label for="widgetType" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Widget Type</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <select class="form-control" formControlName="widgetType" [ngClass]="{ 'is-invalid': submitted && f.widgetType.errors }" (change)="onWidgetTypeChange($event.target.value)">
                     <option *ngFor='let widgetType of widgetTypeArr;let i = index' value="{{widgetType.id}}">{{widgetType.name}}</option>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="actionType" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Action Type</label>
+                <label for="actionType" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Action Type</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <select class="form-control" formControlName="actionType" [ngClass]="{ 'is-invalid': submitted && f.actionType.errors }" (change)="onWidgetActionChange($event.target.value)">
                     <option *ngFor='let widgetAction of widgetActionFltrArr;let i = index' value="{{widgetAction.id}}">{{widgetAction.name}}</option>
@@ -44,13 +44,13 @@
                 </div>
             </div>
             <div class="form-group row" *ngIf="selWidgetAction==5">
-                <label for="customCount" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Custom count</label>
+                <label for="customCount" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Custom count</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <input type="number" class="form-control" formControlName="customCount" placeholder="Enter Custom count">
                 </div>
               </div>
             <div class="form-group row">
-              <label for="widgetDesc" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Description</label>
+              <label for="widgetDesc" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Description</label>
               <div class="col-md-9 col-lg-8 col-xl-5">
                 <input type="text" class="form-control" formControlName="widgetDesc"  [ngClass]="{ 'is-invalid': submitted && f.widgetDesc.errors }" placeholder="Enter Description">
                 <div *ngIf="submitted && f.widgetDesc.errors" class="invalid-feedback">
@@ -60,7 +60,7 @@
               
             </div>
             <div class="form-group row">
-              <label for="widgetName" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Widget Name</label>
+              <label for="widgetName" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Widget Name</label>
               <div class="col-md-9 col-lg-8 col-xl-5">
                 <input type="text" class="form-control" formControlName="widgetName" [ngClass]="{ 'is-invalid': submitted && f.widgetName.errors }" placeholder="Enter Widget Name">
                 <div *ngIf="submitted && f.widgetName.errors" class="invalid-feedback">
@@ -69,7 +69,7 @@
               </div>
             </div>
             <div class="form-group row">
-                <label for="widgetGroup" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Group</label>
+                <label for="widgetGroup" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Group</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <select class="form-control" formControlName="widgetGroup" [ngClass]="{ 'is-invalid': submitted && f.widgetGroup.errors }">
                     <option value="0" disabled>Select a Group</option>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="contentType" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Content Type</label>
+                <label for="contentType" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Content Type</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <select class="form-control" formControlName="contentType">
                     <option value="0">Select Content Type</option>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="contentCategory" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Content Category</label>
+                <label for="contentCategory" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Content Category</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                   <select class="form-control" formControlName="contentCategory">
                     <option value="0">Select Content Category</option>
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="form-group row" *ngIf="selWidgetType==2">
-                <label for="isLoggedIn" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Is Logged In?</label>
+                <label for="isLoggedIn" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Is Logged In?</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                     <label class="switch">
                         <input type="checkbox" class="primary" checked="checked" formControlName="isLoggedIn">
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widgetStatus" class="col-md-3 col-lg-4 col-xl-2 col-form-label">Status</label>
+                <label for="widgetStatus" class="col-md-3 col-lg-4 col-xl-3 col-form-label">Status</label>
                 <div class="col-md-9 col-lg-8 col-xl-5">
                     <label class="switch">
                         <input type="checkbox" class="primary" checked="checked" formControlName="widgetStatus">
@@ -117,8 +117,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="widgetContent" class="col-md-3 col-lg-4 col-xl-2 col-form-label required-field">Widget Content</label>
-                <div class="col-md-9 col-lg-8 col-xl-5">
+                <label for="widgetContent" class="col-md-3 col-lg-4 col-xl-3 col-form-label required-field">Widget Content</label>
+                <div class="col-md-9 col-lg-9 col-xl-9">
                   <ckeditor [editor]="Editor"  [config]="config" type="text" class="form-control ckeditor" formControlName="widgetContent" [ngClass]="{ 'is-invalid': submitted && f.widgetContent.errors }" placeholder="Enter Widget Content"></ckeditor>
                   <!--<textarea type="text" class="form-control" formControlName="widgetContent" [ngClass]="{ 'is-invalid': submitted && f.widgetContent.errors }" placeholder="Enter Widget Content"></textarea>-->
                   <div *ngIf="submitted && f.widgetContent.errors" class="invalid-feedback">

@@ -9,14 +9,17 @@ import { CustomersComponent } from './customers/customers.component';
 import { AllCustomersComponent } from './all-customers/all-customers.component';
 import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { CustomerOrderDetailsComponent } from './customer-order-details/customer-order-details.component';
 
 import { CustomersRoutingModule } from './customers-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 //Services
 import { CustomersService } from '../../services/customers.service';
 
+import { BrowserModule } from '@angular/platform-browser';
+
 @NgModule({
-  declarations: [CustomersComponent,AllCustomersComponent, EditCustomerComponent, AddCustomerComponent],
+  declarations: [CustomersComponent,AllCustomersComponent, EditCustomerComponent, AddCustomerComponent, CustomerOrderDetailsComponent],
   imports: [
     CommonModule,
     CustomersRoutingModule,
@@ -24,6 +27,7 @@ import { CustomersService } from '../../services/customers.service';
     ReactiveFormsModule,
     NgxDatatableModule,
     BrowserAnimationsModule,
+    BrowserModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot()
   ],
