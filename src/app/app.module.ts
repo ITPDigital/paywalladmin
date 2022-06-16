@@ -34,6 +34,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { ChangepwdComponent } from './components/changepwd/changepwd.component';
 import { ConfigurationsComponent } from './components/configurations/configurations.component';
 import { NgxPopper } from 'angular-popper';
+import { createPopper } from '@popperjs/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
